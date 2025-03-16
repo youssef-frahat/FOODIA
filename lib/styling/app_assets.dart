@@ -5,4 +5,5 @@ class AppAssets {
   static final String forgetpassimage = "assets/images/Picture.png";
   static final String image = "assets/images/image.png";
   static final String otpimage = "assets/images/otp.png";
+  static final String newpass = "assets/images/newpass.png";
 }

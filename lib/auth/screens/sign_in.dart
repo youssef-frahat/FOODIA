@@ -4,7 +4,7 @@ import 'package:foodia_app/styling/app_assets.dart';
 import 'package:foodia_app/styling/app_colors.dart';
 import 'package:foodia_app/styling/app_styling.dart';
 import 'package:foodia_app/witgets/custom_text_field.dart';
-import 'package:foodia_app/witgets/primary_putton.dart';
+import 'package:foodia_app/witgets/primary_button.dart';
 import 'package:foodia_app/witgets/wiget_back.dart';
 import 'package:go_router/go_router.dart';
 
@@ -40,6 +40,14 @@ class _SignInState extends State<SignIn> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      // ======================= click back ============= 
+      appBar: AppBar(
+        leading: WigetBack(
+          onpress: () {
+            GoRouter.of(context).pop();
+          },
+        ),
+      ),
       backgroundColor: AppColors.backgroundcolor,
       body: Center(
         child: SafeArea(
@@ -51,21 +59,15 @@ class _SignInState extends State<SignIn> {
                 child: Column(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: <Widget>[
-                    // ============back==================
-                    Padding(
-                      padding: const EdgeInsets.only(right: 320),
-                      child: WigetBack(
-                        onpress: () {
-                          GoRouter.of(context).pop();
-                        },
-                      ),
-                    ),
 
                     // ==============Logo===============
                     SizedBox(
                       width: 186,
                       height: 150,
-                      child: Image.asset(AppAssets.otpimage, fit: BoxFit.contain),
+                      child: Image.asset(
+                        AppAssets.otpimage,
+                        fit: BoxFit.contain,
+                      ),
                     ),
                     //=================Text=======================
                     Text("Sign In", style: AppStyling.primarytextstyle),
@@ -83,28 +85,23 @@ class _SignInState extends State<SignIn> {
 
                       hintText: "Username",
                       sufixicon: Icon(Icons.person),
-                      // controller: _userna1meController,
+                      
                     ),
-
                     //======================== phone ===================
                     CustomTextField(
                       //================== phone controller ======
                       controller: phonecontroller,
                       validator: (value) {
-                        if (value!.isEmpty) {
-                          return "Enter Your Phone";
-                        }
-                        if (value.length > 11) {
-                          return "Please Enter Correct phone";
-                        }
+                        if (value!.isEmpty) return "Enter Your Phone";
+    
+                        if (value.length > 11) return "Please Enter Correct phone";
+                        
                       },
-
                       hintText: "Phone",
                       obscureText: false,
                       sufixicon: Icon(Icons.phone),
-                      // controller: _phoneController,
+                     
                     ),
-
                     //========================Email====================
                     CustomTextField(
                       controller: emailcontroller,
@@ -117,9 +114,8 @@ class _SignInState extends State<SignIn> {
                       hintText: "Email",
                       iconfeild: Icons.email,
                       sufixicon: Icon(Icons.email),
-                      // controller: _emailController,
+                     
                     ),
-
                     //========================Password===============
                     CustomTextField(
                       controller: passcontroller,
@@ -145,9 +141,8 @@ class _SignInState extends State<SignIn> {
                         ),
                       ),
                       hintText: "Password",
-                      // controller: _passwordController,
+                      
                     ),
-
                     //========================Confirm Password===============
                     CustomTextField(
                       controller: confirmpasscontroller,
@@ -173,11 +168,10 @@ class _SignInState extends State<SignIn> {
                         ),
                       ),
                       hintText: "Confirm Password",
-
-                      // controller: _passwordController,
+                      
                     ),
                     //========================Sign UP Button=================
-                    PrimaryPutton(
+                    Primarybutton(
                       onpress: () {
                         if (formky.currentState!.validate()) {
                           // print(phonecontroller.text);
@@ -185,7 +179,7 @@ class _SignInState extends State<SignIn> {
                         }
                         GoRouter.of(context).pushNamed(AppRoutes.verifyotp);
                       },
-                      // onpress: () => _registerUser(context),
+                     
                       buttontext: "Sign Up",
                       fontsize: 23,
                     ),

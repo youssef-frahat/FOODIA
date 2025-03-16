@@ -1,11 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:foodia_app/routing/app_routes.dart';
+import 'package:foodia_app/styling/app_assets.dart';
 
 import 'package:foodia_app/styling/app_colors.dart';
 
 import 'package:foodia_app/styling/app_styling.dart';
 import 'package:foodia_app/witgets/custom_text_field.dart';
-import 'package:foodia_app/witgets/primary_putton.dart';
+import 'package:foodia_app/witgets/primary_button.dart';
 import 'package:foodia_app/witgets/wiget_back.dart';
 import 'package:go_router/go_router.dart';
 
@@ -23,6 +24,14 @@ class _NewPassState extends State<NewPass> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      // ======================= click back =============
+      appBar: AppBar(
+        leading: WigetBack(
+          onpress: () {
+            GoRouter.of(context).pop();
+          },
+        ),
+      ),
       backgroundColor: AppColors.backgroundcolor,
       body: Center(
         child: SafeArea(
@@ -34,23 +43,23 @@ class _NewPassState extends State<NewPass> {
                   child: Column(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: <Widget>[
-                      // ================ Click back ===========================
-                      Padding(
-                        padding: const EdgeInsets.only(right: 320),
-                        child: WigetBack(
-                          onpress: () {
-                            GoRouter.of(context).pop();
-                          },
+                      SizedBox(height: 65),
+                      //==========================photo ============
+                      SizedBox(
+                        width: 190,
+                        height: 190,
+                        child: Image.asset(
+                          AppAssets.newpass,
+                          fit: BoxFit.contain,
                         ),
                       ),
-                      SizedBox(height: 250),
+                      SizedBox(height: 15),
                       //================= Text =================================
                       Text(
                         "Create New Password",
                         style: AppStyling.primarytextstyle,
                       ),
-                      SizedBox(height: 25),
-
+                      SizedBox(height: 15),
                       //======================== PassWord ======================
                       CustomTextField(
                         obscureText: ispassword,
@@ -67,9 +76,9 @@ class _NewPassState extends State<NewPass> {
                           ),
                         ),
                         hintText: "Password",
-                        // controller: _passwordController,
+                        
                       ),
-
+                      SizedBox(height: 15),
                       //================== confirm password ====================
                       CustomTextField(
                         obscureText: iscpassword,
@@ -87,19 +96,19 @@ class _NewPassState extends State<NewPass> {
                         ),
                         hintText: "Confirm Password",
 
-                        // controller: _passwordController,
+                        
                       ),
                       SizedBox(height: 20),
                       //======================== Login Button ==================
-                      PrimaryPutton(
+                      Primarybutton(
                         onpress: () {
                           GoRouter.of(
                             context,
                           ).pushNamed(AppRoutes.sucesspassword);
                         },
-                        // onpress: () => _registerUser(context),
+                        
                         buttontext: "OK",
-                        fontsize: 23,
+                        fontsize: 28,
                       ),
                       SizedBox(height: 20),
                     ],

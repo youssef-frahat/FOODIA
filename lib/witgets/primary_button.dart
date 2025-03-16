@@ -3,7 +3,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:foodia_app/styling/app_colors.dart';
 import 'package:foodia_app/styling/app_fonts.dart';
 
-class PrimaryPutton extends StatelessWidget {
+class Primarybutton extends StatelessWidget {
   final String? buttontext;
   final Color? buttoncolor;
   final double? width;
@@ -14,7 +14,7 @@ class PrimaryPutton extends StatelessWidget {
   final void Function()? onpress;
   final FontWeight? fontWeight;
 
-  const PrimaryPutton({
+  const Primarybutton({
     super.key,
     this.buttontext,
     this.buttoncolor,

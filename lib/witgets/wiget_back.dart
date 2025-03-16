@@ -8,19 +8,22 @@ class WigetBack extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      height: 50.h,
-      width: 50.w,
-      decoration: BoxDecoration(
-        color: AppColors.primarycolor,
-        border: Border.all(color: AppColors.primarycolor),
-        borderRadius: BorderRadius.circular(16),
-      ),
-      child: Center(
-        child: IconButton(
-          onPressed: onpress,
-          icon: Icon(Icons.arrow_back),
-          color: Colors.white,
+    return Padding(
+      padding: const EdgeInsets.all(5),
+      child: Container(
+        height: 50.h,
+        width: 50.w,
+        decoration: BoxDecoration(
+          color: AppColors.primarycolor,
+          border: Border.all(color: AppColors.primarycolor),
+          borderRadius: BorderRadius.circular(20),
+        ),
+        child: Center(
+          child: IconButton(
+            onPressed: onpress,
+            icon: Icon(Icons.arrow_back),
+            color: Colors.white,
+          ),
         ),
       ),
     );

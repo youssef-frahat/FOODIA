@@ -5,7 +5,7 @@ import 'package:foodia_app/styling/app_colors.dart';
 import 'package:foodia_app/styling/app_fonts.dart';
 import 'package:foodia_app/styling/app_styling.dart';
 import 'package:foodia_app/witgets/custom_text_field.dart';
-import 'package:foodia_app/witgets/primary_putton.dart';
+import 'package:foodia_app/witgets/primary_button.dart';
 import 'package:foodia_app/witgets/wiget_back.dart';
 import 'package:go_router/go_router.dart';
 
@@ -25,7 +25,7 @@ class ForgetPassword extends StatelessWidget {
                 child: Column(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: <Widget>[
-                    // ============back==================
+                    // ============ click back==================================
                     Padding(
                       padding: const EdgeInsets.only(right: 320),
                       child: WigetBack(
@@ -35,10 +35,9 @@ class ForgetPassword extends StatelessWidget {
                       ),
                     ),
                     SizedBox(height: 30),
-                    //=================Text=======================
+                    //=================Text=====================================
                     Text("Forget Password", style: AppStyling.primarytextstyle),
-
-                    // ==============Logo===============
+                    // ==============Logo=======================================
                     SizedBox(
                       width: 270,
                       height: 270,
@@ -47,7 +46,7 @@ class ForgetPassword extends StatelessWidget {
                         fit: BoxFit.contain,
                       ),
                     ),
-                    //=================Text=======================
+                    //=================Text=====================================
                     Text(
                       "Enter Your Phone Number ",
                       style: TextStyle(
@@ -57,7 +56,7 @@ class ForgetPassword extends StatelessWidget {
                       ),
                     ),
                     SizedBox(height: 25),
-                    //========================phone===============
+                    //========================phone=============================
                     CustomTextField(
                       //=============== controller =============
                       validator: (value) {
@@ -66,18 +65,14 @@ class ForgetPassword extends StatelessWidget {
                         }
                         return null;
                       },
-                      // controller: phonecontroller,
-                      //==================================
                       hintText: "Phone",
-                      // obscureText: ispassword,
                       sufixicon: Icon(Icons.phone, color: Colors.blueGrey),
-                      // controller: _phoneController,
                     ),
                     SizedBox(height: 20),
-                    //======================== Login Button=================
-                    PrimaryPutton(
+                    //======================== Login Button =================
+                    Primarybutton(
                       onpress: () {
-                        GoRouter.of(context).pushNamed(AppRoutes.newpassword);
+                        GoRouter.of(context).pushNamed(AppRoutes.verifyotp);
                       },
                       // onpress: () => _registerUser(context),
                       buttontext: "Send Code ",

@@ -18,10 +18,4 @@ class AppStyling {
     color: AppColors.secoundrycolor,
   );
 
-  static TextStyle appstyle = TextStyle(
-    fontFamily: AppFonts.mainfontsname,
-    fontWeight: FontWeight.w500,
-    fontSize: 30.sp,
-    color: AppColors.secoundrycolor,
-  );
 }

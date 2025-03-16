@@ -4,7 +4,7 @@ import 'package:foodia_app/routing/app_routes.dart';
 import 'package:foodia_app/styling/app_assets.dart';
 
 import 'package:foodia_app/styling/app_styling.dart';
-import 'package:foodia_app/witgets/primary_putton.dart';
+import 'package:foodia_app/witgets/primary_button.dart';
 import 'package:go_router/go_router.dart';
 
 class OnBoarding1 extends StatelessWidget {
@@ -61,9 +61,9 @@ class OnBoarding1 extends StatelessWidget {
             bottom: 40,
             left: 20,
             right: 20,
-            child: PrimaryPutton(
+            child: Primarybutton(
               onpress: () {
-                GoRouter.of(context).pushNamed(AppRoutes.signinScreen);
+                GoRouter.of(context).pushNamed(AppRoutes.loginScreen);
               },
               buttontext: "Start Now",
               fontsize: 28,

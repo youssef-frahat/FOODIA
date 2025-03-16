@@ -1,20 +1,18 @@
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
-import 'package:foodia_app/Networking/api_endpoint.dart';
-import 'package:foodia_app/pages/auth/sign_in.dart';
+import 'package:foodia_app/auth/screens/sign_in.dart';
 import 'package:foodia_app/routing/app_routes.dart';
 import 'package:foodia_app/styling/app_assets.dart';
 import 'package:foodia_app/styling/app_colors.dart';
 import 'package:foodia_app/styling/app_styling.dart';
 import 'package:foodia_app/witgets/custom_text_field.dart';
 import 'package:foodia_app/witgets/or_witget.dart';
-import 'package:foodia_app/witgets/primary_putton.dart';
+import 'package:foodia_app/witgets/primary_button.dart';
 import 'package:foodia_app/witgets/wiget_back.dart';
 import 'package:go_router/go_router.dart';
-import 'package:http/http.dart';
 
 class LogIn extends StatefulWidget {
-  LogIn({super.key});
+  const LogIn({super.key});
 
   @override
   State<LogIn> createState() => _LogInState();
@@ -22,31 +20,15 @@ class LogIn extends StatefulWidget {
 
 class _LogInState extends State<LogIn> {
   bool ispassword = true;
+  bool ischeckbox = true;
 
   final formkey = GlobalKey<FormState>();
   late TextEditingController phonecontroller;
   late TextEditingController password;
 
 
-  Future<void> Login(String phone, password) async {
-    try {
-      Response response = await post(
-        Uri.parse(ApiEndpoint.baseurl),
-        body: {'phone': phone, 'password': password},
-      );
-      if (response.statusCode == 200) {
-        print("Sucssefully Login");
-      } else {
-        print("Faild");
-      }
-    } catch (e) {
-      print(e.toString());
-    }
-  }
-
   @override
   void initState() {
-    // TODO: implement initState
     super.initState();
     phonecontroller = TextEditingController();
     password = TextEditingController();
@@ -55,6 +37,14 @@ class _LogInState extends State<LogIn> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      // ======================= click back ===========================
+      appBar: AppBar(
+        leading: WigetBack(
+          onpress: () {
+            GoRouter.of(context).pop();
+          },
+        ),
+      ),
       backgroundColor: AppColors.backgroundcolor,
       body: Center(
         child: SafeArea(
@@ -66,54 +56,39 @@ class _LogInState extends State<LogIn> {
                 child: Column(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: <Widget>[
-                    // ============back==================
-                    Padding(
-                      padding: const EdgeInsets.only(right: 320),
-                      child: WigetBack(
-                        onpress: () {
-                          GoRouter.of(context).pop();
-                        },
-                      ),
-                    ),
-
-                    // ==============Logo===============
+                    // ==============Logo=======================================
                     SizedBox(
                       width: 186,
                       height: 186,
                       child: Image.asset(AppAssets.logo, fit: BoxFit.contain),
                     ),
-                    //=================Text=======================
+                    //=================Text=====================================
                     Text("Login", style: AppStyling.primarytextstyle),
-                    SizedBox(height: 25),
+                    SizedBox(height: 20),
                     //========================phone===============
                     CustomTextField(
                       //=============== controller =============
                       validator: (value) {
                         if (value!.isEmpty) {
-                          return "Enter Your Phone";
+                          return "Enter Your Email";
                         }
                         return null;
                       },
                       controller: phonecontroller,
                       //==================================
-                      hintText: "Phone",
+                      hintText: "Email",
                       obscureText: false,
-                      sufixicon: Icon(Icons.phone),
+                      sufixicon: Icon(Icons.email),
                       // controller: _phoneController,
                     ),
-
                     //========================Password===============
                     CustomTextField(
                       //==============controller=============
                       controller: password,
                       validator: (value) {
-                        if (value!.isEmpty) {
-                          return "Enter Your Password";
-                        }
+                        if (value!.isEmpty) return "Enter Your Password";
 
-                        if (value.length < 8) {
-                          return "password must at lest 8 character";
-                        }
+                        if (value.length < 8) return "password must at lest 8 character";
                       },
                       //===========================
                       obscureText: ispassword,
@@ -130,40 +105,67 @@ class _LogInState extends State<LogIn> {
                         ),
                       ),
                       hintText: "Password",
-                      // controller: _passwordController,
+                      
                     ),
                     //=====================forget password ==============
                     Row(
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
-                        Text(
-                          "Remmber me ",
-                          style: TextStyle(color: Colors.blue),
+                        Row(
+                          children: [
+                            Checkbox(
+                              activeColor:
+                                  AppColors
+                                      .primarycolor, 
+                              value:
+                                  ischeckbox, 
+                              onChanged: (value) {
+                                setState(() {
+                                  ischeckbox =
+                                      value ??
+                                      false; 
+                                });
+                              },
+                            ),
+
+                            Text(
+                              "Remember me",
+                              style: TextStyle(
+                                
+                                fontSize: 17,
+                                color: Colors.deepOrange,
+                              ),
+                            ),
+                          ],
                         ),
-                        SizedBox(width: 50),
+                        SizedBox(width: 20),
                         TextButton(
                           onPressed: () {
                             GoRouter.of(
                               context,
                             ).pushNamed(AppRoutes.forgetpassword);
                           },
-                          child: Text(
-                            "Forget Password ?",
-                            style: TextStyle(color: Colors.blue),
+                          child: const Text(
+                            "Forgot Password?",
+                            style: TextStyle(
+                              
+                              fontSize: 17,
+                              color: Colors.deepOrange,
+                            ),
                           ),
                         ),
                       ],
                     ),
-                    SizedBox(height: 20),
+                   
                     //======================== Login Button=================
-                    PrimaryPutton(
+                    Primarybutton(
                       onpress: () {
-                        // if (formkey.currentState!.validate()) {
-                        //   print(phonecontroller.text);
-                        //   print(password.text);
-                        // }
+                        if (formkey.currentState!.validate()) {
+                          print(phonecontroller.text);
+                          print(password.text);
+                        }
                       },
-                      // onpress: () => _registerUser(context),
+                     
                       buttontext: "Login",
                       fontsize: 23,
                     ),
@@ -171,22 +173,22 @@ class _LogInState extends State<LogIn> {
                     //=============  oR =========================
                     OrWitget(),
                     SizedBox(height: 20),
-                    //================= text Don't have Acount ===============
+                    //================= text Don't have Account ===============
                     RichText(
                       text: TextSpan(
                         text: "Don't have an Account?   ",
                         style: TextStyle(
-                          fontSize: 16,
-                          fontWeight: FontWeight.bold,
-                          color: Colors.blueAccent,
+                         
+                          fontSize: 17,
+                          color: Colors.deepOrange,
                         ),
                         children: [
                           TextSpan(
                             text: "Register Now",
                             style: TextStyle(
-                              fontSize: 16,
-                              fontWeight: FontWeight.bold,
-                              color: Colors.blue,
+                              
+                              fontSize: 19,
+                              color: Colors.deepOrange,
                             ),
                             recognizer:
                                 TapGestureRecognizer()
