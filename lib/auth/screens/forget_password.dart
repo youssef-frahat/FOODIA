@@ -15,6 +15,14 @@ class ForgetPassword extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      // ======================= click back ===========================
+      appBar: AppBar(
+        leading: WigetBack(
+          onpress: () {
+            GoRouter.of(context).pop();
+          },
+        ),
+      ),
       backgroundColor: AppColors.backgroundcolor,
       body: Center(
         child: SafeArea(
@@ -25,15 +33,6 @@ class ForgetPassword extends StatelessWidget {
                 child: Column(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: <Widget>[
-                    // ============ click back==================================
-                    Padding(
-                      padding: const EdgeInsets.only(right: 320),
-                      child: WigetBack(
-                        onpress: () {
-                          GoRouter.of(context).pop();
-                        },
-                      ),
-                    ),
                     SizedBox(height: 30),
                     //=================Text=====================================
                     Text("Forget Password", style: AppStyling.primarytextstyle),
