@@ -89,6 +89,7 @@ class _LogInState extends State<LogIn> {
                         if (value!.isEmpty) return "Enter Your Password";
 
                         if (value.length < 8) return "password must at lest 8 character";
+                        return null;
                       },
                       //===========================
                       obscureText: ispassword,

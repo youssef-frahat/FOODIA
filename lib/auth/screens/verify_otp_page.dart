@@ -9,7 +9,7 @@ import 'package:go_router/go_router.dart';
 import 'package:pin_code_fields/pin_code_fields.dart';
 
 class Verifyotp extends StatefulWidget {
-  Verifyotp({super.key});
+  const Verifyotp({super.key});
 
   @override
   State<Verifyotp> createState() => _VerifyotpState();
