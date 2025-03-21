@@ -70,7 +70,7 @@ class _SignInState extends State<SignIn> {
                       ),
                     ),
                     //=================Text=======================
-                    Text("Sign In", style: AppStyling.primarytextstyle),
+                    Text("Regiser Now", style: AppStyling.primarytextstyle),
 
                     //========================username===============
                     CustomTextField(
@@ -180,7 +180,7 @@ class _SignInState extends State<SignIn> {
                         GoRouter.of(context).pushNamed(AppRoutes.verifyotp);
                       },
                      
-                      buttontext: "Sign Up",
+                      buttontext: "Register Now",
                       fontsize: 23,
                     ),
                   ],
