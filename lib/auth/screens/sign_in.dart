@@ -9,7 +9,7 @@ import 'package:foodia_app/witgets/wiget_back.dart';
 import 'package:go_router/go_router.dart';
 
 class SignIn extends StatefulWidget {
-  SignIn({super.key});
+  const SignIn({super.key});
 
   @override
   State<SignIn> createState() => _SignInState();
@@ -95,6 +95,7 @@ class _SignInState extends State<SignIn> {
                         if (value!.isEmpty) return "Enter Your Phone";
     
                         if (value.length > 11) return "Please Enter Correct phone";
+                        return null;
                         
                       },
                       hintText: "Phone",
@@ -126,6 +127,7 @@ class _SignInState extends State<SignIn> {
                         if (value.length < 8) {
                           return "password must at lest 8 character";
                         }
+                        return null;
                       },
                       obscureText: ispassword,
                       sufixicon: IconButton(
@@ -153,6 +155,7 @@ class _SignInState extends State<SignIn> {
                         if (value.length < 8) {
                           return "password must at lest 8 character";
                         }
+                        return null;
                       },
                       obscureText: iscpassword,
                       sufixicon: IconButton(
