@@ -8,14 +8,14 @@ import 'package:foodia_app/witgets/primary_button.dart';
 import 'package:foodia_app/witgets/wiget_back.dart';
 import 'package:go_router/go_router.dart';
 
-class SignIn extends StatefulWidget {
-  const SignIn({super.key});
+class Registerpage extends StatefulWidget {
+  const Registerpage({super.key});
 
   @override
-  State<SignIn> createState() => _SignInState();
+  State<Registerpage> createState() => _RegisterpageState();
 }
 
-class _SignInState extends State<SignIn> {
+class _RegisterpageState extends State<Registerpage> {
   bool ispassword = true;
   bool iscpassword = true;
 
@@ -71,7 +71,7 @@ class _SignInState extends State<SignIn> {
                     ),
                     //=================Text=======================
                     Text("Regiser Now", style: AppStyling.primarytextstyle),
-
+                    
                     //========================username===============
                     CustomTextField(
                       //================username controller =============
@@ -82,7 +82,6 @@ class _SignInState extends State<SignIn> {
                         }
                         return null;
                       },
-
                       hintText: "Username",
                       sufixicon: Icon(Icons.person),
                       

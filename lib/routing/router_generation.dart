@@ -1,9 +1,8 @@
-
 import 'package:foodia_app/auth/screens/forget_password.dart';
 import 'package:foodia_app/auth/screens/log_in.dart';
 import 'package:foodia_app/auth/screens/new_pass.dart';
 import 'package:foodia_app/on_boarding/on_boarding1.dart';
-import 'package:foodia_app/auth/screens/sign_in.dart';
+import 'package:foodia_app/auth/screens/register_screen.dart';
 import 'package:foodia_app/auth/screens/sucess_pass.dart';
 import 'package:foodia_app/auth/screens/verify_otp_page.dart';
 import 'package:foodia_app/routing/app_routes.dart';
@@ -21,7 +20,7 @@ class RouterGeneration {
       GoRoute(
         path: AppRoutes.signinScreen,
         name: AppRoutes.signinScreen,
-        builder: (context, State) => SignIn(),
+        builder: (context, State) => Registerpage(),
       ),
       GoRoute(
         path: AppRoutes.loginScreen,
@@ -49,6 +48,7 @@ class RouterGeneration {
         name: AppRoutes.verifyotp,
         builder: (context, State) => Verifyotp(),
       ),
+
     ],
   );
 }
