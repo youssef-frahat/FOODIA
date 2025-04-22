@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_svg/svg.dart';
 import 'package:foodia_app/feature/on_boarding/onboarding_model.dart';
 
 class OnboardingPage extends StatelessWidget {
@@ -13,7 +12,7 @@ class OnboardingPage extends StatelessWidget {
       mainAxisAlignment: MainAxisAlignment.center,
       children: [
         // Step 15: Add the onboarding image
-        SvgPicture.asset(item.image, height: 300),
+        Image.asset(item.image, height: 300),
         SizedBox(height: 20),
         // Step 17: Add the onboarding title
         Text(
