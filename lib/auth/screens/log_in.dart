@@ -1,6 +1,6 @@
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
-import 'package:foodia_app/auth/screens/sign_in.dart';
+import 'package:foodia_app/auth/screens/register_screen.dart';
 import 'package:foodia_app/routing/app_routes.dart';
 import 'package:foodia_app/styling/app_assets.dart';
 import 'package:foodia_app/styling/app_colors.dart';
@@ -197,7 +197,7 @@ class _LogInState extends State<LogIn> {
                                     Navigator.push(
                                       context,
                                       MaterialPageRoute(
-                                        builder: (context) => SignIn(),
+                                        builder: (context) => Registerpage(),
                                       ),
                                     );
                                   },

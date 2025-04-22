@@ -33,7 +33,7 @@ class OnBoarding1 extends StatelessWidget {
             right: 20,
             child: TextButton(
               onPressed: () {
-                GoRouter.of(context).pushNamed(AppRoutes.signinScreen);
+                GoRouter.of(context).pushNamed(AppRoutes.loginScreen);
               },
               child: Text("Skip", style: AppStyling.primarytextstyle),
             ),
