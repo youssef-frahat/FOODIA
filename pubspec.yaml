@@ -56,6 +56,9 @@ flutter_native_splash:
   image: assets/images/logo.jpg # Path to your logo image
   android: true
   ios: true
+  web: true
+  fullscreen: true
+  
 
 # For information on the generic Dart part of this file, see the
 # following page: https://dart.dev/tools/pub/pubspec

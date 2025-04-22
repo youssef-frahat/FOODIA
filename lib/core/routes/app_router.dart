@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:foodia_app/core/routes/routes.dart';
-import 'package:foodia_app/core/routes/routing_observer.dart';
 import 'package:foodia_app/core/routes/screen_withfade_transition.dart';
 import 'package:foodia_app/feature/auth/presentation/screens/register_screen.dart';
 import 'package:foodia_app/feature/on_boarding/onbording.dart';
@@ -17,7 +16,6 @@ class AppRouter {
 
   AppRouter()
       : router = GoRouter(
-          observers: [GoRouterObserver()],
           navigatorKey: appNavigatorKey,
           initialLocation: Routes.onboardingScreen,
           routes: <RouteBase>[
