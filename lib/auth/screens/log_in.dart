@@ -60,7 +60,7 @@ class _LogInState extends State<LogIn> {
                     SizedBox(
                       width: 186,
                       height: 186,
-                      child: Image.asset(AppAssets.logo, fit: BoxFit.contain),
+                      child: Image.asset(AppAssets.logo, fit: BoxFit.contain,),
                     ),
                     //=================Text=====================================
                     Text("Login", style: AppStyling.primarytextstyle),
