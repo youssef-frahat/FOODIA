@@ -1,0 +1,203 @@
+[33mcommit 54b9a169f72764cb0fd34f891eda97d348dabae7[m[33m ([m[1;36mHEAD[m[33m -> [m[1;32myoussef[m[33m, [m[1;31morigin/youssef[m[33m)[m
+Author: youssef frahat <108248554+youssef-frahat@users.noreply.github.com>
+Date:   Wed Apr 23 00:26:52 2025 +0200
+
+    Refactor code structure for improved readability and maintainability
+
+[33mcommit 41cfbaa689e562c16f25f6aa59fe44829aa02f66[m[33m ([m[1;31morigin/master[m[33m, [m[1;31morigin/HEAD[m[33m, [m[1;32mmaster[m[33m)[m
+Merge: c2b0c72 e58f2f3
+Author: youssef frahat <108248554+youssef-frahat@users.noreply.github.com>
+Date:   Tue Apr 22 23:39:42 2025 +0200
+
+    feat: update widget test to include app router in Foodia initialization
+
+[33mcommit c2b0c72f541df2c6e110f686c426bc0b0bef9868[m
+Author: youssef frahat <108248554+youssef-frahat@users.noreply.github.com>
+Date:   Tue Apr 22 23:30:09 2025 +0200
+
+    feat: add initial Foodia application structure with routing and responsive design
+
+[33mcommit e58f2f3efbe34ce831e997e06bc7ca5a2d789090[m
+Merge: 60139ef 98fc8c6
+Author: mostafa-sabry <engmostafasabryhassan@gmail.com>
+Date:   Tue Apr 22 23:20:33 2025 +0200
+
+    feat: Implement second registration page with image picker and bio input
+    
+    - Added `second_register_body.dart` for the second registration step, including:
+      - Image picker functionality to upload a profile picture.
+      - Text field for user bio with validation.
+    
+    feat: Create signup prompt row widget
+    
+    - Introduced `signup_prompt_row.dart` to display an "OR" divider and a signup prompt with navigation to the registration screen.
+    
+    feat: Add forget password screen
+    
+    - Created `forget_password.dart` for users to initiate password recovery.
+    
+    feat: Develop login screen
+    
+    - Implemented `log_in.dart` for user login with email and password fields, including validation and navigation to the forget password screen.
+    
+    feat: Create new password screen
+    
+    - Added `new_pass.dart` for users to set a new password after recovery.
+    
+    feat: Implement registration screen
+    
+    - Developed `register_screen.dart` for user registration with fields for username, phone, email, and password.
+    
+    feat: Add success password update screen
+    
+    - Created `sucess_pass.dart` to confirm successful password updates.
+    
+    feat: Implement OTP verification screen
+    
+    - Added `verify_otp_page.dart` for OTP input and verification.
+    
+    fix: Update main.dart to use new router setup
+    
+    - Changed router initialization in `main.dart` to use `AppRouter`.
+    
+    fix: Register file selector plugin for Linux and macOS
+    
+    - Updated `generated_plugin_registrant.cc` and `GeneratedPluginRegistrant.swift` to include file selector plugin registration.
+    
+    fix: Update pubspec.yaml and pubspec.lock
+    
+    - Added necessary dependencies for image picking and file selection.
+    - Updated Flutter SDK version in `pubspec.lock`.
+
+[33mcommit 60139efb31b0de673d1380e9f4b14b1978d92365[m
+Author: mostafa-sabry <engmostafasabryhassan@gmail.com>
+Date:   Tue Apr 22 23:17:15 2025 +0200
+
+    feat: Implement registration, OTP verification, and onboarding screens
+    
+    - Added Registerpage for user registration with form validation.
+    - Created Verifyotp screen for OTP input and verification.
+    - Developed SucessPass screen to confirm password updates.
+    - Introduced BottomNavBar for navigation between main sections.
+    - Built HomeScreen with app bar and integrated HomeViewBody.
+    - Implemented CategoriesList to display food categories.
+    - Added ListviewOrderWidget to show order cards.
+    - Created Onboarding screens with smooth page indicator.
+    - Updated routing to include new screens and removed obsolete routes.
+    - Updated dependencies in pubspec.yaml for improved functionality.
+
+[33mcommit 98fc8c6b54f311cdc4a54cd7ddd3e60b391174e6[m
+Author: youssef frahat <108248554+youssef-frahat@users.noreply.github.com>
+Date:   Tue Apr 22 14:34:23 2025 +0200
+
+    feat: Implement onboarding screens and authentication UI components
+    
+    - Added RememberMeRow widget for user authentication.
+    - Created SecondPage for user registration with image upload functionality.
+    - Developed SignupPromptRow for prompting users to sign up.
+    - Implemented ForgetPassword screen for password recovery.
+    - Created LogIn screen for user login with validation.
+    - Developed NewPass screen for setting a new password.
+    - Implemented Registerpage for user registration with form validation.
+    - Created SucessPass screen to confirm password update.
+    - Developed Verifyotp screen for OTP verification.
+    - Added OnboardingPage and OnboardingItem models for onboarding flow.
+    - Implemented OnboardingScreen with smooth page indicator and navigation.
+
+[33mcommit b88223d9452e46c3f28dad0a412623d43194835d[m
+Merge: b021826 1c92d8c
+Author: youssef frahat <108248554+youssef-frahat@users.noreply.github.com>
+Date:   Tue Apr 22 13:33:32 2025 +0200
+
+    Merge branch 'master' of https://github.com/youssef-frahat/FOODIA
+
+[33mcommit b021826aa627c4c7267438d27b8f3a0ef1e6d20a[m
+Author: youssef frahat <108248554+youssef-frahat@users.noreply.github.com>
+Date:   Tue Apr 22 13:33:25 2025 +0200
+
+    fix: add missing comma in logo image widget
+
+[33mcommit 1c92d8c4f07fb2a47fe9d1f00248e287acfa7cf3[m
+Author: alia7medma7moud <aliahmedmahmoud118@gmail.com>
+Date:   Sat Mar 22 03:10:37 2025 +0200
+
+    chnage register
+
+[33mcommit 4fb4c2b6446b578d10c4daeaea6881afce371130[m
+Merge: c93421f 39de62a
+Author: alia7medma7moud <aliahmedmahmoud118@gmail.com>
+Date:   Sat Mar 22 02:05:19 2025 +0200
+
+    Merge branch 'master' of https://github.com/youssef-frahat/FOODIA
+
+[33mcommit 39de62ac642bf90261d59779be4d276eefcf4d8d[m
+Author: youssef frahat <108248554+youssef-frahat@users.noreply.github.com>
+Date:   Fri Mar 21 23:16:00 2025 +0200
+
+    edits
+
+[33mcommit 4416f9ebf05e50baead589a5d1e8855ad03d7970[m
+Author: youssef frahat <108248554+youssef-frahat@users.noreply.github.com>
+Date:   Fri Mar 21 23:05:25 2025 +0200
+
+    making nice on_barding
+
+[33mcommit c93421f2d8db18703d7e1093f51aa72c7c465e99[m
+Author: alia7medma7moud <aliahmedmahmoud118@gmail.com>
+Date:   Fri Mar 21 22:12:18 2025 +0200
+
+    change Regidter now
+
+[33mcommit 81a2e716093f2add40c3c27f6a9635e5d8c7820a[m
+Author: youssef frahat <108248554+youssef-frahat@users.noreply.github.com>
+Date:   Thu Mar 20 07:21:29 2025 +0200
+
+    making native splash screen
+
+[33mcommit 01aab5e9a867e3612a50fc323367e88480592c62[m
+Author: alia7medma7moud <aliahmedmahmoud118@gmail.com>
+Date:   Sun Mar 16 05:56:41 2025 +0200
+
+    first commit
+
+[33mcommit 85d559a7c297580b25c8ffc7f00fd85600a83b4f[m
+Author: alia7medma7moud <aliahmedmahmoud118@gmail.com>
+Date:   Sun Mar 16 05:41:16 2025 +0200
+
+    Initial commit with my Flutter project
+
+[33mcommit 2a35d7a227083c91e1ca29af42e8296c7f0c47ba[m
+Author: alia7medma7moud <aliahmedmahmoud118@gmail.com>
+Date:   Sun Mar 16 05:19:01 2025 +0200
+
+    first commit
+
+[33mcommit 6eb09267a5fd26a3e5a4721802861e762439ae8d[m
+Author: alia7medma7moud <aliahmedmahmoud118@gmail.com>
+Date:   Sun Mar 16 05:16:30 2025 +0200
+
+    first commit
+
+[33mcommit f076682522de278f6e0fd186aafd4c9e43cd8592[m
+Author: alia7medma7moud <aliahmedmahmoud118@gmail.com>
+Date:   Sun Mar 16 05:11:35 2025 +0200
+
+    first commit
+
+[33mcommit e25df42a42f4f0d036f556d511644de34e4e2d3f[m
+Author: alia7medma7moud <aliahmedmahmoud118@gmail.com>
+Date:   Sun Mar 16 05:10:09 2025 +0200
+
+    first commit
+
+[33mcommit 0053c849d9c1cf76865a1292f48e49b3e46a6e9b[m
+Author: alia7medma7moud <aliahmedmahmoud118@gmail.com>
+Date:   Sun Mar 16 04:30:52 2025 +0200
+
+    first change
+
+[33mcommit 8ff86dfb68ad5fc351fe152acf4b192fb92a79f1[m
+Author: alia7medma7moud <aliahmedmahmoud118@gmail.com>
+Date:   Mon Mar 10 01:01:42 2025 +0200
+
+    first commit

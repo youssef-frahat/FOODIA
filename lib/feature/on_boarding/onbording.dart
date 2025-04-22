@@ -1,69 +1,68 @@
 import 'package:flutter/material.dart';
-import 'package:foodia_app/home.dart';
-import 'package:foodia_app/feature/on_boarding/onboardingPage.dart';
-import 'package:foodia_app/feature/on_boarding/onboarding_model.dart';
+import 'package:go_router/go_router.dart';
 import 'package:smooth_page_indicator/smooth_page_indicator.dart';
+
+import '../../core/routes/routes.dart';
+import 'onboardingPage.dart';
+import 'onboarding_model.dart';
 
 class OnboardingScreen extends StatefulWidget {
   const OnboardingScreen({super.key});
 
   @override
-  // ignore: library_private_types_in_public_api
   _OnboardingScreenState createState() => _OnboardingScreenState();
 }
 
 class _OnboardingScreenState extends State<OnboardingScreen> {
-  // Step 3: Create a PageController to manage the onboarding pages
   final PageController _pageController = PageController();
-  int _currentPage = 0; // Track the current page index
+  int _currentPage = 0;
 
-  // Step 4: Define your onboarding content (titles, descriptions, and images)
   final List<OnboardingItem> _onboardingItems = [
     OnboardingItem(
+      image: 'assets/images/slide1.jpg',
+      title: Text("مرحبًا بك في فوديا!"),
+      description: Text("ابدأ رحلتك كطاهي محترف الآن."),
       textStyle: TextStyle(
         fontFamily: 'Changa',
         fontSize: 24,
         fontWeight: FontWeight.bold,
-        color: Colors.black, // Text color
+        color: Colors.black,
       ),
-      image: 'assets/images/slide1.jpg',
-      title: Text("مرحبًا بك في فوديا!"), // "Welcome to Foodia!" in Arabic
-      description: Text("ابدأ رحلتك كطاهي محترف الآن."),
       disStyle: TextStyle(
         fontFamily: 'Changa',
         fontSize: 16,
-        color: Colors.white, // Text color
+        color: Colors.white,
       ),
     ),
     OnboardingItem(
+      image: 'assets/images/slide2.jpg',
+      title: Text(''),
+      description: Text(
+        "انضم إلى منصة تجمع الطهاة الموهوبين مع العملاء الباحثين عن أفضل الأطباق المنزلية",
+      ),
       textStyle: TextStyle(
         fontFamily: 'Changa',
         fontSize: 24,
         fontWeight: FontWeight.bold,
-        color: Colors.white, // Text color
+        color: Colors.white,
       ),
-      image: 'assets/images/slide2.jpg',
-      description: Text(
-        "انضم إلى منصة تجمع الطهاة الموهوبين مع العملاء الباحثين عن أفضل الأطباق المنزلية",
-      ),
-      title: Text(' '),
       disStyle: TextStyle(
         fontFamily: 'Changa',
         fontSize: 16,
         color: Colors.black,
-      ), // "Cook and earn money!" in Arabic
+      ),
     ),
     OnboardingItem(
+      image: 'assets/images/slide3.jpg',
+      title: Text('اطبخ، قدّم، واربح!'),
+      description: Text(
+        'سجل كطاهٍ وابدأ في استقبال الطلبات، التواصل مع العملاء، وتنمية عملك بسهولة',
+      ),
       textStyle: TextStyle(
         fontFamily: 'Changa',
         fontSize: 24,
         fontWeight: FontWeight.bold,
-        color: Colors.black, // Text color
-      ),
-      image: 'assets/images/slide3.png',
-      title: Text('اطبخ، قدّم، واربح!'),
-      description: Text(
-        'سجل كطاهٍ وابدأ في استقبال الطلبات، التواصل مع العملاء، وتنمية عملك بسهولة',
+        color: Colors.black,
       ),
       disStyle: TextStyle(
         fontFamily: 'Changa',
@@ -73,132 +72,90 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
     ),
   ];
 
+  void _goToLogin() => context.goNamed(Routes.home);
+
   @override
   Widget build(BuildContext context) {
+    final orange = const Color(0xFFFFA500);
+
     return Scaffold(
-      backgroundColor: Color(0xFFF5B762), // Background color
+      backgroundColor: const Color(0xFFF5B762),
       body: Stack(
         children: [
-          // Step 6: Add a PageView for swipeable onboarding screens
           PageView.builder(
             controller: _pageController,
             itemCount: _onboardingItems.length,
-            onPageChanged: (index) {
-              setState(() {
-                _currentPage = index; // Update the current page index
-              });
-            },
-            itemBuilder: (context, index) {
-              return OnboardingPage(item: _onboardingItems[index]);
-            },
+            onPageChanged: (index) => setState(() => _currentPage = index),
+            itemBuilder:
+                (context, index) =>
+                    OnboardingPage(item: _onboardingItems[index]),
           ),
-
-          // Skip button in the upper right corner
           Positioned(
             top: 50,
             right: 20,
             child: TextButton(
-              onPressed: () {
-                // Navigate directly to the home screen
-                Navigator.pushReplacement(
-                  context,
-                  MaterialPageRoute(builder: (context) => Home()),
-                );
-              },
-              child: Text(
-                "تخطي", // "Skip" in Arabic
+              onPressed: _goToLogin,
+              child: const Text(
+                "تخطي",
                 style: TextStyle(
-                  fontFamily: 'Changa', // Use Changa font
+                  fontFamily: 'Changa',
                   fontSize: 16,
-                  color: Colors.white, // Text color
+                  color: Colors.white,
                 ),
               ),
             ),
           ),
-
-          // Smooth Page Indicator
           Positioned(
-            bottom: 30, // Adjust the distance from the bottom
-            left: 20, // Adjust the distance from the left
+            bottom: 30,
+            left: 20,
             child: SmoothPageIndicator(
               controller: _pageController,
               count: _onboardingItems.length,
               effect: const ExpandingDotsEffect(
-                activeDotColor: Colors.white, // Active dot color
-                dotColor: Colors.orange, // Inactive dot color
+                activeDotColor: Colors.white,
+                dotColor: Colors.orange,
                 dotHeight: 10,
                 dotWidth: 10,
-                spacing: 8, // Space between dots
+                spacing: 8,
               ),
             ),
           ),
-
-          // Next button with only ">" sign
           Positioned(
             bottom: 20,
             right: 20,
-            child:
-                _currentPage == _onboardingItems.length - 1
-                    ? ElevatedButton(
-                      onPressed: () {
-                        // Navigate to the home screen after onboarding
-                        Navigator.pushReplacement(
-                          context,
-                          MaterialPageRoute(builder: (context) => Home()),
-                        );
-                      },
-                      style: ElevatedButton.styleFrom(
-                        backgroundColor: Color(
-                          0xFFFFA500,
-                        ), // Button color (#FFA500)
-                        padding: EdgeInsets.symmetric(
+            child: ElevatedButton(
+              onPressed:
+                  _currentPage == _onboardingItems.length - 1
+                      ? _goToLogin
+                      : () => _pageController.nextPage(
+                        duration: const Duration(milliseconds: 300),
+                        curve: Curves.easeInOut,
+                      ),
+              style: ElevatedButton.styleFrom(
+                backgroundColor: orange,
+                padding:
+                    _currentPage == _onboardingItems.length - 1
+                        ? const EdgeInsets.symmetric(
                           horizontal: 20,
                           vertical: 10,
-                        ),
-                        shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(30),
-                        ), // Rounded corners
-                      ),
-
-                      child: Text(
-                        "ابدأ الآن", // "Get Started" in Arabic
-                        style: TextStyle(
-                          fontFamily: 'Changa', // Use Changa font
-                          fontSize: 16,
-                          color: Colors.white, // Text color
-                        ),
-                      ),
-                    )
-                    : ElevatedButton(
-                      onPressed: () {
-                        // Go to the next page
-                        _pageController.nextPage(
-                          duration: Duration(milliseconds: 300),
-                          curve: Curves.easeInOut,
-                        );
-                      },
-                      style: ElevatedButton.styleFrom(
-                        backgroundColor: Color(
-                          0xFFFFA500,
-                        ), // Button color (#FFA500)
-                        padding: EdgeInsets.all(
-                          20,
-                        ), // Adjust padding for the ">" sign
-                        // Make the button circular
-                        shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(30),
-                        ),
-                      ),
-                      child: Text(
-                        "التالي",
-                        style: TextStyle(
-                          fontFamily: 'Changa', // Use Changa font
-                          fontSize: 18,
-                          color: Colors.white,
-                          fontWeight: FontWeight.bold, // Text color
-                        ),
-                      ),
-                    ),
+                        )
+                        : const EdgeInsets.all(20),
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(30),
+                ),
+              ),
+              child: Text(
+                _currentPage == _onboardingItems.length - 1
+                    ? "ابدأ الآن"
+                    : "التالي",
+                style: const TextStyle(
+                  fontFamily: 'Changa',
+                  fontSize: 18,
+                  color: Colors.white,
+                  fontWeight: FontWeight.bold,
+                ),
+              ),
+            ),
           ),
         ],
       ),
