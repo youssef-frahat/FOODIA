@@ -12,7 +12,7 @@ class Foodia extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final router = RouterGeneration.goRouter;
+    final router = AppRouter().router;
     return ScreenUtilInit(
       designSize: const Size(460, 926),
       minTextAdapt: true,
