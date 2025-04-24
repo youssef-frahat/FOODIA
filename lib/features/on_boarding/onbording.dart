@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:foodia_app/features/on_boarding/onboardingPage.dart';
 import 'package:foodia_app/features/on_boarding/onboarding_model.dart';
+import 'package:go_router/go_router.dart';
 import 'package:smooth_page_indicator/smooth_page_indicator.dart';
 
+import '../../core/routing/app_routes.dart';
 import '../home/presentation/screens/home_screen.dart';
 
 class OnboardingScreen extends StatefulWidget {
@@ -100,11 +102,7 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
             right: 20,
             child: TextButton(
               onPressed: () {
-                // Navigate directly to the home screen
-                Navigator.pushReplacement(
-                  context,
-                  MaterialPageRoute(builder: (context) => HomeScreen()),
-                );
+              GoRouter.of(context).goNamed(AppRoutes.bottomNavBar);
               },
               child: Text(
                 "تخطي", // "Skip" in Arabic
@@ -142,11 +140,7 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
                 _currentPage == _onboardingItems.length - 1
                     ? ElevatedButton(
                       onPressed: () {
-                        // Navigate to the home screen after onboarding
-                        Navigator.pushReplacement(
-                          context,
-                          MaterialPageRoute(builder: (context) => HomeScreen()),
-                        );
+                       GoRouter.of(context).goNamed(AppRoutes.bottomNavBar);
                       },
                       style: ElevatedButton.styleFrom(
                         backgroundColor: Color(

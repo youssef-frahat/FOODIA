@@ -22,7 +22,6 @@ class HomeViewBody extends StatelessWidget {
           SizedBox(height: 20),
           CategoriesList(),
           SizedBox(height: 15.h),
-          CustomDivider(),
           ListviewOrderWidget(),
         ],
       ),

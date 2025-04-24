@@ -3,9 +3,7 @@ import 'package:go_router/go_router.dart';
 
 // screens
 import 'package:foodia_app/features/on_boarding/on_boarding1.dart';
-import 'package:foodia_app/features/auth/presentation/screens/log_in.dart';
-import 'package:foodia_app/features/auth/presentation/screens/register_screen.dart';
-import 'package:foodia_app/features/bottom_navigation_bar/custom_button_nav_bar.dart';
+import 'package:foodia_app/core/witgets/bottom_navigation_bar/custom_button_nav_bar.dart';
 import 'package:foodia_app/features/home/presentation/screens/home_screen.dart';
 import 'app_routes.dart';
 
@@ -14,8 +12,7 @@ class RouterGeneration {
     initialLocation: AppRoutes.onBordingScreen,
     routes: [
       _transition(AppRoutes.onBordingScreen, const OnBoarding1()),
-      _transition(AppRoutes.loginScreen, const LogIn()),
-      _transition(AppRoutes.signinScreen, const Registerpage()),
+      
       // _transition(AppRoutes.forgetpassword, const ForgetPasswordScreen()),
       // _transition(AppRoutes.newpassword, const NewPasswordScreen()),
       // _transition(AppRoutes.sucesspassword, const SuccessPasswordScreen()),

@@ -11,6 +11,8 @@ class HomeScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return  Scaffold(
       appBar: AppBar(
+        elevation: 0,
+        backgroundColor: Color(0xFFF8F8F8),
       actions: [
         IconButton(
           icon:  SvgPicture.asset(AppAssets.cartSvg),

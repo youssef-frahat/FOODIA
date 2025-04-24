@@ -1,8 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 
-import '../../core/styling/app_icons.dart';
-import '../home/presentation/screens/home_screen.dart';
+import '../../styling/app_icons.dart';
+import '../../../features/home/presentation/screens/home_screen.dart';
 
 
 
@@ -32,6 +33,7 @@ class _BottomNavBarState extends State<BottomNavBar> {
     return Scaffold(
       body: _screens[_selectedIndex],
       bottomNavigationBar: Container(
+        height: 70.h,
         decoration: const BoxDecoration(
           color: Color(0xFF1E1E1E),
           borderRadius: BorderRadius.only(
@@ -53,8 +55,8 @@ class _BottomNavBarState extends State<BottomNavBar> {
                 children: [
                   SvgPicture.asset(
                     item['icon']!,
-                    width: isSelected ? 30 : 24,
-                    height: isSelected ? 30 : 24,
+                    width: isSelected ? 24 : 24,
+                    height: isSelected ? 24 : 24,
                     colorFilter: ColorFilter.mode(
                       isSelected ? Colors.orange : Colors.grey,
                       BlendMode.srcIn,
@@ -65,7 +67,8 @@ class _BottomNavBarState extends State<BottomNavBar> {
                     item['label']!,
                     style: TextStyle(
                       color: isSelected ? Colors.orange: Colors.grey,
-                      fontWeight: isSelected ? FontWeight.bold : FontWeight.normal,
+                      
+                      fontSize: isSelected ? 14.sp : 12.sp,
                     ),
                   ),
                   const SizedBox(height: 4),
@@ -91,19 +94,23 @@ class _BottomNavBarState extends State<BottomNavBar> {
   List<Map<String, String>> get _navItems => [
         {
           'icon': AppIcons.home,
-          'label': 'Home',
+          'label': 'الرئيسية',
         },
         {
           'icon': AppIcons.approved,
-          'label': 'Follow',
+          'label': 'اتابعة',
+        },
+         {
+          'icon': AppIcons.cart,
+          'label': 'طلباتي',
         },
         {
           'icon': AppIcons.wallet,
-          'label': 'Wallet',
+          'label': 'المحفظة',
         },
         {
           'icon': AppIcons.profile,
-          'label': 'Profile',
+          'label': 'حسابي',
         },
       ];
 }

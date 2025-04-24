@@ -9,7 +9,7 @@ class ListviewOrderWidget extends StatelessWidget {
   Widget build(BuildContext context) {
     return Flexible(
       child: ListView.builder(
-        itemCount: 10,
+        itemCount: 2,
         shrinkWrap: true,
         itemBuilder: (context, index) => const OrderWidget(),
       ),

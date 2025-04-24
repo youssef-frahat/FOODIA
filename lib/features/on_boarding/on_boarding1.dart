@@ -33,7 +33,7 @@ class OnBoarding1 extends StatelessWidget {
             right: 20,
             child: TextButton(
               onPressed: () {
-                GoRouter.of(context).pushNamed(AppRoutes.loginScreen);
+                GoRouter.of(context).pushReplacementNamed(AppRoutes.bottomNavBar);
               },
               child: Text("Skip", style: AppStyling.primarytextstyle),
             ),
@@ -63,7 +63,7 @@ class OnBoarding1 extends StatelessWidget {
             right: 20,
             child: Primarybutton(
               onpress: () {
-                GoRouter.of(context).pushNamed(AppRoutes.loginScreen);
+               GoRouter.of(context).pushReplacementNamed(AppRoutes.bottomNavBar);
               },
               buttontext: "Start Now",
               fontsize: 28,
