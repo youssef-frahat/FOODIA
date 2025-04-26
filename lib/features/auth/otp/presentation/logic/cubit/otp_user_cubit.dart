@@ -30,4 +30,21 @@ class OtpUserCubit extends Cubit<OtpUserState> {
       emit(ValidateOtpCodeError('An unexpected error occurred: $e'));
     }
   }
+
+  Future<void> sendOtpCode({required String phoneNumber}) async {
+    emit(SendOtpCodeLoading());
+    try {
+      final result = await otpUserRepoImpl.sendOtp(phoneNumber: phoneNumber);
+      result.fold(
+        (failure) {
+          emit(SendOtpCodeError(failure.message));
+        },
+        (_) {
+          emit(SendOtpCodeSuccess());
+        },
+      );
+    } catch (e) {
+      emit(SendOtpCodeError('An unexpected error occurred: $e'));
+    }
+  }
 }

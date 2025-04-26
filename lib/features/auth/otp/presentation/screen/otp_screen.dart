@@ -26,26 +26,24 @@ class OtpScreen extends StatefulWidget {
 class _OtpScreenState extends State<OtpScreen> {
   Timer? _timer;
   Duration? _duration;
-
   final TextEditingController _otpController = TextEditingController();
   final int otpLength = 4;
+
   @override
   void initState() {
-    _startTimer();
-
     super.initState();
+    _startTimer();
   }
 
   void _startTimer() {
     _timer?.cancel();
-    DateTime date = DateTime.now().add(const Duration(minutes: 3));
+    DateTime date = DateTime.now().add(const Duration(seconds: 15));
     _duration = date.difference(DateTime.now());
     _timer = Timer.periodic(const Duration(milliseconds: 300), (_) {
       setState(() {
         _duration = date.difference(DateTime.now());
         if (_duration!.isNegative) {
           _timer?.cancel();
-          return;
         }
       });
     });
@@ -54,6 +52,7 @@ class _OtpScreenState extends State<OtpScreen> {
   @override
   void dispose() {
     _timer?.cancel();
+    _otpController.dispose();
     super.dispose();
   }
 
@@ -66,21 +65,27 @@ class _OtpScreenState extends State<OtpScreen> {
         create: (context) => getIt<OtpUserCubit>(),
         child: BlocConsumer<OtpUserCubit, OtpUserState>(
           listener: (context, state) {
-            if (state is ValidateOtpCodeLoading) {
+            if (state is ValidateOtpCodeLoading || state is SendOtpCodeLoading) {
               AppMessages.showLoading(context);
             } else if (state is ValidateOtpCodeSuccess) {
-              context.pop();
+              context.pop(); // Close loading
               AppMessages.showSuccess(context, AppStrings.otpVerified);
               context.pushNamed(AppRoutes.bottomNavBar);
             } else if (state is ValidateOtpCodeError) {
-              context.pop();
+              context.pop(); // Close loading
               AppMessages.showError(context, AppStrings.codeIsInvalid);
+            } else if (state is SendOtpCodeSuccess) {
+              context.pop(); // Close loading
+              AppMessages.showSuccess(context, "تم إرسال الكود مرة أخرى بنجاح");
+            } else if (state is SendOtpCodeError) {
+              context.pop(); // Close loading
+              AppMessages.showError(context, state.error);
             }
           },
           builder: (context, state) {
             return SafeArea(
               child: Padding(
-                padding: const EdgeInsets.all(24.0),
+                padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 20),
                 child: Column(
                   children: [
                     CustomWigetArrowBack(onpress: () => context.pop()),
@@ -93,10 +98,7 @@ class _OtpScreenState extends State<OtpScreen> {
                           top: -20,
                           right: -40,
                           child: Container(
-                            padding: const EdgeInsets.symmetric(
-                              horizontal: 12,
-                              vertical: 8,
-                            ),
+                            padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
                             decoration: BoxDecoration(
                               color: Colors.white,
                               borderRadius: BorderRadius.circular(30),
@@ -106,22 +108,14 @@ class _OtpScreenState extends State<OtpScreen> {
                               children: List.generate(otpLength, (index) {
                                 bool filled = index < otp.length;
                                 return Padding(
-                                  padding: const EdgeInsets.symmetric(
-                                    horizontal: 6,
-                                  ),
+                                  padding: const EdgeInsets.symmetric(horizontal: 6),
                                   child: Container(
                                     width: 16,
                                     height: 16,
                                     decoration: BoxDecoration(
-                                      color:
-                                          filled
-                                              ? Colors.orange
-                                              : Colors.transparent,
+                                      color: filled ? Colors.orange : Colors.transparent,
                                       shape: BoxShape.circle,
-                                      border: Border.all(
-                                        color: Colors.orange,
-                                        width: 1.5,
-                                      ),
+                                      border: Border.all(color: Colors.orange, width: 1.5),
                                     ),
                                   ),
                                 );
@@ -150,13 +144,11 @@ class _OtpScreenState extends State<OtpScreen> {
                     Text(
                       "لقد تم ارسال كود مكون من 4 أرقام على رقم الهاتف ${widget.phoneNumber} للتحقق منه",
                       textAlign: TextAlign.center,
-                      style: TextStyle(fontSize: 14, color: Colors.grey),
+                      style: const TextStyle(fontSize: 14, color: Colors.grey),
                     ),
                     verticalSpace(20),
                     Directionality(
-                      textDirection:
-                          TextDirection
-                              .ltr, 
+                      textDirection: TextDirection.ltr,
                       child: PinCodeTextField(
                         appContext: context,
                         controller: _otpController,
@@ -184,7 +176,6 @@ class _OtpScreenState extends State<OtpScreen> {
                         textInputAction: TextInputAction.done,
                       ),
                     ),
-
                     verticalSpace(10),
                     Row(
                       mainAxisAlignment: MainAxisAlignment.center,
@@ -198,6 +189,7 @@ class _OtpScreenState extends State<OtpScreen> {
                         else
                           GestureDetector(
                             onTap: () {
+                              context.read<OtpUserCubit>().sendOtpCode(phoneNumber: widget.phoneNumber);
                               _startTimer();
                             },
                             child: const Text(
@@ -210,7 +202,6 @@ class _OtpScreenState extends State<OtpScreen> {
                           ),
                       ],
                     ),
-
                     const Spacer(),
                     SizedBox(
                       width: double.infinity,
@@ -222,22 +213,20 @@ class _OtpScreenState extends State<OtpScreen> {
                           ),
                           padding: const EdgeInsets.symmetric(vertical: 16),
                         ),
-                        onPressed:
-                            otp.length == otpLength
-                                ? () {
-                                  context.read<OtpUserCubit>().validateOtpCode(
-                                    phoneNumber: widget.phoneNumber,
-                                    otpCode: otp,
-                                  );
-                                }
-                                : null,
+                        onPressed: otp.length == otpLength
+                            ? () {
+                                context.read<OtpUserCubit>().validateOtpCode(
+                                      phoneNumber: widget.phoneNumber,
+                                      otpCode: otp,
+                                    );
+                              }
+                            : null,
                         child: const Text(
                           "تأكيد",
                           style: TextStyle(fontSize: 18, color: Colors.white),
                         ),
                       ),
                     ),
-
                     verticalSpace(20),
                   ],
                 ),

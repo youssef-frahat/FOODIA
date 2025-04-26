@@ -26,29 +26,20 @@ class SigninBodyWidget extends StatefulWidget {
 
 class _SigninBodyWidgetState extends State<SigninBodyWidget> {
   final _formKey = GlobalKey<FormState>();
-  late TextEditingController _nameController,
-      _phoneController,
-      _emailController,
-      _passwordController,
-      _confarmPasswordController;
-  @override
-  void initState() {
-    super.initState();
-    _nameController = TextEditingController();
-    _phoneController = TextEditingController();
-    _emailController = TextEditingController();
-    _passwordController = TextEditingController();
-    _confarmPasswordController = TextEditingController();
-  }
+  final TextEditingController _nameController = TextEditingController();
+  final TextEditingController _phoneController = TextEditingController();
+  final TextEditingController _emailController = TextEditingController();
+  final TextEditingController _passwordController = TextEditingController();
+  final TextEditingController _confirmPasswordController = TextEditingController();
 
   @override
   void dispose() {
-    super.dispose();
     _nameController.dispose();
     _phoneController.dispose();
     _emailController.dispose();
     _passwordController.dispose();
-    _confarmPasswordController.dispose();
+    _confirmPasswordController.dispose();
+    super.dispose();
   }
 
   @override
@@ -60,13 +51,12 @@ class _SigninBodyWidgetState extends State<SigninBodyWidget> {
           if (state is SigninUserLoading) {
             AppMessages.showLoading(context);
           } else if (state is SigninUserSuccess) {
+            Navigator.of(context).pop();
+            AppMessages.showSuccess(context, AppStrings.registerSuccess);
             context.pushNamed(
               AppRoutes.otpScreen,
               extra: _phoneController.text.trim(),
             );
-
-            Navigator.of(context).pop();
-            AppMessages.showSuccess(context, AppStrings.registerSuccess);
           } else if (state is SigninUserError) {
             Navigator.of(context).pop();
             AppMessages.showError(context, AppStrings.emailAlreadyExists);
@@ -76,7 +66,7 @@ class _SigninBodyWidgetState extends State<SigninBodyWidget> {
           return Form(
             key: _formKey,
             child: Padding(
-              padding: EdgeInsetsDirectional.symmetric(horizontal: 16.w),
+              padding: EdgeInsets.symmetric(horizontal: 16.w),
               child: ListView(
                 children: [
                   CustomWigetArrowBack(
@@ -100,15 +90,9 @@ class _SigninBodyWidgetState extends State<SigninBodyWidget> {
                   verticalSpace(30),
                   MyTextFormField(
                     hintText: AppStrings.name,
-                    isObscure: false,
                     controller: _nameController,
-                    onChanged: (value) {
-                      _nameController.text = value;
-                    },
-                    suffixIcon: const Icon(Icons.person),
-                    keyboardType: TextInputType.text,
                     validator: (value) {
-                      if (value!.isEmpty) {
+                      if (value == null || value.trim().isEmpty) {
                         return AppStrings.pleaseEnterYourName;
                       }
                       return null;
@@ -117,16 +101,14 @@ class _SigninBodyWidgetState extends State<SigninBodyWidget> {
                   verticalSpace(20),
                   MyTextFormField(
                     hintText: AppStrings.phone,
-                    isObscure: false,
-                    suffixIcon: const Icon(Icons.phone),
                     keyboardType: TextInputType.phone,
                     controller: _phoneController,
-                    onChanged: (value) {
-                      _phoneController.text = value;
-                    },
                     validator: (value) {
-                      if (value!.isEmpty) {
+                      if (value == null || value.trim().isEmpty) {
                         return AppStrings.pleaseEnterYourPhone;
+                      }
+                      if (value.length < 10) {
+                        return 'يجب أن يتكون رقم الهاتف من 11 رقم';
                       }
                       return null;
                     },
@@ -134,16 +116,14 @@ class _SigninBodyWidgetState extends State<SigninBodyWidget> {
                   verticalSpace(20),
                   MyTextFormField(
                     hintText: AppStrings.email,
-                    isObscure: false,
+                    keyboardType: TextInputType.emailAddress,
                     controller: _emailController,
-                    onChanged: (value) {
-                      _emailController.text = value;
-                    },
-                    suffixIcon: const Icon(Icons.mail),
-                    keyboardType: TextInputType.text,
                     validator: (value) {
-                      if (value!.isEmpty) {
+                      if (value == null || value.trim().isEmpty) {
                         return AppStrings.pleaseEnterYourEmail;
+                      }
+                      if (!value.contains('@')) {
+                        return 'البريد الإلكتروني غير صالح';
                       }
                       return null;
                     },
@@ -151,15 +131,14 @@ class _SigninBodyWidgetState extends State<SigninBodyWidget> {
                   verticalSpace(20),
                   MyTextFormField(
                     hintText: AppStrings.password,
-                    isObscure: true,
-                    suffixIcon: const Icon(Icons.visibility_off),
+                    isPassword: true,
                     controller: _passwordController,
-                    onChanged: (value) {
-                      _passwordController.text = value;
-                    },
                     validator: (value) {
-                      if (value!.isEmpty) {
+                      if (value == null || value.isEmpty) {
                         return AppStrings.pleaseEnterYourPassword;
+                      }
+                      if (value.length < 6) {
+                        return 'يجب أن تتكون كلمة المرور من 6 أحرف على الأقل';
                       }
                       return null;
                     },
@@ -167,43 +146,33 @@ class _SigninBodyWidgetState extends State<SigninBodyWidget> {
                   verticalSpace(20),
                   MyTextFormField(
                     hintText: AppStrings.confarmPassword,
-                    isObscure: true,
-                    suffixIcon: const Icon(Icons.visibility_off),
-                    controller: _confarmPasswordController,
-                    onChanged: (value) {
-                      _confarmPasswordController.text = value;
-                    },
+                    isPassword: true,
+                    controller: _confirmPasswordController,
                     validator: (value) {
-                      if (value!.isEmpty) {
+                      if (value == null || value.isEmpty) {
                         return AppStrings.pleaseEnterYourConfarmPassword;
+                      }
+                      if (value != _passwordController.text) {
+                        return 'كلمة المرور غير متطابقة';
                       }
                       return null;
                     },
                   ),
-                  verticalSpace(20),
+                  verticalSpace(30),
                   Primarybutton(
-                    buttontext: AppStrings.login,
+                    buttontext: 'تسجيل',
                     buttoncolor: AppColors.primarycolor,
                     hight: 48.h,
                     borderrediuse: 50.r,
                     textcolor: Colors.white,
                     onpress: () {
-                      // if (_formKey.currentState!.validate()) {
-                      //   context.read<SigninUserCubit>().register(
-                      //     name: _nameController.text,
-                      //     phone: _phoneController.text,
-                      //     email: _emailController.text,
-                      //     password: _passwordController.text,
-                      //     passwordConfirmation: _confarmPasswordController.text,
-                      //   );
-                      // }
                       if (_formKey.currentState?.validate() ?? false) {
                         context.read<SigninUserCubit>().register(
-                          name: _nameController.text,
-                          phone: _phoneController.text,
-                          email: _emailController.text,
-                          password: _passwordController.text,
-                          passwordConfirmation: _confarmPasswordController.text,
+                          name: _nameController.text.trim(),
+                          phone: _phoneController.text.trim(),
+                          email: _emailController.text.trim(),
+                          password: _passwordController.text.trim(),
+                          passwordConfirmation: _confirmPasswordController.text.trim(),
                         );
                       }
                     },

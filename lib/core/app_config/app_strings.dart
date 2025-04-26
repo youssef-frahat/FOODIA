@@ -39,4 +39,8 @@ class AppStrings {
       "الرجاء ادخال تأكيد كلمة المرور";
   static const String otpVerified = "تم التحقق من الرمز بنجاح";
   static const String codeIsInvalid = " الرمز غير صحيح";
+  static const String forgotPasswordtex = "إعادة تعيين كلمة السر";
+  static const String forgotPasswordBody = 
+     "ادخل رقم الهاتف المرتبط بحسابك وسنرسل اليك رمز \n             لإعادة تعيين كلمة المرور الخاصة بك";
+  static const String sendCode = "ارسال الرمز";
 }

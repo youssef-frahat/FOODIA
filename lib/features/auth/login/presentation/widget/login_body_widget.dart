@@ -28,9 +28,11 @@ class LoginBodyWidget extends StatefulWidget {
 }
 
 class _LoginBodyWidgetState extends State<LoginBodyWidget> {
-  late TextEditingController _phoneController, _passwordController;
   final _formKey = GlobalKey<FormState>();
-  bool _isRememberMeChecked = false;
+  late TextEditingController _phoneController;
+  late TextEditingController _passwordController;
+  bool _isRememberMeChecked = true;
+
   @override
   void initState() {
     super.initState();
@@ -40,9 +42,9 @@ class _LoginBodyWidgetState extends State<LoginBodyWidget> {
 
   @override
   void dispose() {
-    super.dispose();
     _phoneController.dispose();
     _passwordController.dispose();
+    super.dispose();
   }
 
   @override
@@ -54,10 +56,11 @@ class _LoginBodyWidgetState extends State<LoginBodyWidget> {
           if (state is LoginUserLoading) {
             AppMessages.showLoading(context);
           } else if (state is LoginUserSuccess) {
+            Navigator.of(context).pop();
             AppMessages.showSuccess(context, AppStrings.loginSuccess);
             context.go(AppRoutes.bottomNavBar);
           } else if (state is LoginUserError) {
-            Navigator.of(context, rootNavigator: true).pop();
+            Navigator.of(context).pop();
             AppMessages.showError(context, state.error);
             log("error from state ${state.error}");
           }
@@ -66,7 +69,7 @@ class _LoginBodyWidgetState extends State<LoginBodyWidget> {
           return Form(
             key: _formKey,
             child: Padding(
-              padding: EdgeInsetsDirectional.symmetric(horizontal: 16.w),
+              padding: EdgeInsets.symmetric(horizontal: 16.w),
               child: ListView(
                 children: [
                   verticalSpace(120),
@@ -85,13 +88,14 @@ class _LoginBodyWidgetState extends State<LoginBodyWidget> {
                   verticalSpace(70),
                   MyTextFormField(
                     hintText: AppStrings.phone,
-                    isObscure: false,
-                    suffixIcon: const Icon(Icons.phone),
                     controller: _phoneController,
                     keyboardType: TextInputType.phone,
                     validator: (value) {
-                      if (value!.isEmpty) {
+                      if (value == null || value.trim().isEmpty) {
                         return AppStrings.pleaseEnterYourPhone;
+                      }
+                      if (value.length < 10) {
+                        return 'رقم الهاتف يجب أن يكون 10 أرقام على الأقل';
                       }
                       return null;
                     },
@@ -99,12 +103,14 @@ class _LoginBodyWidgetState extends State<LoginBodyWidget> {
                   verticalSpace(20),
                   MyTextFormField(
                     hintText: AppStrings.password,
-                    isObscure: true,
-                    suffixIcon: const Icon(Icons.visibility_off),
+                    isPassword: true,
                     controller: _passwordController,
                     validator: (value) {
-                      if (value!.isEmpty) {
+                      if (value == null || value.trim().isEmpty) {
                         return AppStrings.pleaseEnterYourPassword;
+                      }
+                      if (value.length < 6) {
+                        return 'كلمة المرور يجب أن تكون 6 أحرف أو أكثر';
                       }
                       return null;
                     },
@@ -121,7 +127,6 @@ class _LoginBodyWidgetState extends State<LoginBodyWidget> {
                   Primarybutton(
                     buttontext: AppStrings.login,
                     buttoncolor: AppColors.primarycolor,
-
                     hight: 48.h,
                     borderrediuse: 50.r,
                     textcolor: Colors.white,
@@ -135,8 +140,8 @@ class _LoginBodyWidgetState extends State<LoginBodyWidget> {
                       }
                       if (_formKey.currentState!.validate()) {
                         context.read<LoginUserCubit>().login(
-                          phone: _phoneController.text,
-                          password: _passwordController.text,
+                          phone: _phoneController.text.trim(),
+                          password: _passwordController.text.trim(),
                         );
                       }
                     },

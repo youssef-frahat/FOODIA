@@ -5,5 +5,6 @@ class EndPoints {
   static String login = "$_baseUrl/login";
 
   static String register = "$_baseUrl/register";
-  static String sendOtpCode = "$_baseUrl/verify-otp";
+  static String verifyOtp = "$_baseUrl/verify-otp";
+  static String resend = "$_baseUrl/resend-code";
 }

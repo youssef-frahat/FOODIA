@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
 
 import '../../../../../core/app_config/app_strings.dart';
 import '../../../../../core/app_config/font_styles.dart';
+import '../../../../../core/routing/app_routes.dart';
 
 class RememberMeRow extends StatefulWidget {
   final ValueChanged<bool> onRememberChanged;
@@ -13,7 +15,7 @@ class RememberMeRow extends StatefulWidget {
 }
 
 class _RememberMeRowState extends State<RememberMeRow> {
-  bool isRememberMe = false;
+  bool isRememberMe = true;
 
   @override
   Widget build(BuildContext context) {
@@ -21,7 +23,9 @@ class _RememberMeRowState extends State<RememberMeRow> {
       crossAxisAlignment: CrossAxisAlignment.center,
       children: [
         TextButton(
-          onPressed: () {},
+          onPressed: () {
+            context.pushNamed(AppRoutes.forgetpassword);
+          },
           child: Text(AppStrings.forgotPassword, style: FontStyles.body15W400),
         ),
         Row(
@@ -32,7 +36,7 @@ class _RememberMeRowState extends State<RememberMeRow> {
               value: isRememberMe,
               onChanged: (value) {
                 setState(() {
-                  isRememberMe = value ?? false;
+                  isRememberMe = value ?? true;
                 });
                 widget.onRememberChanged(isRememberMe);
               },

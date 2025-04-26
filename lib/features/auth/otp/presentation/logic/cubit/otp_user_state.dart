@@ -9,6 +9,18 @@ sealed class OtpUserState extends Equatable {
 
 final class OtpUserInitial extends OtpUserState {}
 
+final class SendOtpCodeLoading extends OtpUserState {}
+
+final class SendOtpCodeSuccess extends OtpUserState {}
+
+final class SendOtpCodeError extends OtpUserState {
+  final String error;
+
+  const SendOtpCodeError(this.error);
+
+  @override
+  List<Object> get props => [error];
+}
 
 final class ValidateOtpCodeLoading extends OtpUserState {}
 

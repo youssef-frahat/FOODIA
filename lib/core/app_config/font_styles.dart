@@ -20,4 +20,16 @@ abstract class FontStyles {
     fontWeight: FontWeight.w400,
     fontFamily: 'Changa',
   );
+  static final body28W600 = TextStyle(
+    fontSize: 28.sp,
+    color: const Color(0xFF000000),
+    fontWeight: FontWeight.w600,
+    fontFamily: 'Changa',
+  );
+  static final body15W300 = TextStyle(
+    fontSize: 15.sp,
+    color: const Color(0xFF000000),
+    fontWeight: FontWeight.w300,
+    fontFamily: 'Changa',
+  );
 }

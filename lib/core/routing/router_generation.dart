@@ -6,6 +6,7 @@ import 'package:foodia_app/features/on_boarding/on_boarding1.dart';
 import 'package:foodia_app/core/witgets/bottom_navigation_bar/custom_button_nav_bar.dart';
 import 'package:foodia_app/features/home/presentation/screens/home_screen.dart';
 
+import '../../features/auth/forgotPassword/presentation/screen/forgotPassword_screen.dart';
 import '../../features/auth/login/presentation/screen/login_screen.dart';
 import '../../features/auth/otp/presentation/screen/otp_screen.dart';
 import '../../features/auth/signin/presentation/screens/signin_screen.dart';
@@ -40,6 +41,20 @@ class RouterGeneration {
           }
           return _buildTransitionPage(
             OtpScreen(phoneNumber: phoneNumber),
+            state,
+          );
+        },
+      ),
+       GoRoute(
+        path: AppRoutes.forgetpassword,
+        name: AppRoutes.forgetpassword, 
+        pageBuilder: (context, state) {
+          // final phoneNumber = state.extra;
+          // if (phoneNumber is! String || phoneNumber.isEmpty) {
+          //   return _errorPage("Phone number is missing");
+          // }
+          return _buildTransitionPage(
+            ForgotpasswordScreen(),
             state,
           );
         },
