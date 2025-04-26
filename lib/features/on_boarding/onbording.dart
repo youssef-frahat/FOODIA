@@ -102,7 +102,7 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
             right: 20,
             child: TextButton(
               onPressed: () {
-              GoRouter.of(context).goNamed(AppRoutes.bottomNavBar);
+                GoRouter.of(context).goNamed(AppRoutes.login);
               },
               child: Text(
                 "تخطي", // "Skip" in Arabic
@@ -140,7 +140,7 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
                 _currentPage == _onboardingItems.length - 1
                     ? ElevatedButton(
                       onPressed: () {
-                       GoRouter.of(context).goNamed(AppRoutes.bottomNavBar);
+                        GoRouter.of(context).goNamed(AppRoutes.login);
                       },
                       style: ElevatedButton.styleFrom(
                         backgroundColor: Color(

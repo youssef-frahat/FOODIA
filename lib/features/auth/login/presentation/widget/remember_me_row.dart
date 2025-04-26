@@ -1,0 +1,56 @@
+import 'package:flutter/material.dart';
+
+import '../../../../../core/app_config/app_strings.dart';
+import '../../../../../core/app_config/font_styles.dart';
+
+class RememberMeRow extends StatefulWidget {
+  final ValueChanged<bool> onRememberChanged;
+
+  const RememberMeRow({super.key, required this.onRememberChanged});
+
+  @override
+  State<RememberMeRow> createState() => _RememberMeRowState();
+}
+
+class _RememberMeRowState extends State<RememberMeRow> {
+  bool isRememberMe = false;
+
+  @override
+  Widget build(BuildContext context) {
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.center,
+      children: [
+        TextButton(
+          onPressed: () {},
+          child: Text(AppStrings.forgotPassword, style: FontStyles.body15W400),
+        ),
+        Row(
+          crossAxisAlignment: CrossAxisAlignment.center,
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            Checkbox(
+              value: isRememberMe,
+              onChanged: (value) {
+                setState(() {
+                  isRememberMe = value ?? false;
+                });
+                widget.onRememberChanged(isRememberMe);
+              },
+              activeColor: Colors.black,
+              checkColor: Colors.white,
+            ),
+            Text(
+              AppStrings.rememberMe,
+              style: TextStyle(
+                fontFamily: 'Changa',
+                fontSize: 14,
+
+                color: Color(0xFFEA834B),
+              ),
+            ),
+          ],
+        ),
+      ],
+    );
+  }
+}

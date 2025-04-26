@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
-import 'package:foodia_app/core/styling/app_assets.dart';
+import 'package:foodia_app/core/app_config/app_assets.dart';
 
 import '../widget/home_view_body.dart';
 
@@ -9,23 +9,25 @@ class HomeScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return  Scaffold(
+    return Scaffold(
       appBar: AppBar(
         elevation: 0,
         backgroundColor: Color(0xFFF8F8F8),
-      actions: [
-        IconButton(
-          icon:  SvgPicture.asset(AppAssets.cartSvg),
-          onPressed: () {
-          },
-        ),
-        IconButton(
-          icon: const Icon(Icons.notifications_none_outlined,color: Colors.black,),
-          onPressed: () {
-            // Handle notification button press
-          },
-        ),
-      ],
+        actions: [
+          IconButton(
+            icon: SvgPicture.asset(AppAssets.cartSvg),
+            onPressed: () {},
+          ),
+          IconButton(
+            icon: const Icon(
+              Icons.notifications_none_outlined,
+              color: Colors.black,
+            ),
+            onPressed: () {
+              // Handle notification button press
+            },
+          ),
+        ],
       ),
       body: HomeViewBody(),
     );

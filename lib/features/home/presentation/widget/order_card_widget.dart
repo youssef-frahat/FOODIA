@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import '../../../../core/styling/font_styles.dart';
+import '../../../../core/app_config/font_styles.dart';
 
 class OrderWidget extends StatelessWidget {
   const OrderWidget({super.key});
@@ -16,7 +16,6 @@ class OrderWidget extends StatelessWidget {
         border: Border.all(color: const Color(0xFFF8A435), width: 1.8.w),
       ),
       child: Row(
-          
         children: [
           Expanded(
             child: Column(
@@ -24,12 +23,12 @@ class OrderWidget extends StatelessWidget {
               mainAxisSize: MainAxisSize.min,
               children: [
                 Padding(
-                 padding: EdgeInsets.symmetric(
-                    horizontal: 5.w,
-                  ),
+                  padding: EdgeInsets.symmetric(horizontal: 5.w),
                   child: CircleAvatar(
                     radius: 22.r,
-                    backgroundImage: NetworkImage("https://imgs.search.brave.com/-5pN5wyhnDIqh4z1UAVEL7ok8v6g7GAy5Qql7KgWT1A/rs:fit:500:0:0:0/g:ce/aHR0cHM6Ly9pLnBp/bmltZy5jb20vb3Jp/Z2luYWxzLzVmLzlj/LzkxLzVmOWM5MWZj/MmRmM2VkYjM5NGRl/NWFhMmRkNTFlNDA4/LmpwZw"),
+                    backgroundImage: NetworkImage(
+                      "https://imgs.search.brave.com/-5pN5wyhnDIqh4z1UAVEL7ok8v6g7GAy5Qql7KgWT1A/rs:fit:500:0:0:0/g:ce/aHR0cHM6Ly9pLnBp/bmltZy5jb20vb3Jp/Z2luYWxzLzVmLzlj/LzkxLzVmOWM5MWZj/MmRmM2VkYjM5NGRl/NWFhMmRkNTFlNDA4/LmpwZw",
+                    ),
                   ),
                 ),
                 SizedBox(height: 8.h),
@@ -42,14 +41,11 @@ class OrderWidget extends StatelessWidget {
                 ),
                 SizedBox(height: 16.h),
                 Container(
-                  
                   decoration: const BoxDecoration(
                     color: Colors.black,
                     shape: BoxShape.circle,
                   ),
-                  padding: EdgeInsets.symmetric(
-                    horizontal: 15.w,
-                  ),
+                  padding: EdgeInsets.symmetric(horizontal: 15.w),
                   child: Icon(Icons.add, color: Colors.white, size: 20.sp),
                 ),
               ],
@@ -87,7 +83,7 @@ class OrderWidget extends StatelessWidget {
                     color: const Color(0xFFFE8C00),
                   ),
                 ),
-                
+
                 Text(
                   "120ج.م",
                   style: TextStyle(

@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:foodia_app/core/styling/app_colors.dart';
-import 'package:foodia_app/core/styling/app_fonts.dart';
+import 'package:foodia_app/core/app_config/app_colors.dart';
+import 'package:foodia_app/core/app_config/app_fonts.dart';
 
 class Primarybutton extends StatelessWidget {
   final String? buttontext;
@@ -24,7 +24,7 @@ class Primarybutton extends StatelessWidget {
     this.textcolor,
     this.onpress,
     this.fontsize,
-    this.fontWeight
+    this.fontWeight,
   });
 
   @override
@@ -43,7 +43,7 @@ class Primarybutton extends StatelessWidget {
         style: TextStyle(
           color: textcolor ?? Colors.white,
           fontFamily: AppFonts.mainfontsname,
-          fontWeight: fontWeight ,
+          fontWeight: fontWeight,
           fontSize: fontsize ?? 16.sp,
         ),
       ),

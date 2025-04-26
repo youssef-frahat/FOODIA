@@ -1,31 +1,18 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:foodia_app/core/styling/app_colors.dart';
+import 'package:flutter_svg/svg.dart';
+import 'package:foodia_app/core/app_config/app_icons.dart';
 
-class WigetBack extends StatelessWidget {
+class CustomWigetArrowBack extends StatelessWidget {
   final void Function()? onpress;
-  const WigetBack({super.key, this.onpress});
+  const CustomWigetArrowBack({super.key, this.onpress});
 
   @override
   Widget build(BuildContext context) {
-    return Padding(
-      padding: const EdgeInsets.all(5),
-      child: Container(
-        height: 50.h,
-        width: 50.w,
-        decoration: BoxDecoration(
-          color: AppColors.primarycolor,
-          border: Border.all(color: AppColors.primarycolor),
-          borderRadius: BorderRadius.circular(20),
-        ),
-        child: Center(
-          child: IconButton(
-            onPressed: onpress,
-            icon: Icon(Icons.arrow_back),
-            color: Colors.white,
-          ),
-        ),
-      ),
+    return Row(
+      mainAxisAlignment: MainAxisAlignment.end,
+      children: [
+        IconButton(onPressed: onpress, icon: SvgPicture.asset(AppIcons.arrow)),
+      ],
     );
   }
 }

@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
-import '../styling/app_assets.dart';
+import '../app_config/app_assets.dart';
 
 class SpecialOfferCard extends StatelessWidget {
   const SpecialOfferCard({super.key});
@@ -19,7 +19,7 @@ class SpecialOfferCard extends StatelessWidget {
         //   begin: Alignment.topLeft,
         //   end: Alignment.bottomRight,
         // ),
-        image:  DecorationImage(
+        image: DecorationImage(
           image: AssetImage(AppAssets.ads),
           fit: BoxFit.cover,
           alignment: Alignment.centerRight,

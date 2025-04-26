@@ -3,12 +3,13 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:foodia_app/core/routing/router_generation.dart';
 
+import 'core/di/dependency_injection.dart';
 import 'core/locale/locales.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await EasyLocalization.ensureInitialized();
-
+  setupGetIt();
   runApp(
     EasyLocalization(
       startLocale: AppLocales.supportedLocales.first,
@@ -19,7 +20,6 @@ void main() async {
     ),
   );
 }
-
 
 class Foodia extends StatelessWidget {
   const Foodia({super.key});

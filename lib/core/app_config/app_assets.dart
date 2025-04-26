@@ -8,5 +8,7 @@ class AppAssets {
   static final String newpass = "assets/images/newpass.png";
   static final String cartSvg = "assets/icons/cart.svg";
   static final String filtrtSvg = "assets/icons/filter.svg";
+  static final String otpBackground = "assets/images/otpBackground.png";
+  static final String otpBackground1 = "assets/images/otpBackground1.png";
   static final String ads = "assets/images/ads.png";
 }

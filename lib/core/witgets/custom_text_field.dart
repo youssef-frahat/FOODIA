@@ -1,64 +1,62 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_screenutil/flutter_screenutil.dart';
+import '../app_config/app_colors.dart';
+import '../app_config/font_styles.dart';
 
-class CustomTextField extends StatelessWidget {
-  final String? hintText;
-  final Widget? sufixicon;
-  final double? width;
-  final double? hight;
-  final IconData? iconfeild;
-  final Color? feildcolor;
-  final bool? obscureText;
+class MyTextFormField extends StatelessWidget {
+  final String hintText;
+  final Widget? suffixIcon;
+  final TextInputType? keyboardType;
+  final bool isObscure;
   final TextEditingController? controller;
   final String? Function(String?)? validator;
+  final void Function(String)? onChanged;
+  final void Function(String)? onFieldSubmitted;
+  final int maxLines;
+  final TextInputAction? textInputAction;
+  final bool enabled;
 
-  const CustomTextField({
+  const MyTextFormField({
     super.key,
-    this.hintText,
-    this.sufixicon,
-    this.width,
-    this.hight,
-    this.iconfeild,
-    this.feildcolor,
+    required this.hintText,
+    this.suffixIcon,
+    required this.isObscure,
     this.controller,
     this.validator,
-    this.obscureText,
+    this.keyboardType,
+    this.onChanged,
+    this.onFieldSubmitted,
+    this.maxLines = 1,
+    this.textInputAction,
+    this.enabled = true,
   });
 
   @override
   Widget build(BuildContext context) {
-    return SizedBox(
-      width: width ?? 358.w,
-      height: hight ?? 90.h,
-      child: Padding(
-        padding: const EdgeInsets.only(bottom: 10),
-        child: TextFormField(
-          //=======================
-          controller: controller,
-          validator: validator,
-          //==========================
-          obscureText: obscureText ?? false,
-          decoration: InputDecoration(
-            hintText: hintText,
-            hintStyle: TextStyle(
-              color: Colors.black38,
-              fontWeight: FontWeight.bold,
-              fontSize: 20,
-            ),
-
-            border: OutlineInputBorder(
-              borderRadius: BorderRadius.circular(20),
-              borderSide: BorderSide.none,
-            ),
-            errorBorder: OutlineInputBorder(
-              borderRadius: BorderRadius.circular(20),
-              borderSide: BorderSide.none,
-            ),
-
-            fillColor: feildcolor ?? Color(0xffFFD2B1),
-            filled: true,
-            suffixIcon: sufixicon,
-          ),
+    return TextFormField(
+      controller: controller,
+      validator: validator,
+      obscureText: isObscure,
+      keyboardType: keyboardType,
+      onChanged: onChanged,
+      onFieldSubmitted: onFieldSubmitted,
+      maxLines: maxLines,
+      textInputAction: textInputAction,
+      enabled: enabled,
+      decoration: InputDecoration(
+        suffixIcon: suffixIcon,
+        filled: true,
+        fillColor: Colors.white,
+        hintText: hintText,
+        hintStyle: FontStyles.body14W500.copyWith(
+          color: AppColors.secoundrycolor,
+        ),
+        focusedBorder: OutlineInputBorder(
+          borderRadius: BorderRadius.circular(16.0),
+          borderSide: const BorderSide(color: Colors.orange, width: 2.0),
+        ),
+        enabledBorder: OutlineInputBorder(
+          borderRadius: BorderRadius.circular(16.0),
+          borderSide: const BorderSide(color: Colors.orange, width: 2.0),
         ),
       ),
     );

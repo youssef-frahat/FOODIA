@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-import '../styling/app_colors.dart';
+import '../app_config/app_colors.dart';
 
 class WitgetAppbar extends StatelessWidget {
   final void Function()? onpress;

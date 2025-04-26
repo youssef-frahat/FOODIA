@@ -2,10 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 
-import '../../styling/app_icons.dart';
+import '../../app_config/app_icons.dart';
 import '../../../features/home/presentation/screens/home_screen.dart';
-
-
 
 class BottomNavBar extends StatefulWidget {
   const BottomNavBar({super.key});
@@ -66,8 +64,8 @@ class _BottomNavBarState extends State<BottomNavBar> {
                   Text(
                     item['label']!,
                     style: TextStyle(
-                      color: isSelected ? Colors.orange: Colors.grey,
-                      
+                      color: isSelected ? Colors.orange : Colors.grey,
+
                       fontSize: isSelected ? 14.sp : 12.sp,
                     ),
                   ),
@@ -92,25 +90,10 @@ class _BottomNavBarState extends State<BottomNavBar> {
   }
 
   List<Map<String, String>> get _navItems => [
-        {
-          'icon': AppIcons.home,
-          'label': 'الرئيسية',
-        },
-        {
-          'icon': AppIcons.approved,
-          'label': 'اتابعة',
-        },
-         {
-          'icon': AppIcons.cart,
-          'label': 'طلباتي',
-        },
-        {
-          'icon': AppIcons.wallet,
-          'label': 'المحفظة',
-        },
-        {
-          'icon': AppIcons.profile,
-          'label': 'حسابي',
-        },
-      ];
+    {'icon': AppIcons.home, 'label': 'الرئيسية'},
+    {'icon': AppIcons.approved, 'label': 'اتابعة'},
+    {'icon': AppIcons.cart, 'label': 'طلباتي'},
+    {'icon': AppIcons.wallet, 'label': 'المحفظة'},
+    {'icon': AppIcons.profile, 'label': 'حسابي'},
+  ];
 }

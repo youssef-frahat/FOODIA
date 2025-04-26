@@ -1,11 +1,12 @@
 import 'package:flutter/material.dart';
 
 import 'package:foodia_app/core/routing/app_routes.dart';
-import 'package:foodia_app/core/styling/app_assets.dart';
+import 'package:foodia_app/core/app_config/app_assets.dart';
 
-import 'package:foodia_app/core/styling/app_styling.dart';
 import 'package:foodia_app/core/witgets/primary_button.dart';
 import 'package:go_router/go_router.dart';
+
+import '../../core/app_config/app_fonts.dart';
 
 class OnBoarding1 extends StatelessWidget {
   const OnBoarding1({super.key});
@@ -33,9 +34,16 @@ class OnBoarding1 extends StatelessWidget {
             right: 20,
             child: TextButton(
               onPressed: () {
-                GoRouter.of(context).pushReplacementNamed(AppRoutes.bottomNavBar);
+                GoRouter.of(context).pushReplacementNamed(AppRoutes.login);
               },
-              child: Text("Skip", style: AppStyling.primarytextstyle),
+              child: Text(
+                "Skip",
+                style: TextStyle(
+                  color: Colors.white,
+                  fontSize: 20,
+                  fontFamily: AppFonts.mainfontsname,
+                ),
+              ),
             ),
           ),
 
@@ -63,7 +71,7 @@ class OnBoarding1 extends StatelessWidget {
             right: 20,
             child: Primarybutton(
               onpress: () {
-               GoRouter.of(context).pushReplacementNamed(AppRoutes.bottomNavBar);
+                GoRouter.of(context).pushReplacementNamed(AppRoutes.login);
               },
               buttontext: "Start Now",
               fontsize: 28,

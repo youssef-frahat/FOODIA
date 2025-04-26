@@ -21,7 +21,7 @@ class CategoriesList extends StatelessWidget {
             Text(
               "عرض الكل",
               style: TextStyle(
-                color: Color(0xFFB54427), 
+                color: Color(0xFFB54427),
                 fontWeight: FontWeight.bold,
                 fontFamily: 'Changa',
                 fontSize: 14.sp,
