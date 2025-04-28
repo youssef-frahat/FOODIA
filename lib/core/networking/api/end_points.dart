@@ -7,4 +7,5 @@ class EndPoints {
   static String register = "$_baseUrl/register";
   static String verifyOtp = "$_baseUrl/verify-otp";
   static String resend = "$_baseUrl/resend-code";
+  static String profile = "$_baseUrl/profile";
 }

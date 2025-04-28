@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 
+import '../../../features/profile/presentation/screen/profile_screen.dart';
 import '../../app_config/app_icons.dart';
 import '../../../features/home/presentation/screens/home_screen.dart';
 
@@ -20,6 +21,7 @@ class _BottomNavBarState extends State<BottomNavBar> {
     const SizedBox(),
     const SizedBox(),
     const SizedBox(),
+    const ProfileScreen(),
   ];
 
   void _onItemTapped(int index) {

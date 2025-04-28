@@ -8,4 +8,6 @@ class AppRoutes {
   static const String sucesspassword = "/sucess_pass";
   static const String otpScreen = "/otpScreen";
   static const String bottomNavBar = '/bottomNavBar';
+  static const String profileScreen = '/profileScreen';
+  static const String editProfileScreen = '/editProfileScreen';
 }
