@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:foodia_app/core/routing/app_routes.dart';
 import 'package:go_router/go_router.dart';
 
 import '../../../../../core/app_config/app_strings.dart';
@@ -12,6 +11,7 @@ import '../../../../../core/extensions/spacing.dart';
 import '../../../../../core/app_config/app_assets.dart';
 import '../../../../../core/app_config/app_colors.dart';
 
+import '../../../../../core/routing/app_routes.dart';
 import '../../../../../core/witgets/custom_text_field.dart';
 import '../../../../../core/witgets/primary_button.dart';
 import '../../../../../core/witgets/wiget_back.dart';
@@ -51,8 +51,8 @@ class _SigninBodyWidgetState extends State<SigninBodyWidget> {
           if (state is SigninUserLoading) {
             AppMessages.showLoading(context);
           } else if (state is SigninUserSuccess) {
-            Navigator.of(context).pop();
-            AppMessages.showSuccess(context, AppStrings.registerSuccess);
+            // Navigator.of(context).pop();
+            // AppMessages.showSuccess(context, AppStrings.registerSuccess);
             context.pushNamed(
               AppRoutes.otpScreen,
               extra: _phoneController.text.trim(),

@@ -49,10 +49,6 @@ class RouterGeneration {
         path: AppRoutes.forgetpassword,
         name: AppRoutes.forgetpassword, 
         pageBuilder: (context, state) {
-          // final phoneNumber = state.extra;
-          // if (phoneNumber is! String || phoneNumber.isEmpty) {
-          //   return _errorPage("Phone number is missing");
-          // }
           return _buildTransitionPage(
             ForgotpasswordScreen(),
             state,

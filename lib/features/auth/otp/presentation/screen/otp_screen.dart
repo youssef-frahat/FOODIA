@@ -6,7 +6,6 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:foodia_app/core/app_config/app_assets.dart';
 import 'package:foodia_app/core/di/dependency_injection.dart';
 import 'package:go_router/go_router.dart';
-import 'package:pin_code_fields/pin_code_fields.dart';
 
 import '../../../../../core/app_config/app_strings.dart';
 import '../../../../../core/app_config/messages.dart';
@@ -14,6 +13,7 @@ import '../../../../../core/extensions/spacing.dart';
 import '../../../../../core/routing/app_routes.dart';
 import '../../../../../core/witgets/wiget_back.dart';
 import '../logic/cubit/otp_user_cubit.dart';
+import 'widget/custome_pinput.dart';
 
 class OtpScreen extends StatefulWidget {
   final String phoneNumber;
@@ -147,35 +147,7 @@ class _OtpScreenState extends State<OtpScreen> {
                       style: const TextStyle(fontSize: 14, color: Colors.grey),
                     ),
                     verticalSpace(20),
-                    Directionality(
-                      textDirection: TextDirection.ltr,
-                      child: PinCodeTextField(
-                        appContext: context,
-                        controller: _otpController,
-                        length: otpLength,
-                        obscureText: false,
-                        animationType: AnimationType.fade,
-                        textStyle: const TextStyle(fontSize: 22),
-                        pinTheme: PinTheme(
-                          shape: PinCodeFieldShape.circle,
-                          fieldHeight: 60,
-                          fieldWidth: 60,
-                          inactiveColor: Colors.orange.shade100,
-                          selectedColor: Colors.orange,
-                          activeColor: Colors.orange,
-                        ),
-                        animationDuration: const Duration(milliseconds: 300),
-                        enableActiveFill: false,
-                        keyboardType: TextInputType.numberWithOptions(
-                          signed: false,
-                          decimal: false,
-                        ),
-                        onChanged: (value) {
-                          setState(() {});
-                        },
-                        textInputAction: TextInputAction.done,
-                      ),
-                    ),
+                    CustomPinput(otpController: _otpController),
                     verticalSpace(10),
                     Row(
                       mainAxisAlignment: MainAxisAlignment.center,
