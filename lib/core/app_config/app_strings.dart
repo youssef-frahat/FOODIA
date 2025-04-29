@@ -1,4 +1,6 @@
 class AppStrings {
+  static const String baseUrl = 
+      "https://mangamediaa.com/house-food/public/"; // Base URL for the API
   static const String login = 'تسجيل الدخول';
   static const String register = 'انشاء حساب';
   static const String login1 = "الدخول";

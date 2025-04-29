@@ -1,16 +1,21 @@
 import 'dart:io';
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 class CustomUploadImage extends StatelessWidget {
   final File? selectedImage;
   final VoidCallback onTap;
-final String? networkImage;
+  final String? networkImage;
+
   const CustomUploadImage({
     super.key,
     required this.selectedImage,
-    required this.onTap, this.networkImage,
+    required this.onTap,
+    this.networkImage,
   });
+
+  static const String _baseUrl = "https://mangamediaa.com/house-food/public/";
 
   @override
   Widget build(BuildContext context) {
@@ -30,44 +35,18 @@ final String? networkImage;
         child: Stack(
           alignment: Alignment.center,
           children: [
-           if (selectedImage != null)
-  ClipOval(
-    child: Image.file(
-      selectedImage!,
-      width: 120.w,
-      height: 120.h,
-      fit: BoxFit.cover,
-    ),
-  )
-else if (networkImage != null && networkImage!.isNotEmpty)
-  ClipOval(
-    child: Image.network(
-      networkImage!,
-      width: 120.w,
-      height: 120.h,
-      fit: BoxFit.cover,
-    ),
-  )
-else
-  Text(
-    "AR",
-    style: TextStyle(
-      fontSize: 22,
-      color: Colors.black,
-    ),
-  ),
-
+            _buildImage(),
             Positioned(
-              right: 140.w,
-              bottom: 0,
+              right: 8.w,
+              bottom: 8.h,
               child: Container(
                 width: 30.w,
                 height: 30.h,
-                decoration: BoxDecoration(
+                decoration: const BoxDecoration(
                   color: Colors.white,
                   shape: BoxShape.circle,
                 ),
-                child: Center(
+                child: const Center(
                   child: Icon(Icons.camera_alt, size: 20, color: Colors.orange),
                 ),
               ),
@@ -76,5 +55,54 @@ else
         ),
       ),
     );
+  }
+
+  Widget _buildImage() {
+    if (selectedImage != null) {
+      return ClipOval(
+        child: Image.file(
+          selectedImage!,
+          width: 120.w,
+          height: 120.h,
+          fit: BoxFit.cover,
+        ),
+      );
+    } else if (networkImage != null && networkImage!.isNotEmpty) {
+      final url = _formatNetworkImage(networkImage!);
+      return ClipOval(
+        child: CachedNetworkImage(
+          imageUrl: url,
+          width: 120.w,
+          height: 120.h,
+          fit: BoxFit.cover,
+          placeholder: (context, url) => Container(
+            width: 120.w,
+            height: 120.h,
+            alignment: Alignment.center,
+            child: const CircularProgressIndicator(),
+          ),
+          errorWidget: (context, url, error) => Container(
+            width: 120.w,
+            height: 120.h,
+            alignment: Alignment.center,
+            child: const Icon(Icons.broken_image, size: 40, color: Colors.grey),
+          ),
+        ),
+      );
+    } else {
+      return const Icon(
+        Icons.person,
+        size: 60,
+        color: Colors.grey,
+      );
+    }
+  }
+
+  String _formatNetworkImage(String path) {
+    if (path.startsWith('https')) {
+      return path;
+    } else {
+      return _baseUrl + path;
+    }
   }
 }

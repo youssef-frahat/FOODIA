@@ -110,13 +110,11 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
                       const AppBarEditProfile(),
                       verticalSpace(25),
                       CustomUploadImage(
-                        selectedImage:
-                            selectedImage == null
-                                ? (widget.image != null &&
-                                        widget.image!.isNotEmpty
-                                    ? File('')
-                                    : null)
-                                : File(selectedImage!.path),
+                        selectedImage: selectedImage == null
+      ? (widget.image != null && widget.image!.isNotEmpty
+          ? File(widget.image!)
+          : null)
+      : File(selectedImage!.path),
                         networkImage: widget.image,
                         onTap: () {
                           showModalBottomSheet(
@@ -127,7 +125,7 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
                                   children: [
                                     ListTile(
                                       leading: const Icon(Icons.camera),
-                                      title: const Text('Camera'),
+                                      title: const Text('الكاميرا'),
                                       onTap: () {
                                         _pickImage(ImageSource.camera);
                                         Navigator.pop(context);
@@ -135,7 +133,7 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
                                     ),
                                     ListTile(
                                       leading: const Icon(Icons.image),
-                                      title: const Text('Gallery'),
+                                      title: const Text('المعرض'),
                                       onTap: () {
                                         _pickImage(ImageSource.gallery);
                                         Navigator.pop(context);
@@ -146,6 +144,7 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
                           );
                         },
                       ),
+
                       verticalSpace(30),
                       MyTextFormField(
                         hintText: AppStrings.name,
@@ -195,8 +194,8 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
                         validator: (value) {
                           if (value != null &&
                               value.isNotEmpty &&
-                              value.length < 6) {
-                            return 'يجب أن تتكون كلمة المرور من 6 أحرف على الأقل';
+                              value.length < 8) {
+                            return 'يجب أن تتكون كلمة المرور من 8 أحرف على الأقل';
                           }
                           return null;
                         },
@@ -209,8 +208,8 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
                         validator: (value) {
                           if (value != null &&
                               value.isNotEmpty &&
-                              value.length < 6) {
-                            return 'يجب أن تتكون كلمة المرور من 6 أحرف على الأقل';
+                              value.length < 8) {
+                            return 'يجب أن تتكون كلمة المرور من 8 أحرف على الأقل';
                           }
                           return null;
                         },
@@ -263,12 +262,12 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
     );
   }
 
-  Future<void> _pickImage(imageSource) async {
-    final XFile? image = await picker.pickImage(source: imageSource);
+  Future<void> _pickImage(ImageSource source) async {
+    final XFile? image = await picker.pickImage(source: source);
     if (image == null) return;
 
     setState(() {
-      selectedImage = image;
+      selectedImage = image; 
     });
 
     String imagePath = selectedImage!.path.split('/').last;

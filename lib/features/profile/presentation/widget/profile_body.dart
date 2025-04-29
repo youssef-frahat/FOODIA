@@ -53,10 +53,13 @@ class ProfileBody extends StatelessWidget {
                         CircleAvatar(
                           radius: 60.r,
                           backgroundImage: NetworkImage(
-                            userProfile.image?.isNotEmpty == true
-                                ? userProfile.image!
-                                : "https://imgs.search.brave.com/CbGx149KMAUXiJtL17989JkvB2aupjBKAvcBtUva0Yc/rs:fit:860:0:0:0/g:ce/aHR0cHM6Ly90My5m/dGNkbi5uZXQvanBn/LzEyLzM1Lzc3LzY0/LzM2MF9GXzEyMzU3/NzY0NDFfakR5RHRZ/amNxdnhSV2RySnBv/aGp4b1YwRGRmdTVY/YWsuanBn",
-                          ),
+  userProfile.image?.isNotEmpty == true
+      ? (userProfile.image!.startsWith('http')
+          ? userProfile.image!
+          : AppStrings.baseUrl + userProfile.image!)
+      : "https://imgs.search.brave.com/CbGx149KMAUXiJtL17989JkvB2aupjBKAvcBtUva0Yc/rs:fit:860:0:0:0/g:ce/aHR0cHM6Ly90My5m/dGNkbi5uZXQvanBn/LzEyLzM1Lzc3LzY0/LzM2MF9GXzEyMzU3/NzY0NDFfakR5RHRZ/amNxdnhSV2RySnBv/aGp4b1YwRGRmdTVY/YWsuanBn"
+)
+
                         ),
                         verticalSpace(12),
                         Text(

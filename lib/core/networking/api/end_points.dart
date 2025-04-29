@@ -1,6 +1,8 @@
 class EndPoints {
   static const String _baseUrl =
       "https://mangamediaa.com/house-food/public/api";
+static const String baseUrlImage =
+      "https://mangamediaa.com/house-food/public/";
 
   static String login = "$_baseUrl/login";
 
