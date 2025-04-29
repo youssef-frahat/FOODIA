@@ -2,8 +2,12 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:foodia_app/core/di/dependency_injection.dart';
+import 'package:go_router/go_router.dart';
+
+import '../../../../core/app_config/app_strings.dart';
 import '../../../../core/app_config/messages.dart';
 import '../../../../core/extensions/spacing.dart';
+import '../../../../core/routing/app_routes.dart';
 import '../logic/cubit/user_profile_cubit.dart';
 import 'profile_field.dart';
 
@@ -20,29 +24,23 @@ class ProfileBody extends StatelessWidget {
       },
       child: BlocConsumer<UserProfileCubit, UserProfileState>(
         listener: (context, state) {
-          if (state is UserProfileLoading) {
-            WidgetsBinding.instance.addPostFrameCallback((_) {
-              AppMessages.showLoading(context);
-            });
-          } else if (state is UserProfileError) {
-            WidgetsBinding.instance.addPostFrameCallback((_) {
-              if (Navigator.canPop(context)) {
-                Navigator.of(context, rootNavigator: true).pop();
-              }
-              AppMessages.showError(context, state.error);
-            });
-          } else if (state is UserProfileLoaded) {
-            WidgetsBinding.instance.addPostFrameCallback((_) {
-              if (Navigator.canPop(context)) {
-                Navigator.of(context, rootNavigator: true).pop();
-              }
-            });
+          if (state is UserProfileError) {
+            AppMessages.showError(context, state.error);
+          } else if (state is LogoutError) {
+            AppMessages.showError(context, state.error);
+          } else if (state is LogoutSuccess) {
+            AppMessages.showSuccess(context, AppStrings.logoutSuccess);
+            context.go(AppRoutes.login);
           }
         },
-
         builder: (context, state) {
           if (state is UserProfileLoaded) {
             final userProfile = state.userProfile.data;
+
+            if (userProfile == null) {
+              return const Center(child: Text('لا توجد بيانات متاحة'));
+            }
+
             return ListView(
               padding: EdgeInsets.symmetric(horizontal: 20.w),
               children: [
@@ -55,14 +53,14 @@ class ProfileBody extends StatelessWidget {
                         CircleAvatar(
                           radius: 60.r,
                           backgroundImage: NetworkImage(
-                            userProfile?.image?.isNotEmpty == true
-                                ? userProfile!.image!
+                            userProfile.image?.isNotEmpty == true
+                                ? userProfile.image!
                                 : "https://imgs.search.brave.com/CbGx149KMAUXiJtL17989JkvB2aupjBKAvcBtUva0Yc/rs:fit:860:0:0:0/g:ce/aHR0cHM6Ly90My5m/dGNkbi5uZXQvanBn/LzEyLzM1Lzc3LzY0/LzM2MF9GXzEyMzU3/NzY0NDFfakR5RHRZ/amNxdnhSV2RySnBv/aGp4b1YwRGRmdTVY/YWsuanBn",
                           ),
                         ),
                         verticalSpace(12),
                         Text(
-                          userProfile?.name ?? 'اسم غير متوفر',
+                          userProfile.name ?? 'اسم غير متوفر',
                           style: TextStyle(
                             fontWeight: FontWeight.bold,
                             fontSize: 18.sp,
@@ -71,7 +69,7 @@ class ProfileBody extends StatelessWidget {
                         ),
                         verticalSpace(4),
                         Text(
-                          userProfile?.email ?? 'البريد الإلكتروني غير متوفر',
+                          userProfile.email ?? 'البريد الإلكتروني غير متوفر',
                           style: TextStyle(fontSize: 14.sp, color: Colors.grey),
                           textAlign: TextAlign.center,
                         ),
@@ -80,16 +78,29 @@ class ProfileBody extends StatelessWidget {
                     Positioned(
                       bottom: 10.h,
                       right: 60,
-                      child: Container(
-                        padding: EdgeInsets.all(6.w),
-                        decoration: BoxDecoration(
-                          shape: BoxShape.circle,
-                          color: Colors.orange.withOpacity(0.2),
-                        ),
-                        child: Icon(
-                          Icons.edit,
-                          size: 16.sp,
-                          color: Colors.orange,
+                      child: GestureDetector(
+                        onTap: () {
+                          context.pushNamed(
+                            AppRoutes.editProfileScreen,
+                            extra: {
+                              'name': userProfile.name ?? '',
+                              'email': userProfile.email ?? '',
+                              'phone': userProfile.phone ?? '',
+                              'image': userProfile.image ?? '',
+                            },
+                          );
+                        },
+                        child: Container(
+                          padding: EdgeInsets.all(6.w),
+                          decoration: BoxDecoration(
+                            shape: BoxShape.circle,
+                            color: Colors.orange.withOpacity(0.2),
+                          ),
+                          child: Icon(
+                            Icons.edit,
+                            size: 16.sp,
+                            color: Colors.orange,
+                          ),
                         ),
                       ),
                     ),
@@ -98,32 +109,27 @@ class ProfileBody extends StatelessWidget {
                 verticalSpace(30),
                 ProfileField(
                   title: 'الاسم:',
-                  value: userProfile?.name ?? 'اسم غير متوفر',
+                  value: userProfile.name ?? 'اسم غير متوفر',
                 ),
                 ProfileField(
                   title: 'رقم الهاتف:',
-                  value: userProfile?.phone ?? 'رقم الهاتف غير متوفر',
+                  value: userProfile.phone ?? 'رقم الهاتف غير متوفر',
                 ),
                 ProfileField(
                   title: 'البريد الالكتروني:',
-                  value: userProfile?.email ?? 'البريد الإلكتروني غير متوفر',
+                  value: userProfile.email ?? 'البريد الإلكتروني غير متوفر',
                 ),
                 ProfileField(
-                  title: 'الرصيد :',
-                  value: userProfile?.wallet ?? 'الرصيد غير متوفر',
+                  title: 'الرصيد:',
+                  value: userProfile.wallet ?? 'الرصيد غير متوفر',
                 ),
-                verticalSpace(40),
+                verticalSpace(60),
                 Padding(
                   padding: EdgeInsets.symmetric(horizontal: 40.w),
-                  child: ElevatedButton.icon(
+                  child: ElevatedButton(
                     onPressed: () {
-                      // إضافة المنطق الخاص بتسجيل الخروج هنا
+                      context.read<UserProfileCubit>().logout();
                     },
-                    icon: Icon(Icons.logout, color: Colors.red),
-                    label: Text(
-                      'تسجيل الخروج',
-                      style: TextStyle(color: Colors.red, fontSize: 16.sp),
-                    ),
                     style: ElevatedButton.styleFrom(
                       backgroundColor: Colors.transparent,
                       side: BorderSide(color: Colors.red, width: 2.0.w),
@@ -133,11 +139,28 @@ class ProfileBody extends StatelessWidget {
                       padding: EdgeInsets.symmetric(vertical: 14),
                       elevation: 0,
                     ),
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        Icon(Icons.logout, color: Colors.red),
+                        SizedBox(width: 8.w),
+                        Text(
+                          'تسجيل الخروج',
+                          style: TextStyle(color: Colors.red, fontSize: 16.sp),
+                        ),
+                      ],
+                    ),
                   ),
                 ),
                 verticalSpace(20),
               ],
             );
+          } else if (state is LogoutLoading) {
+            return const Center(child: CircularProgressIndicator());
+          } else if (state is UserProfileLoading) {
+            return const Center(child: CircularProgressIndicator());
+          } else if (state is UserProfileError) {
+            return Center(child: Text(state.error));
           } else {
             return const Center(child: CircularProgressIndicator());
           }

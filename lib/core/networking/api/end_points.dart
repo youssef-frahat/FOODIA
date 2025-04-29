@@ -8,4 +8,7 @@ class EndPoints {
   static String verifyOtp = "$_baseUrl/verify-otp";
   static String resend = "$_baseUrl/resend-code";
   static String profile = "$_baseUrl/profile";
+  static String updateProfile = "$_baseUrl/update-profile";
+  static String logout = "$_baseUrl/logout";
+  static String editProfile= "$_baseUrl/profile";
 }
