@@ -1,7 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-
-import '../../../../core/witgets/custom_divider.dart';
 import '../../../../core/witgets/custom_search_widget.dart';
 import '../../../../core/witgets/special_offer_section.dart';
 import 'categories_list.dart';

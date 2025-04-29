@@ -7,9 +7,9 @@ import 'core/di/dependency_injection.dart';
 import 'core/locale/locales.dart';
 
 void main() async {
+  setupGetIt();
   WidgetsFlutterBinding.ensureInitialized();
   await EasyLocalization.ensureInitialized();
-  setupGetIt();
   runApp(
     EasyLocalization(
       startLocale: AppLocales.supportedLocales.first,

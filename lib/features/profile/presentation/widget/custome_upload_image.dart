@@ -15,8 +15,6 @@ class CustomUploadImage extends StatelessWidget {
     this.networkImage,
   });
 
-  static const String _baseUrl = "https://mangamediaa.com/house-food/public/";
-
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
@@ -58,51 +56,54 @@ class CustomUploadImage extends StatelessWidget {
   }
 
   Widget _buildImage() {
-    if (selectedImage != null) {
-      return ClipOval(
-        child: Image.file(
-          selectedImage!,
+  if (selectedImage != null) {
+    // إذا كانت الصورة محلية
+    return ClipOval(
+      child: Image.file(
+        selectedImage!,
+        width: 120.w,
+        height: 120.h,
+        fit: BoxFit.cover,
+      ),
+    );
+  } else if (networkImage != null && networkImage!.isNotEmpty) {
+    final url = _formatNetworkImage(networkImage!);
+    return ClipOval(
+      child: CachedNetworkImage(
+        imageUrl: url,
+        width: 120.w,
+        height: 120.h,
+        fit: BoxFit.cover,
+        placeholder: (context, url) => Container(
           width: 120.w,
           height: 120.h,
-          fit: BoxFit.cover,
+          alignment: Alignment.center,
+          child: const CircularProgressIndicator(),
         ),
-      );
-    } else if (networkImage != null && networkImage!.isNotEmpty) {
-      final url = _formatNetworkImage(networkImage!);
-      return ClipOval(
-        child: CachedNetworkImage(
-          imageUrl: url,
+        errorWidget: (context, url, error) => Container(
           width: 120.w,
           height: 120.h,
-          fit: BoxFit.cover,
-          placeholder: (context, url) => Container(
-            width: 120.w,
-            height: 120.h,
-            alignment: Alignment.center,
-            child: const CircularProgressIndicator(),
-          ),
-          errorWidget: (context, url, error) => Container(
-            width: 120.w,
-            height: 120.h,
-            alignment: Alignment.center,
-            child: const Icon(Icons.broken_image, size: 40, color: Colors.grey),
-          ),
+          alignment: Alignment.center,
+          child: const Icon(Icons.broken_image, size: 40, color: Colors.grey),
         ),
-      );
-    } else {
-      return const Icon(
-        Icons.person,
-        size: 60,
-        color: Colors.grey,
-      );
-    }
+      ),
+    );
+  } else {
+    // إذا لم توجد صورة نهائيًا
+    return const Icon(
+      Icons.person,
+      size: 60,
+      color: Colors.grey,
+    );
   }
+}
 
-  String _formatNetworkImage(String path) {
-    if (path.startsWith('https')) {
-      return path;
-    } else {
-      return _baseUrl + path;
-    }
+String _formatNetworkImage(String path) {
+  if (path.startsWith('http')) {
+    return path;
+  } else {
+    return 'https://mangamediaa.com/house-food/public/storage/uploads/images/users/$path';
   }
+}
+
 }

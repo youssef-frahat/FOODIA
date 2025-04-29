@@ -13,4 +13,6 @@ static const String baseUrlImage =
   static String updateProfile = "$_baseUrl/update-profile";
   static String logout = "$_baseUrl/logout";
   static String editProfile= "$_baseUrl/profile";
+  static String getAllCategorys = "$_baseUrl/user/categories";
+  static String getAllfoods = "$_baseUrl/user/foods";
 }

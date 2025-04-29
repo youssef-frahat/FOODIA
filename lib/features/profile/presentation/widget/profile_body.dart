@@ -89,7 +89,7 @@ class ProfileBody extends StatelessWidget {
                               'name': userProfile.name ?? '',
                               'email': userProfile.email ?? '',
                               'phone': userProfile.phone ?? '',
-                              'image': userProfile.image ?? '',
+                              'image': AppStrings.baseUrl + userProfile.image!,
                             },
                           );
                         },

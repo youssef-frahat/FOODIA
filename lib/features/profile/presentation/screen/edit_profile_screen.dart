@@ -3,6 +3,8 @@ import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:foodia_app/core/routing/app_routes.dart';
+import 'package:go_router/go_router.dart';
 import 'package:image_picker/image_picker.dart';
 
 import '../../../../core/app_config/app_colors.dart';
@@ -93,7 +95,12 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
             }
             if (state is EditeUserProfileSuccess) {
               AppMessages.showSuccess(context, AppStrings.editProfileSuccess);
-              Navigator.pop(context);
+
+              context.go(
+                
+                AppRoutes.bottomNavBar
+              );
+               
             }
             if (state is EditeUserProfileLoading) {
               AppMessages.showLoading(context);
@@ -110,11 +117,15 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
                       const AppBarEditProfile(),
                       verticalSpace(25),
                       CustomUploadImage(
-                        selectedImage: selectedImage == null
-      ? (widget.image != null && widget.image!.isNotEmpty
-          ? File(widget.image!)
-          : null)
-      : File(selectedImage!.path),
+                        selectedImage:
+                            selectedImage == null
+                                ? (widget.image != null &&
+                                        widget.image!.isNotEmpty
+                                    ? File(
+                                      widget.image!,
+                                    ) // هنا نستخدم الصورة التي تم إرسالها عبر extra
+                                    : null)
+                                : File(selectedImage!.path),
                         networkImage: widget.image,
                         onTap: () {
                           showModalBottomSheet(
@@ -267,7 +278,7 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
     if (image == null) return;
 
     setState(() {
-      selectedImage = image; 
+      selectedImage = image;
     });
 
     String imagePath = selectedImage!.path.split('/').last;
