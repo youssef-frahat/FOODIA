@@ -1,5 +1,5 @@
 class AppRoutes {
-  static const String onBordingScreen = "/on_bording";
+  static const String onboarding = "/onboarding";
   static const String home = "/home";
   static const String login = "/login";
   static const String signinScreen = "/signIn";

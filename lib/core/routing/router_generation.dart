@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 
 // screens
-import 'package:foodia_app/features/on_boarding/on_boarding1.dart';
 import 'package:foodia_app/core/witgets/bottom_navigation_bar/custom_button_nav_bar.dart';
 import 'package:foodia_app/features/home/presentation/screens/home_screen.dart';
 
@@ -10,19 +9,21 @@ import '../../features/auth/forgotPassword/presentation/screen/forgotPassword_sc
 import '../../features/auth/login/presentation/screen/login_screen.dart';
 import '../../features/auth/otp/presentation/screen/otp_screen.dart';
 import '../../features/auth/signin/presentation/screens/signin_screen.dart';
+import '../../features/on_boarding/onbording.dart';
 import '../../features/profile/presentation/screen/edit_profile_screen.dart';
 import '../../features/profile/presentation/screen/profile_screen.dart';
 import 'app_routes.dart';
 
 class RouterGeneration {
   static final GoRouter goRouter = GoRouter(
-    initialLocation: AppRoutes.onBordingScreen,
+    initialLocation: AppRoutes.onboarding,
     routes: [
       GoRoute(
-        path: AppRoutes.onBordingScreen,
-        name: AppRoutes.onBordingScreen,
-        pageBuilder: _transitionBuilder((_, __) => const OnBoarding1()),
+        path: AppRoutes.onboarding,
+        name: AppRoutes.onboarding,
+        pageBuilder: _transitionBuilder((_, __) => const OnboardingScreen()),
       ),
+     
       GoRoute(
         path: AppRoutes.login,
         name: AppRoutes.login,

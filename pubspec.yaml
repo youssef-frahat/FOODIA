@@ -38,7 +38,6 @@ dependencies:
   flutter:
     sdk: flutter
   flutter_bloc: ^9.1.0
-  flutter_native_splash: ^2.4.5
   flutter_screenutil: ^5.9.3
   flutter_secure_storage: ^9.2.4
   flutter_svg: ^2.0.17
@@ -56,12 +55,6 @@ dev_dependencies:
   flutter_test:
     sdk: flutter
 
-flutter_native_splash:
-  color: "#FFA500" # Light orange color
-  image: assets/images/logo.jpg # Path to your logo image
-  android: true
-  ios: true
-
 # For information on the generic Dart part of this file, see the
 # following page: https://dart.dev/tools/pub/pubspec
 # The following section is specific to Flutter packages.
@@ -75,6 +68,8 @@ flutter:
   # To add assets to your application, add an assets section, like this:
   assets:
     - assets/images/
+    - assets/images/slide2.svg
+    - assets/images/slide3.svg
     - assets/icons/
     - assets/animation/
     - assets/icons/nav_bar/
