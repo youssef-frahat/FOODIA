@@ -5,6 +5,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:foodia_app/core/routing/app_routes.dart';
 import 'package:go_router/go_router.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 import '../../../../../core/app_config/app_strings.dart';
 import '../../../../../core/app_config/font_styles.dart';
@@ -29,6 +30,7 @@ class LoginBodyWidget extends StatefulWidget {
 
 class _LoginBodyWidgetState extends State<LoginBodyWidget> {
   final _formKey = GlobalKey<FormState>();
+  final SharedPreferences prefs =  getIt<SharedPreferences>();
   late TextEditingController _phoneController;
   late TextEditingController _passwordController;
   bool _isRememberMeChecked = true;
@@ -138,6 +140,7 @@ class _LoginBodyWidgetState extends State<LoginBodyWidget> {
                         );
                         return;
                       }
+                      prefs.setBool('isLoggedIn', true);
                       if (_formKey.currentState!.validate()) {
                         context.read<LoginUserCubit>().login(
                           phone: _phoneController.text.trim(),
