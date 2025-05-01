@@ -10,6 +10,7 @@ import '../../features/auth/forgotPassword/presentation/screen/forgotPassword_sc
 import '../../features/auth/login/presentation/screen/login_screen.dart';
 import '../../features/auth/otp/presentation/screen/otp_screen.dart';
 import '../../features/auth/signin/presentation/screens/signin_screen.dart';
+import '../../features/home/presentation/widget/details_screen.dart';
 import '../../features/profile/presentation/screen/edit_profile_screen.dart';
 import '../../features/profile/presentation/screen/profile_screen.dart';
 import 'app_routes.dart';
@@ -32,6 +33,11 @@ class RouterGeneration {
         path: AppRoutes.signinScreen,
         name: AppRoutes.signinScreen,
         pageBuilder: _transitionBuilder((_, __) => const SigninScreen()),
+      ),
+        GoRoute(
+        path: AppRoutes.detailsScreen,
+        name: AppRoutes.detailsScreen,
+        pageBuilder: _transitionBuilder((_, __) => const DetailsScreen()),
       ),
       GoRoute(
         path: AppRoutes.otpScreen,
