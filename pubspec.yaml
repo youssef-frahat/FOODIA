@@ -38,11 +38,8 @@ dependencies:
   flutter:
     sdk: flutter
   flutter_bloc: ^9.1.0
-<<<<<<< HEAD
   flutter_native_splash: ^2.4.5
   flutter_rating_bar: ^4.0.1
-=======
->>>>>>> ee0f84daa738778aab7817c8663f9c4589b2c089
   flutter_screenutil: ^5.9.3
   flutter_secure_storage: ^9.2.4
   flutter_svg: ^2.0.17
