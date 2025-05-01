@@ -32,7 +32,7 @@ class SigninUserRepoImpel implements SigninRepo {
         EndPoints.register,
         data: {
           'name': name,
-          'phone': email,
+          'phone': phone,
           'password': password,
           'password_confirmation': passwordConfirmation,
           'email': email,
