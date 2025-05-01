@@ -26,7 +26,10 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
         color: Colors.black,
       ),
       image: 'assets/images/slide1.png',
-      title: Text("اكلتك المفضلة أقرب إليك مما تتخيل!", textAlign: TextAlign.center),
+      title: Text(
+        "اكلتك المفضلة أقرب إليك مما تتخيل!",
+        textAlign: TextAlign.center,
+      ),
       description: Text(""),
       disStyle: TextStyle(
         fontFamily: 'Changa',
@@ -34,7 +37,46 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
         color: Colors.white,
       ),
     ),
-    // باقي عناصر الـ Onboarding
+
+    OnboardingItem(
+      textStyle: TextStyle(
+        fontFamily: 'Changa',
+        fontSize: 24,
+        fontWeight: FontWeight.bold,
+
+        color: Colors.black, // Text color
+      ),
+      image: "assets/images/slide2.png",
+      description: Text(""),
+      title: Text(
+        ' عالم من الأكلات بين يديك… فقط اطلب واستمتع!',
+        textAlign: TextAlign.center,
+      ), // "Cook and earn money!" in Arabic
+      disStyle: TextStyle(
+        fontFamily: 'Changa',
+        fontSize: 24,
+        color: Colors.black,
+      ), // "Cook and earn money!" in Arabic
+    ),
+    OnboardingItem(
+      textStyle: TextStyle(
+        fontFamily: 'Changa',
+        fontSize: 24,
+        fontWeight: FontWeight.bold,
+        color: Colors.black, // Text color
+      ),
+      image: 'assets/images/slide3.png',
+      title: Text(
+        'اطلب من الشيف المفضل لديك',
+        textAlign: TextAlign.center,
+      ), // "Order from your favorite chef!" in Arabic
+      description: Text('كل وصفة تبدأ بمكون سري… حب الطبخ!'),
+      disStyle: TextStyle(
+        fontFamily: 'Changa',
+        fontSize: 16,
+        color: const Color.fromARGB(111, 0, 0, 0),
+      ),
+    ),
   ];
 
   @override
@@ -81,7 +123,14 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
               onPressed: () {
                 GoRouter.of(context).goNamed(AppRoutes.login);
               },
-              child: Text("تخطي", style: TextStyle(fontFamily: 'Changa', fontSize: 16, color: Colors.white)),
+              child: Text(
+                "تخطي",
+                style: TextStyle(
+                  fontFamily: 'Changa',
+                  fontSize: 16,
+                  color: Colors.white,
+                ),
+              ),
             ),
           ),
           // مؤشر الصفحات
@@ -104,32 +153,55 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
           Positioned(
             bottom: 20,
             right: 20,
-            child: _currentPage == _onboardingItems.length - 1
-                ? ElevatedButton(
-                    onPressed: () {
-                      GoRouter.of(context).goNamed(AppRoutes.login);
-                    },
-                    style: ElevatedButton.styleFrom(
-                      backgroundColor: Color(0xFFFFA500),
-                      padding: EdgeInsets.symmetric(horizontal: 20, vertical: 10),
-                      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(30)),
+            child:
+                _currentPage == _onboardingItems.length - 1
+                    ? ElevatedButton(
+                      onPressed: () {
+                        GoRouter.of(context).goNamed(AppRoutes.login);
+                      },
+                      style: ElevatedButton.styleFrom(
+                        backgroundColor: Color(0xFFFFA500),
+                        padding: EdgeInsets.symmetric(
+                          horizontal: 20,
+                          vertical: 10,
+                        ),
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(30),
+                        ),
+                      ),
+                      child: Text(
+                        "ابدأ الآن",
+                        style: TextStyle(
+                          fontFamily: 'Changa',
+                          fontSize: 16,
+                          color: Colors.white,
+                        ),
+                      ),
+                    )
+                    : ElevatedButton(
+                      onPressed: () {
+                        _pageController.nextPage(
+                          duration: Duration(milliseconds: 300),
+                          curve: Curves.easeInOut,
+                        );
+                      },
+                      style: ElevatedButton.styleFrom(
+                        backgroundColor: Color(0xFFFFA500),
+                        padding: EdgeInsets.all(20),
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(30),
+                        ),
+                      ),
+                      child: Text(
+                        "التالي",
+                        style: TextStyle(
+                          fontFamily: 'Changa',
+                          fontSize: 18,
+                          color: Colors.white,
+                          fontWeight: FontWeight.bold,
+                        ),
+                      ),
                     ),
-                    child: Text("ابدأ الآن", style: TextStyle(fontFamily: 'Changa', fontSize: 16, color: Colors.white)),
-                  )
-                : ElevatedButton(
-                    onPressed: () {
-                      _pageController.nextPage(
-                        duration: Duration(milliseconds: 300),
-                        curve: Curves.easeInOut,
-                      );
-                    },
-                    style: ElevatedButton.styleFrom(
-                      backgroundColor: Color(0xFFFFA500),
-                      padding: EdgeInsets.all(20),
-                      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(30)),
-                    ),
-                    child: Text("التالي", style: TextStyle(fontFamily: 'Changa', fontSize: 18, color: Colors.white, fontWeight: FontWeight.bold)),
-                  ),
           ),
         ],
       ),

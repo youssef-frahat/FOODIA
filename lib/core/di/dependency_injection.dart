@@ -1,4 +1,5 @@
 import 'package:get_it/get_it.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 import '../../features/auth/login/data/repo/login_user_repo_impl.dart';
 import '../../features/auth/login/presentation/logic/cubit/login_user_cubit.dart';
@@ -16,13 +17,16 @@ import '../networking/api/api_services.dart';
 final getIt = GetIt.instance;
 
 Future<void> setupGetIt() async {
-  _initExternals();
+  await _initExternals(); // تعديل مهم هنا: أصبحت async
   _initRepositories();
   _initCubits();
 }
 
 //! Externals
-void _initExternals() {
+Future<void> _initExternals() async {
+  final sharedPrefs = await SharedPreferences.getInstance();
+  getIt.registerLazySingleton<SharedPreferences>(() => sharedPrefs);
+
   getIt.registerLazySingleton<ApiService>(() => ApiService());
 }
 
