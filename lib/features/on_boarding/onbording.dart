@@ -3,56 +3,58 @@ import 'package:foodia_app/features/on_boarding/onboardingPage.dart';
 import 'package:foodia_app/features/on_boarding/onboarding_model.dart';
 import 'package:go_router/go_router.dart';
 import 'package:smooth_page_indicator/smooth_page_indicator.dart';
+import 'package:shared_preferences/shared_preferences.dart'; // إضافة مكتبة SharedPreferences
 
 import '../../core/routing/app_routes.dart';
-import '../home/presentation/screens/home_screen.dart';
 
 class OnboardingScreen extends StatefulWidget {
   const OnboardingScreen({super.key});
 
   @override
-  // ignore: library_private_types_in_public_api
   _OnboardingScreenState createState() => _OnboardingScreenState();
 }
 
 class _OnboardingScreenState extends State<OnboardingScreen> {
-  // Step 3: Create a PageController to manage the onboarding pages
   final PageController _pageController = PageController();
-  int _currentPage = 0; // Track the current page index
+  int _currentPage = 0;
 
-  // Step 4: Define your onboarding content (titles, descriptions, and images)
   final List<OnboardingItem> _onboardingItems = [
     OnboardingItem(
       textStyle: TextStyle(
         fontFamily: 'Changa',
-        fontSize: 24,
-        fontWeight: FontWeight.bold,
-        color: Colors.black, // Text color
+        fontSize: 22,
+        color: Colors.black,
       ),
-      image: 'assets/images/slide1.jpg',
-      title: Text("مرحبًا بك في فوديا!"), // "Welcome to Foodia!" in Arabic
-      description: Text("ابدأ رحلتك كطاهي محترف الآن."),
+      image: 'assets/images/slide1.png',
+      title: Text(
+        "اكلتك المفضلة أقرب إليك مما تتخيل!",
+        textAlign: TextAlign.center,
+      ),
+      description: Text(""),
       disStyle: TextStyle(
         fontFamily: 'Changa',
-        fontSize: 16,
-        color: Colors.white, // Text color
+        fontSize: 22,
+        color: Colors.white,
       ),
     ),
+
     OnboardingItem(
       textStyle: TextStyle(
         fontFamily: 'Changa',
         fontSize: 24,
         fontWeight: FontWeight.bold,
-        color: Colors.white, // Text color
+
+        color: Colors.black, // Text color
       ),
-      image: 'assets/images/slide2.jpg',
-      description: Text(
-        "انضم إلى منصة تجمع الطهاة الموهوبين مع العملاء الباحثين عن أفضل الأطباق المنزلية",
-      ),
-      title: Text(' '),
+      image: "assets/images/slide2.png",
+      description: Text(""),
+      title: Text(
+        ' عالم من الأكلات بين يديك… فقط اطلب واستمتع!',
+        textAlign: TextAlign.center,
+      ), // "Cook and earn money!" in Arabic
       disStyle: TextStyle(
         fontFamily: 'Changa',
-        fontSize: 16,
+        fontSize: 24,
         color: Colors.black,
       ), // "Cook and earn money!" in Arabic
     ),
@@ -64,39 +66,56 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
         color: Colors.black, // Text color
       ),
       image: 'assets/images/slide3.png',
-      title: Text('اطبخ، قدّم، واربح!'),
-      description: Text(
-        'سجل كطاهٍ وابدأ في استقبال الطلبات، التواصل مع العملاء، وتنمية عملك بسهولة',
-      ),
+      title: Text(
+        'اطلب من الشيف المفضل لديك',
+        textAlign: TextAlign.center,
+      ), // "Order from your favorite chef!" in Arabic
+      description: Text('كل وصفة تبدأ بمكون سري… حب الطبخ!'),
       disStyle: TextStyle(
         fontFamily: 'Changa',
         fontSize: 16,
-        color: Colors.white,
+        color: const Color.fromARGB(111, 0, 0, 0),
       ),
     ),
   ];
 
   @override
+  void initState() {
+    super.initState();
+    _checkIfLoggedIn(); // التحقق إذا كان المستخدم قد سجل الدخول مسبقًا
+  }
+
+  // التحقق إذا كان المستخدم قد سجل الدخول مسبقًا
+  Future<void> _checkIfLoggedIn() async {
+    final prefs = await SharedPreferences.getInstance();
+    bool isLoggedIn = prefs.getBool('isLoggedIn') ?? false;
+
+    if (isLoggedIn) {
+      // إذا كان المستخدم قد سجل الدخول، اذهب مباشرة إلى صفحة الـ Home
+      GoRouter.of(context).goNamed(AppRoutes.home);
+    }
+  }
+
+  @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Color(0xFFF5B762), // Background color
+      backgroundColor: Color(0xFFE0E5EC),
       body: Stack(
         children: [
-          // Step 6: Add a PageView for swipeable onboarding screens
+          // PageView لصفحات الـ Onboarding
           PageView.builder(
             controller: _pageController,
             itemCount: _onboardingItems.length,
             onPageChanged: (index) {
               setState(() {
-                _currentPage = index; // Update the current page index
+                _currentPage = index;
               });
             },
             itemBuilder: (context, index) {
               return OnboardingPage(item: _onboardingItems[index]);
             },
           ),
-
-          // Skip button in the upper right corner
+          // زر التخطي
           Positioned(
             top: 50,
             right: 20,
@@ -105,34 +124,32 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
                 GoRouter.of(context).goNamed(AppRoutes.login);
               },
               child: Text(
-                "تخطي", // "Skip" in Arabic
+                "تخطي",
                 style: TextStyle(
-                  fontFamily: 'Changa', // Use Changa font
+                  fontFamily: 'Changa',
                   fontSize: 16,
-                  color: Colors.white, // Text color
+                  color: Colors.white,
                 ),
               ),
             ),
           ),
-
-          // Smooth Page Indicator
+          // مؤشر الصفحات
           Positioned(
-            bottom: 30, // Adjust the distance from the bottom
-            left: 20, // Adjust the distance from the left
+            bottom: 30,
+            left: 20,
             child: SmoothPageIndicator(
               controller: _pageController,
               count: _onboardingItems.length,
               effect: const ExpandingDotsEffect(
-                activeDotColor: Colors.white, // Active dot color
-                dotColor: Colors.orange, // Inactive dot color
+                activeDotColor: Colors.white,
+                dotColor: Colors.orange,
                 dotHeight: 10,
                 dotWidth: 10,
-                spacing: 8, // Space between dots
+                spacing: 8,
               ),
             ),
           ),
-
-          // Next button with only ">" sign
+          // زر التالي أو "ابدأ الآن"
           Positioned(
             bottom: 20,
             right: 20,
@@ -143,43 +160,34 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
                         GoRouter.of(context).goNamed(AppRoutes.login);
                       },
                       style: ElevatedButton.styleFrom(
-                        backgroundColor: Color(
-                          0xFFFFA500,
-                        ), // Button color (#FFA500)
+                        backgroundColor: Color(0xFFFFA500),
                         padding: EdgeInsets.symmetric(
                           horizontal: 20,
                           vertical: 10,
                         ),
                         shape: RoundedRectangleBorder(
                           borderRadius: BorderRadius.circular(30),
-                        ), // Rounded corners
+                        ),
                       ),
-
                       child: Text(
-                        "ابدأ الآن", // "Get Started" in Arabic
+                        "ابدأ الآن",
                         style: TextStyle(
-                          fontFamily: 'Changa', // Use Changa font
+                          fontFamily: 'Changa',
                           fontSize: 16,
-                          color: Colors.white, // Text color
+                          color: Colors.white,
                         ),
                       ),
                     )
                     : ElevatedButton(
                       onPressed: () {
-                        // Go to the next page
                         _pageController.nextPage(
                           duration: Duration(milliseconds: 300),
                           curve: Curves.easeInOut,
                         );
                       },
                       style: ElevatedButton.styleFrom(
-                        backgroundColor: Color(
-                          0xFFFFA500,
-                        ), // Button color (#FFA500)
-                        padding: EdgeInsets.all(
-                          20,
-                        ), // Adjust padding for the ">" sign
-                        // Make the button circular
+                        backgroundColor: Color(0xFFFFA500),
+                        padding: EdgeInsets.all(20),
                         shape: RoundedRectangleBorder(
                           borderRadius: BorderRadius.circular(30),
                         ),
@@ -187,10 +195,10 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
                       child: Text(
                         "التالي",
                         style: TextStyle(
-                          fontFamily: 'Changa', // Use Changa font
+                          fontFamily: 'Changa',
                           fontSize: 18,
                           color: Colors.white,
-                          fontWeight: FontWeight.bold, // Text color
+                          fontWeight: FontWeight.bold,
                         ),
                       ),
                     ),

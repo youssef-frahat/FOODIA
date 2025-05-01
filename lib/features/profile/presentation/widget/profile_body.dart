@@ -3,6 +3,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:foodia_app/core/di/dependency_injection.dart';
 import 'package:go_router/go_router.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 import '../../../../core/app_config/app_strings.dart';
 import '../../../../core/app_config/messages.dart';
@@ -12,7 +13,8 @@ import '../logic/cubit/user_profile_cubit.dart';
 import 'profile_field.dart';
 
 class ProfileBody extends StatelessWidget {
-  const ProfileBody({super.key});
+  ProfileBody({super.key});
+  final SharedPreferences pref = getIt<SharedPreferences>();
 
   @override
   Widget build(BuildContext context) {
@@ -53,13 +55,12 @@ class ProfileBody extends StatelessWidget {
                         CircleAvatar(
                           radius: 60.r,
                           backgroundImage: NetworkImage(
-  userProfile.image?.isNotEmpty == true
-      ? (userProfile.image!.startsWith('http')
-          ? userProfile.image!
-          : AppStrings.baseUrl + userProfile.image!)
-      : "https://imgs.search.brave.com/CbGx149KMAUXiJtL17989JkvB2aupjBKAvcBtUva0Yc/rs:fit:860:0:0:0/g:ce/aHR0cHM6Ly90My5m/dGNkbi5uZXQvanBn/LzEyLzM1Lzc3LzY0/LzM2MF9GXzEyMzU3/NzY0NDFfakR5RHRZ/amNxdnhSV2RySnBv/aGp4b1YwRGRmdTVY/YWsuanBn"
-)
-
+                            userProfile.image?.isNotEmpty == true
+                                ? (userProfile.image!.startsWith('http')
+                                    ? userProfile.image!
+                                    : AppStrings.baseUrl + userProfile.image!)
+                                : "https://imgs.search.brave.com/CbGx149KMAUXiJtL17989JkvB2aupjBKAvcBtUva0Yc/rs:fit:860:0:0:0/g:ce/aHR0cHM6Ly90My5m/dGNkbi5uZXQvanBn/LzEyLzM1Lzc3LzY0/LzM2MF9GXzEyMzU3/NzY0NDFfakR5RHRZ/amNxdnhSV2RySnBv/aGp4b1YwRGRmdTVY/YWsuanBn",
+                          ),
                         ),
                         verticalSpace(12),
                         Text(
@@ -131,6 +132,7 @@ class ProfileBody extends StatelessWidget {
                   padding: EdgeInsets.symmetric(horizontal: 40.w),
                   child: ElevatedButton(
                     onPressed: () {
+                      pref.remove('isLoggedIn');
                       context.read<UserProfileCubit>().logout();
                     },
                     style: ElevatedButton.styleFrom(
