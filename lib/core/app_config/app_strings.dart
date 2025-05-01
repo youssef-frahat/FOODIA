@@ -1,4 +1,6 @@
 class AppStrings {
+  static const String baseUrl = 
+      "https://mangamediaa.com/house-food/public/"; // Base URL for the API
   static const String login = 'تسجيل الدخول';
   static const String register = 'انشاء حساب';
   static const String login1 = "الدخول";
@@ -7,6 +9,9 @@ class AppStrings {
   static const String email = 'البريد الالكتروني';
   static const String pleaseEnterYourPhone = 'الرجاء ادخال رقم الهاتف';
   static const String password = 'كلمة المرور';
+  static const String passwordNow = 'كلمة المرور الحالية';
+  static const String newPassword = 'كلمة المرور الجديدة';  
+  static const String confirmPassword = 'تاكيد كلمة المرور الجديدة';
   static const String enterPassword = 'ادخل كلمة المرور';
   static const String pleaseEnterYourPassword = 'الرجاء ادخال كلمة المرور';
   static const String rememberMe = 'تذكرني';
@@ -28,7 +33,9 @@ class AppStrings {
   static const String prepared = "تم التحضير";
   static const String inPreparation = "قيد التحضير";
   static const String wallet = "المحفظة";
+  static const String editProfileSuccess = "تم تعديل الملف الشخصي بنجاح";
   static const String name = "الإسم";
+  static const String logoutSuccess = "تم تسجيل الخروج بنجاح";
   static const String pleaseEnterYourName = "الرجاء ادخال اسمك";
   static const String pleaseEnterYourEmail = "الرجاء ادخال بريدك الالكتروني";
   static const String phoneNumber = "رقم الهــاتف";

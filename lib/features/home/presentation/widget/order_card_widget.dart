@@ -1,9 +1,13 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import '../../../../core/app_config/font_styles.dart';
+import '../../../../core/app_config/image_urls.dart';
+import '../../data/model/get_home_foods_model/datum.dart';
 
 class OrderWidget extends StatelessWidget {
-  const OrderWidget({super.key});
+  final FoodsModel getHomeFoodsModel;
+  const OrderWidget({super.key, required this.getHomeFoodsModel});
 
   @override
   Widget build(BuildContext context) {
@@ -27,17 +31,18 @@ class OrderWidget extends StatelessWidget {
                   child: CircleAvatar(
                     radius: 22.r,
                     backgroundImage: NetworkImage(
-                      "https://imgs.search.brave.com/-5pN5wyhnDIqh4z1UAVEL7ok8v6g7GAy5Qql7KgWT1A/rs:fit:500:0:0:0/g:ce/aHR0cHM6Ly9pLnBp/bmltZy5jb20vb3Jp/Z2luYWxzLzVmLzlj/LzkxLzVmOWM5MWZj/MmRmM2VkYjM5NGRl/NWFhMmRkNTFlNDA4/LmpwZw",
+                      "$imageUrl${getHomeFoodsModel.chef?.image ?? ''}",
                     ),
                   ),
                 ),
                 SizedBox(height: 8.h),
                 Text(
-                  "الشيف غادة",
+                  getHomeFoodsModel.chef?.name ?? "",
                   style: FontStyles.body14W500.copyWith(
                     fontSize: 12.sp,
                     color: const Color(0xFF20402A),
                   ),
+                  textAlign: TextAlign.start, 
                 ),
                 SizedBox(height: 16.h),
                 Container(
@@ -54,50 +59,65 @@ class OrderWidget extends StatelessWidget {
 
           SizedBox(width: 12.w),
 
-          Image.asset(
-            "assets/images/pepperoni_pizza.png",
+          CachedNetworkImage(
+            imageUrl: "$imageUrl${getHomeFoodsModel.image ?? ''}",
             width: 100.w,
             height: 100.h,
             fit: BoxFit.cover,
+            placeholder: (context, url) => Container(
+              width: 100.w,
+              height: 100.h,
+              alignment: Alignment.center,
+              child: const CircularProgressIndicator(),
+            ),
+            errorWidget: (context, url, error) => Container(
+              width: 100.w,
+              height: 100.h,
+              color: Colors.grey[300],
+              child: const Icon(Icons.broken_image),
+            ),
           ),
 
           SizedBox(width: 12.w),
 
           Expanded(
             child: Column(
-              crossAxisAlignment: CrossAxisAlignment.end,
+              crossAxisAlignment: CrossAxisAlignment.end, 
               mainAxisSize: MainAxisSize.min,
               children: [
                 Text(
-                  'بيتزا سجق',
+                  getHomeFoodsModel.name ?? "",
                   style: FontStyles.body14W500.copyWith(
                     fontSize: 16.sp,
                     fontWeight: FontWeight.bold,
                   ),
+                  textAlign: TextAlign.end,  
                 ),
                 SizedBox(height: 12.h),
                 Text(
-                  "100ج.م",
+                  "${getHomeFoodsModel.priceAfter} ج.م",
                   style: FontStyles.body14W500.copyWith(
                     fontSize: 14.sp,
                     color: const Color(0xFFFE8C00),
                   ),
+                  textAlign: TextAlign.end, 
                 ),
 
                 Text(
-                  "120ج.م",
+                  "${getHomeFoodsModel.priceBefore} ج.م",
                   style: TextStyle(
                     decoration: TextDecoration.lineThrough,
                     fontSize: 12.sp,
                     color: Colors.grey[400],
                   ),
+                  textAlign: TextAlign.end,  
                 ),
                 SizedBox(height: 15.h),
                 Row(
                   mainAxisAlignment: MainAxisAlignment.end,
                   children: [
                     Text(
-                      "4.5",
+                      getHomeFoodsModel.rate ?? "",
                       style: TextStyle(
                         fontSize: 13.sp,
                         fontWeight: FontWeight.w500,
