@@ -20,7 +20,6 @@ final class UserProfileLoaded extends UserProfileState {
   List<Object> get props => [userProfile];
 }
 
-
 final class UserProfileError extends UserProfileState {
   final String error;
 
@@ -29,7 +28,6 @@ final class UserProfileError extends UserProfileState {
   @override
   List<Object> get props => [error];
 }
-
 
 //! logout
 final class LogoutLoading extends UserProfileState {}

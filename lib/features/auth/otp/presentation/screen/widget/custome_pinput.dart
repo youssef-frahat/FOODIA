@@ -9,10 +9,8 @@ import '../../../../../../core/app_config/app_colors.dart';
 import '../../../../../../core/app_config/font_styles.dart';
 
 class CustomPinput extends StatelessWidget {
-  const CustomPinput({
-    super.key,
-    required TextEditingController otpController,
-  }) : _otpController = otpController;
+  const CustomPinput({super.key, required TextEditingController otpController})
+    : _otpController = otpController;
 
   final TextEditingController _otpController;
 
@@ -27,9 +25,7 @@ class CustomPinput extends StatelessWidget {
           height: 74.h,
           width: 74.w,
           decoration: BoxDecoration(
-            border: Border.all(
-              color: AppColors.primarycolor,
-            ),
+            border: Border.all(color: AppColors.primarycolor),
             color: AppColors.secoundrycolor,
             borderRadius: BorderRadius.circular(8).r,
           ),
@@ -42,9 +38,7 @@ class CustomPinput extends StatelessWidget {
           height: 74.h,
           width: 74.w,
           decoration: BoxDecoration(
-            border: Border.all(
-              color: AppColors.primarycolor,
-            ),
+            border: Border.all(color: AppColors.primarycolor),
             color: AppColors.primarycolor,
             borderRadius: BorderRadius.circular(8).r,
           ),
@@ -56,10 +50,7 @@ class CustomPinput extends StatelessWidget {
         ),
         preFilledWidget: Text(
           '0',
-          style: TextStyle(
-            color: AppColors.primarycolor,
-            fontSize: 32.sp,
-          ),
+          style: TextStyle(color: AppColors.primarycolor, fontSize: 32.sp),
         ),
         keyboardType: const TextInputType.numberWithOptions(decimal: true),
       ),

@@ -65,7 +65,8 @@ class _OtpScreenState extends State<OtpScreen> {
         create: (context) => getIt<OtpUserCubit>(),
         child: BlocConsumer<OtpUserCubit, OtpUserState>(
           listener: (context, state) {
-            if (state is ValidateOtpCodeLoading || state is SendOtpCodeLoading) {
+            if (state is ValidateOtpCodeLoading ||
+                state is SendOtpCodeLoading) {
               AppMessages.showLoading(context);
             } else if (state is ValidateOtpCodeSuccess) {
               context.pop(); // Close loading
@@ -85,7 +86,10 @@ class _OtpScreenState extends State<OtpScreen> {
           builder: (context, state) {
             return SafeArea(
               child: Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 20),
+                padding: const EdgeInsets.symmetric(
+                  horizontal: 16,
+                  vertical: 20,
+                ),
                 child: Column(
                   children: [
                     CustomWigetArrowBack(onpress: () => context.pop()),
@@ -98,7 +102,10 @@ class _OtpScreenState extends State<OtpScreen> {
                           top: -20,
                           right: -40,
                           child: Container(
-                            padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
+                            padding: const EdgeInsets.symmetric(
+                              horizontal: 12,
+                              vertical: 8,
+                            ),
                             decoration: BoxDecoration(
                               color: Colors.white,
                               borderRadius: BorderRadius.circular(30),
@@ -108,14 +115,22 @@ class _OtpScreenState extends State<OtpScreen> {
                               children: List.generate(otpLength, (index) {
                                 bool filled = index < otp.length;
                                 return Padding(
-                                  padding: const EdgeInsets.symmetric(horizontal: 6),
+                                  padding: const EdgeInsets.symmetric(
+                                    horizontal: 6,
+                                  ),
                                   child: Container(
                                     width: 16,
                                     height: 16,
                                     decoration: BoxDecoration(
-                                      color: filled ? Colors.orange : Colors.transparent,
+                                      color:
+                                          filled
+                                              ? Colors.orange
+                                              : Colors.transparent,
                                       shape: BoxShape.circle,
-                                      border: Border.all(color: Colors.orange, width: 1.5),
+                                      border: Border.all(
+                                        color: Colors.orange,
+                                        width: 1.5,
+                                      ),
                                     ),
                                   ),
                                 );
@@ -161,7 +176,9 @@ class _OtpScreenState extends State<OtpScreen> {
                         else
                           GestureDetector(
                             onTap: () {
-                              context.read<OtpUserCubit>().sendOtpCode(phoneNumber: widget.phoneNumber);
+                              context.read<OtpUserCubit>().sendOtpCode(
+                                phoneNumber: widget.phoneNumber,
+                              );
                               _startTimer();
                             },
                             child: const Text(
@@ -185,14 +202,15 @@ class _OtpScreenState extends State<OtpScreen> {
                           ),
                           padding: const EdgeInsets.symmetric(vertical: 16),
                         ),
-                        onPressed: otp.length == otpLength
-                            ? () {
-                                context.read<OtpUserCubit>().validateOtpCode(
-                                      phoneNumber: widget.phoneNumber,
-                                      otpCode: otp,
-                                    );
-                              }
-                            : null,
+                        onPressed:
+                            otp.length == otpLength
+                                ? () {
+                                  context.read<OtpUserCubit>().validateOtpCode(
+                                    phoneNumber: widget.phoneNumber,
+                                    otpCode: otp,
+                                  );
+                                }
+                                : null,
                         child: const Text(
                           "تأكيد",
                           style: TextStyle(fontSize: 18, color: Colors.white),

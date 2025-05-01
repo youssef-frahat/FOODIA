@@ -78,7 +78,7 @@ class GetUserProfileRepoImpl implements GetUserProfileRepo {
     String? passwordConfirmation,
     String? currentPassword,
     required XFile? image,
-  }) async{
+  }) async {
     try {
       if (!await ConnectivityHelper.connected) {
         return const Left(NetworkFailure(AppStrings.checkInternetConnection));
@@ -91,7 +91,8 @@ class GetUserProfileRepoImpl implements GetUserProfileRepo {
         'password': password,
         'password_confirmation': passwordConfirmation,
         'current_password': currentPassword,
-        'image': image != null ? await MultipartFile.fromFile(image.path) : null,
+        'image':
+            image != null ? await MultipartFile.fromFile(image.path) : null,
       };
 
       final response = await apiService.post(
@@ -105,8 +106,7 @@ class GetUserProfileRepoImpl implements GetUserProfileRepo {
         return Left(ServerFailure("No data found"));
       }
 
-      final EditUserProfileModel user =
-          EditUserProfileModel.fromJson(response);
+      final EditUserProfileModel user = EditUserProfileModel.fromJson(response);
 
       log('Update user Profile model: ${user.toJson()}');
       return Right(user);

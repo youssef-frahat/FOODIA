@@ -2,21 +2,21 @@ import 'package:equatable/equatable.dart';
 
 import 'data.dart';
 
-class GetUserProfileModel extends Equatable {
+class GetAllCategorysModel extends Equatable {
   final bool? status;
   final String? message;
-  final UserDataModel? data;
+  final Data? data;
 
-  const GetUserProfileModel({this.status, this.message, this.data});
+  const GetAllCategorysModel({this.status, this.message, this.data});
 
-  factory GetUserProfileModel.fromJson(Map<String, dynamic> json) {
-    return GetUserProfileModel(
+  factory GetAllCategorysModel.fromJson(Map<String, dynamic> json) {
+    return GetAllCategorysModel(
       status: json['status'] as bool?,
       message: json['message'] as String?,
       data:
           json['data'] == null
               ? null
-              : UserDataModel.fromJson(json['data'] as Map<String, dynamic>),
+              : Data.fromJson(json['data'] as Map<String, dynamic>),
     );
   }
 

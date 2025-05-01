@@ -17,7 +17,8 @@ import 'app_routes.dart';
 class RouterGeneration {
   static GoRouter generateRouter(bool isLoggedIn) {
     return GoRouter(
-      initialLocation: isLoggedIn ? AppRoutes.bottomNavBar : AppRoutes.onboarding,
+      initialLocation:
+          isLoggedIn ? AppRoutes.bottomNavBar : AppRoutes.onboarding,
       routes: [
         GoRoute(
           path: AppRoutes.onboarding,

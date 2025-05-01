@@ -17,5 +17,4 @@ abstract class GetUserProfileRepo {
     required XFile? image,
   });
   Future<Either<Failure, Unit>> logout();
-
 }

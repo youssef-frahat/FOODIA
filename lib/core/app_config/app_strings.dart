@@ -1,5 +1,5 @@
 class AppStrings {
-  static const String baseUrl = 
+  static const String baseUrl =
       "https://mangamediaa.com/house-food/public/"; // Base URL for the API
   static const String login = 'تسجيل الدخول';
   static const String register = 'انشاء حساب';
@@ -10,7 +10,7 @@ class AppStrings {
   static const String pleaseEnterYourPhone = 'الرجاء ادخال رقم الهاتف';
   static const String password = 'كلمة المرور';
   static const String passwordNow = 'كلمة المرور الحالية';
-  static const String newPassword = 'كلمة المرور الجديدة';  
+  static const String newPassword = 'كلمة المرور الجديدة';
   static const String confirmPassword = 'تاكيد كلمة المرور الجديدة';
   static const String enterPassword = 'ادخل كلمة المرور';
   static const String pleaseEnterYourPassword = 'الرجاء ادخال كلمة المرور';
@@ -47,7 +47,7 @@ class AppStrings {
   static const String otpVerified = "تم التحقق من الرمز بنجاح";
   static const String codeIsInvalid = " الرمز غير صحيح";
   static const String forgotPasswordtex = "إعادة تعيين كلمة السر";
-  static const String forgotPasswordBody = 
-     "ادخل رقم الهاتف المرتبط بحسابك وسنرسل اليك رمز \n             لإعادة تعيين كلمة المرور الخاصة بك";
+  static const String forgotPasswordBody =
+      "ادخل رقم الهاتف المرتبط بحسابك وسنرسل اليك رمز \n             لإعادة تعيين كلمة المرور الخاصة بك";
   static const String sendCode = "ارسال الرمز";
 }

@@ -1,4 +1,3 @@
-
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -30,7 +29,7 @@ class CategoriesList extends StatelessWidget {
           if (state is GetAllCategorysLoaded) {
             final categories = state.categories.data;
 
-            if (categories == null || categories.isEmpty) {
+            if (categories == null || categories.data!.isEmpty) {
               return const Center(child: Text('لا توجد بيانات متاحة'));
             }
 
@@ -68,12 +67,12 @@ class CategoriesList extends StatelessWidget {
                   child: ListView.separated(
                     scrollDirection: Axis.horizontal,
                     padding: REdgeInsets.symmetric(horizontal: 16),
-                    itemCount: categories.length,
+                    itemCount: categories.data!.length,
                     separatorBuilder: (_, __) => SizedBox(width: 16.w),
                     itemBuilder: (context, index) {
                       final String imageUrl =
                           "https://mangamediaa.com/house-food/public/";
-                      final item = categories[index];
+                      final item = categories.data![index];
                       return Column(
                         children: [
                           ClipOval(
@@ -93,9 +92,7 @@ class CategoriesList extends StatelessWidget {
                                     width: 80.w,
                                     height: 80.h,
                                     color: Colors.grey[300],
-                                    child: const Icon(
-                                      Icons.broken_image,
-                                    ),
+                                    child: const Icon(Icons.broken_image),
                                   ),
                             ),
                           ),

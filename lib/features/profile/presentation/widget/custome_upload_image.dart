@@ -25,10 +25,7 @@ class CustomUploadImage extends StatelessWidget {
         decoration: BoxDecoration(
           color: Colors.white,
           shape: BoxShape.circle,
-          border: Border.all(
-            color: Colors.orange,
-            width: 4,
-          ),
+          border: Border.all(color: Colors.orange, width: 4),
         ),
         child: Stack(
           alignment: Alignment.center,
@@ -56,54 +53,55 @@ class CustomUploadImage extends StatelessWidget {
   }
 
   Widget _buildImage() {
-  if (selectedImage != null) {
-    // إذا كانت الصورة محلية
-    return ClipOval(
-      child: Image.file(
-        selectedImage!,
-        width: 120.w,
-        height: 120.h,
-        fit: BoxFit.cover,
-      ),
-    );
-  } else if (networkImage != null && networkImage!.isNotEmpty) {
-    final url = _formatNetworkImage(networkImage!);
-    return ClipOval(
-      child: CachedNetworkImage(
-        imageUrl: url,
-        width: 120.w,
-        height: 120.h,
-        fit: BoxFit.cover,
-        placeholder: (context, url) => Container(
+    if (selectedImage != null) {
+      // إذا كانت الصورة محلية
+      return ClipOval(
+        child: Image.file(
+          selectedImage!,
           width: 120.w,
           height: 120.h,
-          alignment: Alignment.center,
-          child: const CircularProgressIndicator(),
+          fit: BoxFit.cover,
         ),
-        errorWidget: (context, url, error) => Container(
+      );
+    } else if (networkImage != null && networkImage!.isNotEmpty) {
+      final url = _formatNetworkImage(networkImage!);
+      return ClipOval(
+        child: CachedNetworkImage(
+          imageUrl: url,
           width: 120.w,
           height: 120.h,
-          alignment: Alignment.center,
-          child: const Icon(Icons.broken_image, size: 40, color: Colors.grey),
+          fit: BoxFit.cover,
+          placeholder:
+              (context, url) => Container(
+                width: 120.w,
+                height: 120.h,
+                alignment: Alignment.center,
+                child: const CircularProgressIndicator(),
+              ),
+          errorWidget:
+              (context, url, error) => Container(
+                width: 120.w,
+                height: 120.h,
+                alignment: Alignment.center,
+                child: const Icon(
+                  Icons.broken_image,
+                  size: 40,
+                  color: Colors.grey,
+                ),
+              ),
         ),
-      ),
-    );
-  } else {
-    // إذا لم توجد صورة نهائيًا
-    return const Icon(
-      Icons.person,
-      size: 60,
-      color: Colors.grey,
-    );
+      );
+    } else {
+      // إذا لم توجد صورة نهائيًا
+      return const Icon(Icons.person, size: 60, color: Colors.grey);
+    }
   }
-}
 
-String _formatNetworkImage(String path) {
-  if (path.startsWith('http')) {
-    return path;
-  } else {
-    return 'https://mangamediaa.com/house-food/public/storage/uploads/images/users/$path';
+  String _formatNetworkImage(String path) {
+    if (path.startsWith('http')) {
+      return path;
+    } else {
+      return 'https://mangamediaa.com/house-food/public/storage/uploads/images/users/$path';
+    }
   }
-}
-
 }

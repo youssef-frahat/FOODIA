@@ -32,19 +32,29 @@ Future<void> _initExternals() async {
 
 //! Repositories
 void _initRepositories() {
-  getIt.registerLazySingleton<LoginUserRepoImpl>(() => LoginUserRepoImpl(getIt()));
-  getIt.registerLazySingleton<SigninUserRepoImpel>(() => SigninUserRepoImpel(getIt()));
-  getIt.registerLazySingleton<OtpUserRepoImpl>(() => OtpUserRepoImpl(getIt())); 
-  getIt.registerLazySingleton<GetUserProfileRepoImpl>(() => GetUserProfileRepoImpl(getIt()));
-  getIt.registerLazySingleton<GetAllHomeRepoImpl>(() => GetAllHomeRepoImpl(getIt()));
+  getIt.registerLazySingleton<LoginUserRepoImpl>(
+    () => LoginUserRepoImpl(getIt()),
+  );
+  getIt.registerLazySingleton<SigninUserRepoImpel>(
+    () => SigninUserRepoImpel(getIt()),
+  );
+  getIt.registerLazySingleton<OtpUserRepoImpl>(() => OtpUserRepoImpl(getIt()));
+  getIt.registerLazySingleton<GetUserProfileRepoImpl>(
+    () => GetUserProfileRepoImpl(getIt()),
+  );
+  getIt.registerLazySingleton<GetAllHomeRepoImpl>(
+    () => GetAllHomeRepoImpl(getIt()),
+  );
 }
 
 //! Cubits
 void _initCubits() {
   getIt.registerFactory<LoginUserCubit>(() => LoginUserCubit(getIt()));
   getIt.registerFactory<SigninUserCubit>(() => SigninUserCubit(getIt()));
-  getIt.registerFactory<OtpUserCubit>(() => OtpUserCubit(getIt())); 
+  getIt.registerFactory<OtpUserCubit>(() => OtpUserCubit(getIt()));
   getIt.registerFactory<UserProfileCubit>(() => UserProfileCubit(getIt()));
-  getIt.registerFactory<GetAllCategorysCubit>(() => GetAllCategorysCubit(getIt()));
+  getIt.registerFactory<GetAllCategorysCubit>(
+    () => GetAllCategorysCubit(getIt()),
+  );
   getIt.registerFactory<AllFoodsCubit>(() => AllFoodsCubit(getIt()));
 }

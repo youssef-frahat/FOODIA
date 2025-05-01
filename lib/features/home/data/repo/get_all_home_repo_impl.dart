@@ -1,12 +1,11 @@
-
 import 'package:dartz/dartz.dart';
 import 'package:foodia_app/core/errors/failures.dart';
 import 'package:foodia_app/core/networking/api/api_services.dart';
-import 'package:foodia_app/features/home/data/model/get_all_categorys_model/get_all_categorys_model.dart';
 
 import '../../../../core/app_config/app_strings.dart';
 import '../../../../core/errors/exceptions.dart';
 import '../../../../core/networking/api/end_points.dart';
+import '../model/get_all_category_model/get_all_categorys_model.dart';
 import '../model/get_home_foods_model/get_home_foods_model.dart';
 import 'get_all_home_repo.dart';
 
@@ -16,12 +15,12 @@ class GetAllHomeRepoImpl implements GetAllHomeRepo {
   GetAllHomeRepoImpl(this.apiService);
 
   @override
-  Future<Either<Failure, GetAllCategorysModel>> listAllcategories() async{
+  Future<Either<Failure, GetAllCategorysModel>> listAllcategories() async {
     try {
-      final response = await apiService.get(
-       EndPoints.getAllCategorys,
+      final response = await apiService.get(EndPoints.getAllCategorys);
+      GetAllCategorysModel getAllCategorysModel = GetAllCategorysModel.fromJson(
+        response,
       );
-      GetAllCategorysModel getAllCategorysModel = GetAllCategorysModel.fromJson(response);
       return Right(getAllCategorysModel);
     } on NetworkException catch (e) {
       return Left(NetworkFailure(e.message));
@@ -32,16 +31,19 @@ class GetAllHomeRepoImpl implements GetAllHomeRepo {
     }
   }
 
-
   @override
-  Future<Either<Failure, GetHomeFoodsModel>> getAllHomeFoods(
-      {required String foodName}) async {
+  Future<Either<Failure, GetHomeFoodsModel>> getAllHomeFoods({
+    required String foodName,
+  }) async {
     try {
-      final response = await apiService
-          .get(EndPoints.getAllfoods, queryParameters: {'food_name': foodName});
-      GetHomeFoodsModel getHomeFoodsModel = GetHomeFoodsModel.fromJson(response);
+      final response = await apiService.get(
+        EndPoints.getAllfoods,
+        queryParameters: {'food_name': foodName},
+      );
+      GetHomeFoodsModel getHomeFoodsModel = GetHomeFoodsModel.fromJson(
+        response,
+      );
       return Right(getHomeFoodsModel);
-     
     } on NetworkException catch (e) {
       return Left(NetworkFailure(e.message));
     } on ServerException catch (e) {

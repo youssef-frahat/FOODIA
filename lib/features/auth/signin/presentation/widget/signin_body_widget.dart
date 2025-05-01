@@ -30,7 +30,8 @@ class _SigninBodyWidgetState extends State<SigninBodyWidget> {
   final TextEditingController _phoneController = TextEditingController();
   final TextEditingController _emailController = TextEditingController();
   final TextEditingController _passwordController = TextEditingController();
-  final TextEditingController _confirmPasswordController = TextEditingController();
+  final TextEditingController _confirmPasswordController =
+      TextEditingController();
 
   @override
   void dispose() {
@@ -172,7 +173,8 @@ class _SigninBodyWidgetState extends State<SigninBodyWidget> {
                           phone: _phoneController.text.trim(),
                           email: _emailController.text.trim(),
                           password: _passwordController.text.trim(),
-                          passwordConfirmation: _confirmPasswordController.text.trim(),
+                          passwordConfirmation:
+                              _confirmPasswordController.text.trim(),
                         );
                       }
                     },

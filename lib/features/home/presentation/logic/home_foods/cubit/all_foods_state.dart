@@ -9,7 +9,6 @@ sealed class AllFoodsState extends Equatable {
 
 final class AllFoodsInitial extends AllFoodsState {}
 
-
 final class AllFoodsLoading extends AllFoodsState {}
 
 final class AllFoodsLoaded extends AllFoodsState {

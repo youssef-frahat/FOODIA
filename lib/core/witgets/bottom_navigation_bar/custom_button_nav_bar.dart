@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 
-import '../../../features/home/presentation/widget/details_screen.dart';
+import '../../../features/home/presentation/screens/details_screen.dart';
 import '../../../features/profile/presentation/screen/profile_screen.dart';
 import '../../app_config/app_icons.dart';
 import '../../../features/home/presentation/screens/home_screen.dart';

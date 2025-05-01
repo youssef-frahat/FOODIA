@@ -42,7 +42,7 @@ class OrderWidget extends StatelessWidget {
                     fontSize: 12.sp,
                     color: const Color(0xFF20402A),
                   ),
-                  textAlign: TextAlign.start, 
+                  textAlign: TextAlign.start,
                 ),
                 SizedBox(height: 16.h),
                 Container(
@@ -64,25 +64,27 @@ class OrderWidget extends StatelessWidget {
             width: 100.w,
             height: 100.h,
             fit: BoxFit.cover,
-            placeholder: (context, url) => Container(
-              width: 100.w,
-              height: 100.h,
-              alignment: Alignment.center,
-              child: const CircularProgressIndicator(),
-            ),
-            errorWidget: (context, url, error) => Container(
-              width: 100.w,
-              height: 100.h,
-              color: Colors.grey[300],
-              child: const Icon(Icons.broken_image),
-            ),
+            placeholder:
+                (context, url) => Container(
+                  width: 100.w,
+                  height: 100.h,
+                  alignment: Alignment.center,
+                  child: const CircularProgressIndicator(),
+                ),
+            errorWidget:
+                (context, url, error) => Container(
+                  width: 100.w,
+                  height: 100.h,
+                  color: Colors.grey[300],
+                  child: const Icon(Icons.broken_image),
+                ),
           ),
 
           SizedBox(width: 12.w),
 
           Expanded(
             child: Column(
-              crossAxisAlignment: CrossAxisAlignment.end, 
+              crossAxisAlignment: CrossAxisAlignment.end,
               mainAxisSize: MainAxisSize.min,
               children: [
                 Text(
@@ -91,7 +93,7 @@ class OrderWidget extends StatelessWidget {
                     fontSize: 16.sp,
                     fontWeight: FontWeight.bold,
                   ),
-                  textAlign: TextAlign.end,  
+                  textAlign: TextAlign.end,
                 ),
                 SizedBox(height: 12.h),
                 Text(
@@ -100,7 +102,7 @@ class OrderWidget extends StatelessWidget {
                     fontSize: 14.sp,
                     color: const Color(0xFFFE8C00),
                   ),
-                  textAlign: TextAlign.end, 
+                  textAlign: TextAlign.end,
                 ),
 
                 Text(
@@ -110,7 +112,7 @@ class OrderWidget extends StatelessWidget {
                     fontSize: 12.sp,
                     color: Colors.grey[400],
                   ),
-                  textAlign: TextAlign.end,  
+                  textAlign: TextAlign.end,
                 ),
                 SizedBox(height: 15.h),
                 Row(

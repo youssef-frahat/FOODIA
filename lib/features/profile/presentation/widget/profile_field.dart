@@ -13,7 +13,7 @@ class ProfileField extends StatelessWidget {
       padding: EdgeInsets.symmetric(horizontal: 16.w, vertical: 12.h),
       margin: EdgeInsets.symmetric(vertical: 15.h),
       decoration: BoxDecoration(
-        border: Border.all(color: Colors.orange,width: 2.w),
+        border: Border.all(color: Colors.orange, width: 2.w),
 
         borderRadius: BorderRadius.circular(30),
       ),
@@ -28,13 +28,7 @@ class ProfileField extends StatelessWidget {
               fontWeight: FontWeight.w600,
             ),
           ),
-          Text(
-            value,
-            style: TextStyle(
-              color: Colors.black,
-              fontSize: 14,
-            ),
-          ),
+          Text(value, style: TextStyle(color: Colors.black, fontSize: 14)),
         ],
       ),
     );

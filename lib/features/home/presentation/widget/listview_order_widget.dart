@@ -12,30 +12,29 @@ class ListviewOrderWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return BlocProvider(
-      create: (context) => getIt<AllFoodsCubit>()..getAllHomeFoods(foodName: ''),
+      create:
+          (context) => getIt<AllFoodsCubit>()..getAllHomeFoods(foodName: ''),
       child: BlocBuilder<AllFoodsCubit, AllFoodsState>(
         builder: (context, state) {
-           if (state is AllFoodsLoading) {
+          if (state is AllFoodsLoading) {
             return const Center(child: CircularProgressIndicator());
           }
           if (state is AllFoodsError) {
-          AppMessages.showError(context, state.error);
+            AppMessages.showError(context, state.error);
           }
-           if (state is AllFoodsLoaded) {
+          if (state is AllFoodsLoaded) {
             final homeFoods = state.getHomeFoodsModel;
-          return Flexible(
-                child: ListView.builder(
-                  itemCount: homeFoods.data?.length ?? 0,
-                  shrinkWrap: true,
-                  itemBuilder: (context, index) {
-                    final food = homeFoods.data![index];
-                    return OrderWidget(
-                      getHomeFoodsModel: food,
-                    );
-                  },
-                ),
-              );
-           }
+            return Flexible(
+              child: ListView.builder(
+                itemCount: homeFoods.data?.data?.length ?? 0,
+                shrinkWrap: true,
+                itemBuilder: (context, index) {
+                  final food = homeFoods.data?.data?[index];
+                  return OrderWidget(getHomeFoodsModel: food!);
+                },
+              ),
+            );
+          }
           return Container();
         },
       ),

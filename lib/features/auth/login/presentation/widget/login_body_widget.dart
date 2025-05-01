@@ -30,7 +30,7 @@ class LoginBodyWidget extends StatefulWidget {
 
 class _LoginBodyWidgetState extends State<LoginBodyWidget> {
   final _formKey = GlobalKey<FormState>();
-  final  SharedPreferences login =  getIt<SharedPreferences>();
+  final SharedPreferences login = getIt<SharedPreferences>();
 
   late TextEditingController _phoneController;
   late TextEditingController _passwordController;
@@ -141,7 +141,7 @@ class _LoginBodyWidgetState extends State<LoginBodyWidget> {
                         );
                         return;
                       }
-login.setBool('isLoggedIn', true);
+                      login.setBool('isLoggedIn', true);
                       if (_formKey.currentState!.validate()) {
                         context.read<LoginUserCubit>().login(
                           phone: _phoneController.text.trim(),
