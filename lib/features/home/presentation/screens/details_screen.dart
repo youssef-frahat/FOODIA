@@ -9,6 +9,7 @@ import '../../../../core/di/dependency_injection.dart';
 import '../../../../core/extensions/spacing.dart';
 import '../../../../core/witgets/primary_button.dart';
 import '../logic/home_foods/cubit/all_foods_cubit.dart';
+import '../widget/feedback_screen.dart';
 
 class ProductDetailsScreen extends StatefulWidget {
   final int foodId;
@@ -237,7 +238,7 @@ class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
                                 ),
                                 Positioned(
                                   top: 65.h,
-                                  right: 130.w,
+                                  right: 150.w,
                                   child: Container(
                                     decoration: BoxDecoration(
                                       shape: BoxShape.circle,
@@ -331,9 +332,7 @@ class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
                                           ),
                                           horizontalSpace(8.w),
                                           Text(
-                                            details.data?.food?.preparationTime
-                                                    .toString() ??
-                                                '0',
+                                            '${details.data?.food?.preparationTime} دقيقة',
                                             style: TextStyle(
                                               color: Colors.grey,
                                               fontSize: 14.sp,
@@ -450,7 +449,7 @@ class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
                                           hight: 60.h,
                                           buttoncolor: Colors.orange,
                                           borderrediuse: 10.r,
-                                          onpress: () {},
+                                          onpress: () => showRatingSheet(context),
                                           textcolor: Colors.white,
                                           buttontext: 'كتابة تعليق',
                                         ),

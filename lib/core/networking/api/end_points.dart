@@ -16,4 +16,5 @@ class EndPoints {
   static String getAllCategorys = "$_baseUrl/user/categories";
   static String getAllfoods = "$_baseUrl/user/foods";
   static String getAllDetails = "$_baseUrl/foods";
+  static String reviews = "$_baseUrl/reviews";
 }

@@ -1,10 +1,11 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:go_router/go_router.dart';
 import '../../../../core/app_config/font_styles.dart';
 import '../../../../core/app_config/image_urls.dart';
+import '../../../../core/routing/app_routes.dart';
 import '../../data/model/get_home_foods_model/datum.dart';
-import '../screens/details_screen.dart';
 
 class OrderWidget extends StatelessWidget {
   final FoodsModel getHomeFoodsModel;
@@ -14,13 +15,7 @@ class OrderWidget extends StatelessWidget {
   Widget build(BuildContext context) {
     return GestureDetector(
       onTap: () {
-        Navigator.push(
-          context,
-          MaterialPageRoute(builder: (context) => ProductDetailsScreen(
-            foodId: getHomeFoodsModel.id
-            ?? 0,
-          )),
-        );
+        context.pushNamed(AppRoutes.detailsScreen, extra: getHomeFoodsModel.id);
       },
       child: Container(
         margin: EdgeInsets.only(bottom: 20.h),

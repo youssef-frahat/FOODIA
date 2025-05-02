@@ -1,14 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
-
-// screens
 import 'package:foodia_app/core/witgets/bottom_navigation_bar/custom_button_nav_bar.dart';
 import 'package:foodia_app/features/home/presentation/screens/home_screen.dart';
-
 import '../../features/auth/forgotPassword/presentation/screen/forgotPassword_screen.dart';
 import '../../features/auth/login/presentation/screen/login_screen.dart';
 import '../../features/auth/otp/presentation/screen/otp_screen.dart';
 import '../../features/auth/signin/presentation/screens/signin_screen.dart';
+import '../../features/home/presentation/screens/details_screen.dart' show ProductDetailsScreen;
 import '../../features/on_boarding/onbording.dart';
 import '../../features/profile/presentation/screen/edit_profile_screen.dart';
 import '../../features/profile/presentation/screen/profile_screen.dart';
@@ -65,6 +63,15 @@ class RouterGeneration {
           name: AppRoutes.profileScreen,
           pageBuilder: _transitionBuilder((_, __) => const ProfileScreen()),
         ),
+        GoRoute(
+          name: AppRoutes.detailsScreen,
+          path: AppRoutes.detailsScreen,
+          builder: (context, state) {
+            final foodId = state.extra as int;
+            return ProductDetailsScreen(foodId: foodId);
+          },
+        ),
+
         GoRoute(
           path: AppRoutes.editProfileScreen,
           name: AppRoutes.editProfileScreen,
