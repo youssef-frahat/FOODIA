@@ -1,7 +1,11 @@
+
+import 'dart:developer';
+
 import 'package:equatable/equatable.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:foodia_app/features/home/data/repo/get_all_home_repo_impl.dart';
 
+import '../../../../data/model/get_all_detalis_response_model/get_all_detalis_response_model.dart';
 import '../../../../data/model/get_home_foods_model/get_home_foods_model.dart';
 
 part 'all_foods_state.dart';
@@ -19,6 +23,20 @@ class AllFoodsCubit extends Cubit<AllFoodsState> {
       },
       (getHomeFoodsModel) {
         emit(AllFoodsLoaded(getHomeFoodsModel));
+      },
+    );
+  }
+
+  Future<void> getAllDetalisById({required num foodId}) async {
+    emit(AllDetailsLoading());
+    final result = await getAllHomeRepo.getAllDetalisById(foodId: foodId);
+    result.fold(
+      (failure) {
+        emit(AllDetailsError(failure.message));
+      },
+      (getAllDetalisResponseModel) {
+        log('GetAllDetalisResponseModel: ${getAllDetalisResponseModel.toString()}');
+        emit(AllDetailsSucss(getAllDetalisResponseModel));
       },
     );
   }

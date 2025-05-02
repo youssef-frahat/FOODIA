@@ -28,3 +28,23 @@ final class AllFoodsError extends AllFoodsState {
   @override
   List<Object> get props => [error];
 }
+
+//! Get All Details By Id
+final class AllDetailsLoading extends AllFoodsState {}
+final class AllDetailsSucss extends AllFoodsState {
+  final GetAllDetalisResponseModel getAllDetalisResponseModel;
+
+  const AllDetailsSucss(this.getAllDetalisResponseModel);
+
+  @override
+  List<Object> get props => [getAllDetalisResponseModel];
+}
+
+final class AllDetailsError extends AllFoodsState {
+  final String error;
+
+  const AllDetailsError(this.error);
+
+  @override
+  List<Object> get props => [error];
+}

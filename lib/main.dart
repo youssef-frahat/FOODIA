@@ -7,15 +7,13 @@ import 'package:shared_preferences/shared_preferences.dart';
 import 'core/di/dependency_injection.dart';
 import 'core/locale/locales.dart';
 
-late final bool isLoggedIn; // متغير عام لتحديد حالة الدخول
+late final bool isLoggedIn; 
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await setupGetIt();
   await EasyLocalization.ensureInitialized();
 
-  final prefs = await SharedPreferences.getInstance();
-  isLoggedIn = prefs.getBool('isLoggedIn') ?? false;
 
   runApp(
     EasyLocalization(
@@ -33,9 +31,9 @@ class Foodia extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final router = RouterGeneration.generateRouter(
-      isLoggedIn,
-    ); // نمرر حالة الدخول
+   final router = RouterGeneration.generateRouter(
+    
+   );
     return ScreenUtilInit(
       designSize: const Size(460, 926),
       minTextAdapt: true,

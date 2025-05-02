@@ -15,10 +15,9 @@ import '../../features/profile/presentation/screen/profile_screen.dart';
 import 'app_routes.dart';
 
 class RouterGeneration {
-  static GoRouter generateRouter(bool isLoggedIn) {
+  static GoRouter generateRouter() {
     return GoRouter(
-      initialLocation:
-          isLoggedIn ? AppRoutes.bottomNavBar : AppRoutes.onboarding,
+      initialLocation: AppRoutes.onboarding,
       routes: [
         GoRoute(
           path: AppRoutes.onboarding,

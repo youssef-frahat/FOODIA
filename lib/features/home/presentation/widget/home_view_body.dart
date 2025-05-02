@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import '../../../../core/extensions/spacing.dart';
 import '../../../../core/witgets/custom_search_widget.dart';
 import '../../../../core/witgets/special_offer_section.dart';
 import 'categories_list.dart';
@@ -15,11 +16,11 @@ class HomeViewBody extends StatelessWidget {
       child: Column(
         children: [
           CustomSearchWidget(),
-          SizedBox(height: 20.h),
+          verticalSpace(20.h),
           SpecialOfferCard(),
-          SizedBox(height: 20),
+          verticalSpace(20.h),
           CategoriesList(),
-          SizedBox(height: 15.h),
+          verticalSpace(20.h),
           ListviewOrderWidget(),
         ],
       ),
