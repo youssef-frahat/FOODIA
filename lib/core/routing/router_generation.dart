@@ -1,15 +1,17 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
+
 import 'package:foodia_app/core/witgets/bottom_navigation_bar/custom_button_nav_bar.dart';
 import 'package:foodia_app/features/home/presentation/screens/home_screen.dart';
-import '../../features/auth/forgotPassword/presentation/screen/forgotPassword_screen.dart';
-import '../../features/auth/login/presentation/screen/login_screen.dart';
-import '../../features/auth/otp/presentation/screen/otp_screen.dart';
-import '../../features/auth/signin/presentation/screens/signin_screen.dart';
-import '../../features/home/presentation/screens/details_screen.dart' show ProductDetailsScreen;
-import '../../features/on_boarding/onbording.dart';
-import '../../features/profile/presentation/screen/edit_profile_screen.dart';
-import '../../features/profile/presentation/screen/profile_screen.dart';
+import 'package:foodia_app/features/auth/forgotPassword/presentation/screen/forgotPassword_screen.dart';
+import 'package:foodia_app/features/auth/login/presentation/screen/login_screen.dart';
+import 'package:foodia_app/features/auth/otp/presentation/screen/otp_screen.dart';
+import 'package:foodia_app/features/auth/signin/presentation/screens/signin_screen.dart';
+import 'package:foodia_app/features/home/presentation/screens/details_screen.dart' show ProductDetailsScreen;
+import 'package:foodia_app/features/on_boarding/onbording.dart';
+import 'package:foodia_app/features/profile/presentation/screen/edit_profile_screen.dart';
+import 'package:foodia_app/features/profile/presentation/screen/profile_screen.dart';
+
 import 'app_routes.dart';
 
 class RouterGeneration {
@@ -17,6 +19,7 @@ class RouterGeneration {
     return GoRouter(
       initialLocation: AppRoutes.onboarding,
       routes: [
+        // ✅ شاشات أولية
         GoRoute(
           path: AppRoutes.onboarding,
           name: AppRoutes.onboarding,
@@ -46,6 +49,14 @@ class RouterGeneration {
             );
           },
         ),
+         GoRoute(
+              name: AppRoutes.detailsScreen,
+              path: AppRoutes.detailsScreen,
+              builder: (context, state) {
+                final foodId = state.extra as int;
+                return ProductDetailsScreen(foodId: foodId);
+              },
+            ),
         GoRoute(
           path: AppRoutes.forgetpassword,
           name: AppRoutes.forgetpassword,
@@ -53,45 +64,47 @@ class RouterGeneration {
             return _buildTransitionPage(ForgotpasswordScreen(), state);
           },
         ),
-        GoRoute(
-          path: AppRoutes.home,
-          name: AppRoutes.home,
-          pageBuilder: _transitionBuilder((_, __) => const HomeScreen()),
-        ),
-        GoRoute(
-          path: AppRoutes.profileScreen,
-          name: AppRoutes.profileScreen,
-          pageBuilder: _transitionBuilder((_, __) => const ProfileScreen()),
-        ),
-        GoRoute(
-          name: AppRoutes.detailsScreen,
-          path: AppRoutes.detailsScreen,
-          builder: (context, state) {
-            final foodId = state.extra as int;
-            return ProductDetailsScreen(foodId: foodId);
-          },
-        ),
 
-        GoRoute(
-          path: AppRoutes.editProfileScreen,
-          name: AppRoutes.editProfileScreen,
-          pageBuilder: (context, state) {
-            final data = state.extra as Map<String, dynamic>?;
-            return _buildTransitionPage(
-              EditProfileScreen(
-                name: data?['name'] ?? '',
-                email: data?['email'] ?? '',
-                phone: data?['phone'] ?? '',
-                image: data?['image'] ?? '',
-              ),
-              state,
-            );
+        ShellRoute(
+          builder: (context, state, child) {
+            return BottomNavBar(child: child);
           },
-        ),
-        GoRoute(
-          path: AppRoutes.bottomNavBar,
-          name: AppRoutes.bottomNavBar,
-          pageBuilder: _transitionBuilder((_, __) => const BottomNavBar()),
+          routes: [
+            GoRoute(
+              path: AppRoutes.home,
+              name: AppRoutes.home,
+              pageBuilder: _transitionBuilder((_, __) => const HomeScreen()),
+            ),
+            GoRoute(
+              path: AppRoutes.profileScreen,
+              name: AppRoutes.profileScreen,
+              pageBuilder: _transitionBuilder((_, __) => const ProfileScreen()),
+            ),
+            // GoRoute(
+            //   name: AppRoutes.detailsScreen,
+            //   path: AppRoutes.detailsScreen,
+            //   builder: (context, state) {
+            //     final foodId = state.extra as int;
+            //     return ProductDetailsScreen(foodId: foodId);
+            //   },
+            // ),
+            GoRoute(
+              path: AppRoutes.editProfileScreen,
+              name: AppRoutes.editProfileScreen,
+              pageBuilder: (context, state) {
+                final data = state.extra as Map<String, dynamic>?;
+                return _buildTransitionPage(
+                  EditProfileScreen(
+                    name: data?['name'] ?? '',
+                    email: data?['email'] ?? '',
+                    phone: data?['phone'] ?? '',
+                    image: data?['image'] ?? '',
+                  ),
+                  state,
+                );
+              },
+            ),
+          ],
         ),
       ],
     );

@@ -15,7 +15,8 @@ class OrderWidget extends StatelessWidget {
   Widget build(BuildContext context) {
     return GestureDetector(
       onTap: () {
-        context.pushNamed(AppRoutes.detailsScreen, extra: getHomeFoodsModel.id);
+         context.push(AppRoutes.detailsScreen,  extra: getHomeFoodsModel.id);
+
       },
       child: Container(
         margin: EdgeInsets.only(bottom: 20.h),

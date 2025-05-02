@@ -3,6 +3,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:foodia_app/core/witgets/wiget_back.dart';
+import 'package:go_router/go_router.dart';
 import '../../../../core/app_config/image_urls.dart';
 import '../../../../core/app_config/messages.dart';
 import '../../../../core/di/dependency_injection.dart';
@@ -61,7 +62,7 @@ class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
                               top: 40.h,
                               left: 10.w,
                               child: CustomWigetArrowBack(
-                                onpress: () => Navigator.pop(context),
+                                onpress: () =>   context.pop(),
                               ),
                             ),
                           ],
