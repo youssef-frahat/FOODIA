@@ -27,3 +27,25 @@ final class AddToCartError extends AddToCartState {
   @override
   List<Object> get props => [error];
 }
+
+
+//! GET CART
+
+final class GetAllCartLoading extends AddToCartState {}
+
+final class GetAllCartSuccess extends AddToCartState {
+  final GetAllCartReModel getAllCartReModel;
+  const GetAllCartSuccess(this.getAllCartReModel);
+
+  @override
+  List<Object> get props => [getAllCartReModel];
+}
+
+final class GetAllCartError extends AddToCartState {
+  final String error;
+
+  const GetAllCartError(this.error);
+
+  @override
+  List<Object> get props => [error];
+}

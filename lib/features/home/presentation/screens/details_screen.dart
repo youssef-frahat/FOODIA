@@ -1,3 +1,4 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';
@@ -10,9 +11,7 @@ import '../../../../core/app_config/image_urls.dart';
 import '../../../../core/app_config/messages.dart';
 import '../../../../core/di/dependency_injection.dart';
 import '../../../../core/extensions/spacing.dart';
-import '../../../../core/witgets/primary_button.dart';
 import '../logic/home_foods/cubit/all_foods_cubit.dart';
-import '../widget/feedback_screen.dart';
 
 class ProductDetailsScreen extends StatefulWidget {
   final int foodId;
@@ -50,6 +49,19 @@ class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
             }
             if (state is AllDetailsSucss) {
               final details = state.getAllDetalisResponseModel;
+              final reviews = details.data?.reviews;
+              final hasReviews = reviews != null && reviews.isNotEmpty;
+
+              final DateTime? parsedDate =
+                  hasReviews
+                      ? DateTime.tryParse(reviews![0].createdAt ?? '')
+                      : null;
+
+              final String formattedDate =
+                  parsedDate != null
+                      ? DateFormat('dd/MM/yyyy', 'ar').format(parsedDate)
+                      : 'تاريخ غير متاح';
+
               return Stack(
                 clipBehavior: Clip.none,
                 children: [
@@ -80,7 +92,7 @@ class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
                           offset: Offset(0, -30.h),
                           child: Container(
                             width: double.infinity,
-                            
+
                             decoration: BoxDecoration(
                               color: Colors.white,
                               borderRadius: BorderRadius.vertical(
@@ -189,7 +201,7 @@ class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
                                         if (state is AddToCartSuccess) {
                                           AppMessages.showSuccess(
                                             context,
-                                            'تمت إضافة المنتج إلى السلة',
+                                            AppStrings.addToCartSuccess,
                                           );
                                         } else if (state is AddToCartError) {
                                           AppMessages.showError(
@@ -450,68 +462,80 @@ class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
                                         mainAxisAlignment:
                                             MainAxisAlignment.spaceBetween,
                                         children: [
-                                          Row(
-                                            children: [
-                                              CircleAvatar(
-                                                radius: 16.r,
-                                                backgroundImage:
-                                                     NetworkImage(
-                                                     "${imageUrl}${details.data?.reviews?[0].userImage ?? ''}",
-                                                    ),
-                                              ),
-                                              horizontalSpace(8.w),
-                                              Text(
-                                                details.data?.reviews?[0].userName ??
-                                                    'اسم المستخدم',
-                                                style: TextStyle(
-                                                  fontWeight: FontWeight.bold,
-                                                  fontSize: 14.sp,
+                                          if (hasReviews) ...[
+                                            Row(
+                                              children: [
+                                                CircleAvatar(
+                                                  radius: 16.r,
+                                                  backgroundImage: NetworkImage(
+                                                    "${imageUrl}${reviews![0].userImage ?? ''}",
+                                                  ),
                                                 ),
-                                              ),
-                                            ],
-                                          ),
-                                          Row(
-                                            children: [
-                                              RatingBarIndicator(
-                                                rating: double.tryParse(
-                                                  details.data?.reviews?[0].star
-                                                          ?.toString() ??
-                                                      '0',
-                                                ) ??
-                                                0.0,
-                                                itemCount: 5,
-                                                itemSize: 20.sp,
-                                                direction: Axis.horizontal,
-                                                itemBuilder:
-                                                    (context, _) => const Icon(
-                                                      Icons.star,
-                                                      color: Colors.amber,
-                                                    ),
-                                              ),
-                                              horizontalSpace(8.w),
-                                              Text(
-                                                details.data?.reviews?[0].createdAt
-                                                        .toString() ??
-                                                    '0',
-                                                style: TextStyle(
-                                                  fontSize: 12.sp,
+                                                horizontalSpace(8.w),
+                                                Text(
+                                                  reviews[0].userName ??
+                                                      'اسم المستخدم',
+                                                  style: TextStyle(
+                                                    fontWeight: FontWeight.bold,
+                                                    fontSize: 14.sp,
+                                                  ),
                                                 ),
+                                              ],
+                                            ),
+                                          ] else ...[
+                                            Text(
+                                              'لا توجد تقييمات بعد',
+                                              style: TextStyle(
+                                                fontSize: 14.sp,
+                                                color: Colors.grey,
                                               ),
-                                            ],
-                                          ),
+                                            ),
+                                          ],
+                                          if (hasReviews) ...[
+                                            Row(
+                                              children: [
+                                                RatingBarIndicator(
+                                                  rating:
+                                                      double.tryParse(
+                                                        reviews[0].star
+                                                                ?.toString() ??
+                                                            '0',
+                                                      ) ??
+                                                      0.0,
+                                                  itemCount: 5,
+                                                  itemSize: 20.sp,
+                                                  direction: Axis.horizontal,
+                                                  itemBuilder:
+                                                      (context, _) =>
+                                                          const Icon(
+                                                            Icons.star,
+                                                            color: Colors.amber,
+                                                          ),
+                                                ),
+                                                horizontalSpace(8.w),
+                                                Text(
+                                                  formattedDate,
+                                                  style: TextStyle(
+                                                    fontSize: 12.sp,
+                                                  ),
+                                                ),
+                                              ],
+                                            ),
+                                          ],
                                         ],
                                       ),
                                       verticalSpace(6.h),
                                       Text(
-                                        details.data?.reviews?[0].comment ??
-                                            'لا يوجد تعليق متاح.',
-                                       
+                                        hasReviews
+                                            ? reviews[0].comment ??
+                                                'لا يوجد تعليق متاح.'
+                                            : 'لا توجد تعليقات حتى الآن.',
                                         style: TextStyle(
                                           color: Colors.grey.shade700,
                                           fontSize: 14.sp,
                                         ),
-                                        textDirection: TextDirection.rtl,
                                       ),
+
                                       verticalSpace(20.h),
                                       // SizedBox(
                                       //   width: double.infinity,

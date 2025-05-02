@@ -26,7 +26,7 @@ class ListviewOrderWidget extends StatelessWidget {
             final homeFoods = state.getHomeFoodsModel;
             return Flexible(
               child: ListView.builder(
-                itemCount: homeFoods.data?.data?.length ?? 0,
+                itemCount: homeFoods.data?.data?.length,
                 shrinkWrap: true,
                 itemBuilder: (context, index) {
                   final food = homeFoods.data?.data?[index];
