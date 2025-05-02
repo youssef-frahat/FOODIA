@@ -2,7 +2,7 @@ import 'package:dartz/dartz.dart';
 
 import '../../../../core/errors/failures.dart';
 import '../model/get_all_category_model/get_all_categorys_model.dart';
-import '../model/get_all_detalis_response_model/get_all_detalis_response_model.dart';
+import '../model/get_all_details_reposne_model/get_all_details_reposne_model.dart';
 import '../model/get_home_foods_model/get_home_foods_model.dart';
 
 abstract class GetAllHomeRepo {
@@ -10,7 +10,7 @@ abstract class GetAllHomeRepo {
   Future<Either<Failure, GetHomeFoodsModel>> getAllHomeFoods({
     required String foodName,
   });
-  Future<Either<Failure, GetAllDetalisResponseModel>> getAllDetalisById({
+  Future<Either<Failure, GetAllDetailsReposneModel>> getAllDetalisById({
     required num foodId,
   });
 }

@@ -12,8 +12,7 @@ class BottomNavBar extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-  final String location = GoRouterState.of(context).uri.toString();
-
+    final String location = GoRouterState.of(context).uri.toString();
 
     int getCurrentIndex() {
       if (location.startsWith(AppRoutes.home)) return 0;
@@ -30,13 +29,13 @@ class BottomNavBar extends StatelessWidget {
           context.go(AppRoutes.home);
           break;
         case 1:
-          context.go('/follow'); 
+          context.go('/follow');
           break;
         case 2:
-          context.go('/orders'); 
+          context.go('/orders');
           break;
         case 3:
-          context.go('/wallet'); 
+          context.go('/wallet');
           break;
         case 4:
           context.go(AppRoutes.profileScreen);
@@ -106,10 +105,10 @@ class BottomNavBar extends StatelessWidget {
   }
 
   List<Map<String, String>> get _navItems => [
-        {'icon': AppIcons.home, 'label': 'الرئيسية'},
-        {'icon': AppIcons.approved, 'label': 'المتابعة'},
-        {'icon': AppIcons.cart, 'label': 'طلباتي'},
-        {'icon': AppIcons.wallet, 'label': 'المحفظة'},
-        {'icon': AppIcons.profile, 'label': 'حسابي'},
-      ];
+    {'icon': AppIcons.home, 'label': 'الرئيسية'},
+    {'icon': AppIcons.approved, 'label': 'المتابعة'},
+    {'icon': AppIcons.cart, 'label': 'طلباتي'},
+    {'icon': AppIcons.wallet, 'label': 'المحفظة'},
+    {'icon': AppIcons.profile, 'label': 'حسابي'},
+  ];
 }

@@ -2,15 +2,15 @@ import 'package:equatable/equatable.dart';
 
 import 'data.dart';
 
-class GetAllDetalisResponseModel extends Equatable {
+class GetAllDetailsReposneModel extends Equatable {
   final bool? status;
   final String? message;
   final Data? data;
 
-  const GetAllDetalisResponseModel({this.status, this.message, this.data});
+  const GetAllDetailsReposneModel({this.status, this.message, this.data});
 
-  factory GetAllDetalisResponseModel.fromJson(Map<String, dynamic> json) {
-    return GetAllDetalisResponseModel(
+  factory GetAllDetailsReposneModel.fromJson(Map<String, dynamic> json) {
+    return GetAllDetailsReposneModel(
       status: json['status'] as bool?,
       message: json['message'] as String?,
       data:

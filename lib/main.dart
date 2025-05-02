@@ -2,18 +2,16 @@ import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:foodia_app/core/routing/router_generation.dart';
-import 'package:shared_preferences/shared_preferences.dart';
 
 import 'core/di/dependency_injection.dart';
 import 'core/locale/locales.dart';
 
-late final bool isLoggedIn; 
+late final bool isLoggedIn;
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await setupGetIt();
   await EasyLocalization.ensureInitialized();
-
 
   runApp(
     EasyLocalization(
@@ -31,9 +29,7 @@ class Foodia extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-   final router = RouterGeneration.generateRouter(
-    
-   );
+    final router = RouterGeneration.generateRouter();
     return ScreenUtilInit(
       designSize: const Size(460, 926),
       minTextAdapt: true,

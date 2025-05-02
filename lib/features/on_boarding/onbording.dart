@@ -3,7 +3,7 @@ import 'package:foodia_app/features/on_boarding/onboardingPage.dart';
 import 'package:foodia_app/features/on_boarding/onboarding_model.dart';
 import 'package:go_router/go_router.dart';
 import 'package:smooth_page_indicator/smooth_page_indicator.dart';
-import 'package:shared_preferences/shared_preferences.dart'; // إضافة مكتبة SharedPreferences
+import 'package:shared_preferences/shared_preferences.dart';
 
 import '../../core/routing/app_routes.dart';
 

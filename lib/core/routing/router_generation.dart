@@ -7,7 +7,8 @@ import 'package:foodia_app/features/auth/forgotPassword/presentation/screen/forg
 import 'package:foodia_app/features/auth/login/presentation/screen/login_screen.dart';
 import 'package:foodia_app/features/auth/otp/presentation/screen/otp_screen.dart';
 import 'package:foodia_app/features/auth/signin/presentation/screens/signin_screen.dart';
-import 'package:foodia_app/features/home/presentation/screens/details_screen.dart' show ProductDetailsScreen;
+import 'package:foodia_app/features/home/presentation/screens/details_screen.dart'
+    show ProductDetailsScreen;
 import 'package:foodia_app/features/on_boarding/onbording.dart';
 import 'package:foodia_app/features/profile/presentation/screen/edit_profile_screen.dart';
 import 'package:foodia_app/features/profile/presentation/screen/profile_screen.dart';
@@ -49,14 +50,14 @@ class RouterGeneration {
             );
           },
         ),
-         GoRoute(
-              name: AppRoutes.detailsScreen,
-              path: AppRoutes.detailsScreen,
-              builder: (context, state) {
-                final foodId = state.extra as int;
-                return ProductDetailsScreen(foodId: foodId);
-              },
-            ),
+        GoRoute(
+          name: AppRoutes.detailsScreen,
+          path: AppRoutes.detailsScreen,
+          builder: (context, state) {
+            final foodId = state.extra as int;
+            return ProductDetailsScreen(foodId: foodId);
+          },
+        ),
         GoRoute(
           path: AppRoutes.forgetpassword,
           name: AppRoutes.forgetpassword,

@@ -31,8 +31,9 @@ final class AllFoodsError extends AllFoodsState {
 
 //! Get All Details By Id
 final class AllDetailsLoading extends AllFoodsState {}
+
 final class AllDetailsSucss extends AllFoodsState {
-  final GetAllDetalisResponseModel getAllDetalisResponseModel;
+  final GetAllDetailsReposneModel getAllDetalisResponseModel;
 
   const AllDetailsSucss(this.getAllDetalisResponseModel);
 

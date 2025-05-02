@@ -1,10 +1,11 @@
 import 'package:equatable/equatable.dart';
 
 import 'food.dart';
+import 'review.dart';
 
 class Data extends Equatable {
   final Food? food;
-  final List<dynamic>? reviews;
+  final List<Review>? reviews;
 
   const Data({this.food, this.reviews});
 
@@ -13,10 +14,16 @@ class Data extends Equatable {
         json['food'] == null
             ? null
             : Food.fromJson(json['food'] as Map<String, dynamic>),
-    reviews: json['reviews'] as List<dynamic>?,
+    reviews:
+        (json['reviews'] as List<dynamic>?)
+            ?.map((e) => Review.fromJson(e as Map<String, dynamic>))
+            .toList(),
   );
 
-  Map<String, dynamic> toJson() => {'food': food?.toJson(), 'reviews': reviews};
+  Map<String, dynamic> toJson() => {
+    'food': food?.toJson(),
+    'reviews': reviews?.map((e) => e.toJson()).toList(),
+  };
 
   @override
   List<Object?> get props => [food, reviews];

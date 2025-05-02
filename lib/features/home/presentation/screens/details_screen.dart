@@ -2,7 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:foodia_app/core/app_config/app_strings.dart';
 import 'package:foodia_app/core/witgets/wiget_back.dart';
+import 'package:foodia_app/features/cart/presentation/logic/cubit/add_to_cart_cubit.dart';
 import 'package:go_router/go_router.dart';
 import '../../../../core/app_config/image_urls.dart';
 import '../../../../core/app_config/messages.dart';
@@ -22,24 +24,31 @@ class ProductDetailsScreen extends StatefulWidget {
 
 class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
   int quantity = 1;
-  int price = 300;
-  int originalPrice = 350;
-  int currentImage = 0;
 
   @override
   Widget build(BuildContext context) {
     // final total = price * quantity;
     return Scaffold(
       backgroundColor: Colors.white,
-      body: BlocProvider(
-        create: (context) => getIt<AllFoodsCubit>()..getAllDetalisById(foodId:widget.foodId), 
+      body: MultiBlocProvider(
+        providers: [
+          BlocProvider(
+            create:
+                (context) =>
+                    getIt<AllFoodsCubit>()
+                      ..getAllDetalisById(foodId: widget.foodId),
+          ),
+          BlocProvider(create: (context) => getIt<AddToCartCubit>()),
+        ],
         child: BlocBuilder<AllFoodsCubit, AllFoodsState>(
           builder: (context, state) {
             if (state is AllDetailsLoading) {
               return const Center(child: CircularProgressIndicator());
-            }  if (state is AllDetailsError) {
+            }
+            if (state is AllDetailsError) {
               AppMessages.showError(context, state.error);
-            }  if (state is AllDetailsSucss) {
+            }
+            if (state is AllDetailsSucss) {
               final details = state.getAllDetalisResponseModel;
               return Stack(
                 clipBehavior: Clip.none,
@@ -52,7 +61,7 @@ class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
                         Stack(
                           children: [
                             Image.network(
-                              "$imageUrl${details.data?.food?.image ?? ''}",
+                              "${imageUrl}${details.data?.food?.image ?? ''}",
                               height: 350.h,
                               width: double.infinity,
                               fit: BoxFit.cover,
@@ -62,7 +71,7 @@ class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
                               top: 40.h,
                               left: 10.w,
                               child: CustomWigetArrowBack(
-                                onpress: () =>   context.pop(),
+                                onpress: () => context.pop(),
                               ),
                             ),
                           ],
@@ -71,6 +80,7 @@ class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
                           offset: Offset(0, -30.h),
                           child: Container(
                             width: double.infinity,
+                            
                             decoration: BoxDecoration(
                               color: Colors.white,
                               borderRadius: BorderRadius.vertical(
@@ -93,8 +103,8 @@ class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
                                     children: [
                                       CircleAvatar(
                                         radius: 35.r,
-                                        backgroundImage:  NetworkImage(
-                                          "$imageUrl${details.data?.food?.chef?.image ?? ''}",
+                                        backgroundImage: NetworkImage(
+                                          "${imageUrl}${details.data?.food?.chef?.image ?? ''}",
                                         ),
                                       ),
                                       SizedBox(height: 6.h),
@@ -171,91 +181,134 @@ class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
                                         ),
                                       ],
                                     ),
-                                    child: Column(
-                                      children: [
-                                        Text(
-                                          'السعر الاجمالي',
-                                          style: TextStyle(
-                                            fontSize: 16.sp,
-                                            fontFamily: 'Changa',
-                                          ),
-                                        ),
-                                        Text(
-                                          'ج.م$price',
-                                          style: TextStyle(
-                                            fontSize: 14.sp,
-                                            color: const Color(0xFF4A4B4D),
-                                          ),
-                                        ),
-                                        verticalSpace(10.h),
-                                        Expanded(
-                                          child: Row(
-                                            mainAxisAlignment:
-                                                MainAxisAlignment.center,
-                                            children: [
-                                              buildIconBtn(Icons.remove, () {
-                                                if (quantity > 1) {
-                                                  setState(() => quantity--);
-                                                }
-                                              }),
-                                              horizontalSpace(16.w),
-                                              Container(
-                                                width: 40.w,
-                                                height: 24.h,
-                                                decoration: BoxDecoration(
-                                                  color: Colors.white,
-                                                  borderRadius:
-                                                      BorderRadius.circular(
-                                                        12.r,
-                                                      ),
-                                                  border: Border.all(
-                                                    color: const Color(
-                                                      0xFFCA9744,
-                                                    ),
-                                                  ),
-                                                ),
-                                                child: Center(
-                                                  child: Text(
-                                                    '$quantity',
-                                                    style: TextStyle(
-                                                      fontSize: 15.sp,
-                                                      color: const Color(
-                                                        0xFFCA9744,
-                                                      ),
-                                                    ),
-                                                  ),
-                                                ),
+                                    child: BlocConsumer<
+                                      AddToCartCubit,
+                                      AddToCartState
+                                    >(
+                                      listener: (context, state) {
+                                        if (state is AddToCartSuccess) {
+                                          AppMessages.showSuccess(
+                                            context,
+                                            'تمت إضافة المنتج إلى السلة',
+                                          );
+                                        } else if (state is AddToCartError) {
+                                          AppMessages.showError(
+                                            context,
+                                            state.error,
+                                          );
+                                        }
+                                      },
+
+                                      builder: (context, state) {
+                                        final num price =
+                                            num.tryParse(
+                                              details.data?.food?.offerPrice
+                                                      .toString() ??
+                                                  '0',
+                                            ) ??
+                                            0;
+                                        final num total = price * quantity;
+
+                                        return Column(
+                                          children: [
+                                            Text(
+                                              'السعر الاجمالي',
+                                              style: TextStyle(
+                                                fontSize: 16.sp,
+                                                fontFamily: 'Changa',
                                               ),
-                                              horizontalSpace(16.w),
-                                              buildIconBtn(Icons.add, () {
-                                                setState(() => quantity++);
-                                              }),
-                                            ],
-                                          ),
-                                        ),
-                                      ],
+                                            ),
+                                            Text(
+                                              'ج.م${total.toStringAsFixed(0)}',
+                                              style: TextStyle(
+                                                fontSize: 14.sp,
+                                                color: const Color(0xFF4A4B4D),
+                                              ),
+                                            ),
+                                            verticalSpace(10.h),
+                                            Expanded(
+                                              child: Row(
+                                                mainAxisAlignment:
+                                                    MainAxisAlignment.center,
+                                                children: [
+                                                  buildIconBtn(
+                                                    Icons.remove,
+                                                    () {
+                                                      if (quantity > 1) {
+                                                        setState(
+                                                          () => quantity--,
+                                                        );
+                                                      }
+                                                    },
+                                                  ),
+                                                  horizontalSpace(16.w),
+                                                  Container(
+                                                    width: 40.w,
+                                                    height: 24.h,
+                                                    decoration: BoxDecoration(
+                                                      color: Colors.white,
+                                                      borderRadius:
+                                                          BorderRadius.circular(
+                                                            12.r,
+                                                          ),
+                                                      border: Border.all(
+                                                        color: const Color(
+                                                          0xFFCA9744,
+                                                        ),
+                                                      ),
+                                                    ),
+                                                    child: Center(
+                                                      child: Text(
+                                                        '$quantity',
+                                                        style: TextStyle(
+                                                          fontSize: 15.sp,
+                                                          color: const Color(
+                                                            0xFFCA9744,
+                                                          ),
+                                                        ),
+                                                      ),
+                                                    ),
+                                                  ),
+                                                  horizontalSpace(16.w),
+                                                  buildIconBtn(Icons.add, () {
+                                                    setState(() => quantity++);
+                                                  }),
+                                                ],
+                                              ),
+                                            ),
+                                          ],
+                                        );
+                                      },
                                     ),
                                   ),
                                 ),
                                 Positioned(
                                   top: 65.h,
                                   right: 150.w,
-                                  child: Container(
-                                    decoration: BoxDecoration(
-                                      shape: BoxShape.circle,
-                                      color: Colors.white,
-                                      boxShadow: [
-                                        BoxShadow(
-                                          color: Colors.black12,
-                                          blurRadius: 8.r,
-                                        ),
-                                      ],
-                                    ),
-                                    padding: REdgeInsets.all(8.r),
-                                    child: Icon(
-                                      Icons.shopping_cart,
-                                      color: Colors.orange,
-                                      size: 24.sp,
+                                  child: GestureDetector(
+                                    onTap: () {
+                                      context.read<AddToCartCubit>().addToCart(
+                                        foodId: details.data?.food?.id ?? 0,
+                                        quantity: quantity,
+                                      );
+                                    },
+                                    child: Container(
+                                      decoration: BoxDecoration(
+                                        shape: BoxShape.circle,
+                                        color: Colors.white,
+                                        boxShadow: [
+                                          BoxShadow(
+                                            color: Colors.black12,
+                                            blurRadius: 8.r,
+                                          ),
+                                        ],
+                                      ),
+                                      padding: REdgeInsets.all(8.r),
+                                      child: Icon(
+                                        Icons.shopping_cart,
+                                        color: Colors.orange,
+                                        size: 24.sp,
+                                      ),
                                     ),
                                   ),
                                 ),
@@ -267,7 +320,7 @@ class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
                                         CrossAxisAlignment.start,
                                     children: [
                                       Text(
-                                       'ج.م${details.data?.food?.offerPrice ?? price}' ,
+                                        'ج.م${details.data?.food?.offerPrice}',
                                         style: TextStyle(
                                           fontSize: 22.sp,
                                           fontWeight: FontWeight.bold,
@@ -275,7 +328,7 @@ class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
                                         ),
                                       ),
                                       Text(
-                                        'ج.م${details.data?.food?.price ?? price}' ,
+                                        'ج.م${details.data?.food?.price}',
                                         style: TextStyle(
                                           decoration:
                                               TextDecoration.lineThrough,
@@ -347,7 +400,13 @@ class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
                                             CrossAxisAlignment.start,
                                         children: [
                                           RatingBarIndicator(
-                                           rating: double.tryParse(details.data?.food?.rating?.toString() ?? '') ?? 0.0,
+                                            rating:
+                                                double.tryParse(
+                                                  details.data?.food?.rating
+                                                          ?.toString() ??
+                                                      '',
+                                                ) ??
+                                                0.0,
                                             itemCount: 5,
                                             itemSize: 24.sp,
                                             direction: Axis.horizontal,
@@ -359,7 +418,8 @@ class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
                                           ),
                                           verticalSpace(5.h),
                                           Text(
-                                            details.data?.food?.rating.toString() ??
+                                            details.data?.food?.rating
+                                                    .toString() ??
                                                 '0',
                                             style: TextStyle(
                                               color: Colors.orange,
@@ -395,13 +455,14 @@ class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
                                               CircleAvatar(
                                                 radius: 16.r,
                                                 backgroundImage:
-                                                    const AssetImage(
-                                                      'assets/images/user.png',
+                                                     NetworkImage(
+                                                     "${imageUrl}${details.data?.reviews?[0].userImage ?? ''}",
                                                     ),
                                               ),
                                               horizontalSpace(8.w),
                                               Text(
-                                                'Jana Hatem',
+                                                details.data?.reviews?[0].userName ??
+                                                    'اسم المستخدم',
                                                 style: TextStyle(
                                                   fontWeight: FontWeight.bold,
                                                   fontSize: 14.sp,
@@ -412,7 +473,12 @@ class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
                                           Row(
                                             children: [
                                               RatingBarIndicator(
-                                                rating: 3,
+                                                rating: double.tryParse(
+                                                  details.data?.reviews?[0].star
+                                                          ?.toString() ??
+                                                      '0',
+                                                ) ??
+                                                0.0,
                                                 itemCount: 5,
                                                 itemSize: 20.sp,
                                                 direction: Axis.horizontal,
@@ -424,7 +490,9 @@ class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
                                               ),
                                               horizontalSpace(8.w),
                                               Text(
-                                                '25/12/2024',
+                                                details.data?.reviews?[0].createdAt
+                                                        .toString() ??
+                                                    '0',
                                                 style: TextStyle(
                                                   fontSize: 12.sp,
                                                 ),
@@ -435,8 +503,9 @@ class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
                                       ),
                                       verticalSpace(6.h),
                                       Text(
-                                        'أحلى أكلة أكلتها من فترة! طازجة وصاخنة، والأسعار مناسبة جدًا...'
-                                        'الخدمة كانت ممتازة والتعامل راقي جدًا من الشيف والداعم الفني.',
+                                        details.data?.reviews?[0].comment ??
+                                            'لا يوجد تعليق متاح.',
+                                       
                                         style: TextStyle(
                                           color: Colors.grey.shade700,
                                           fontSize: 14.sp,
@@ -444,17 +513,18 @@ class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
                                         textDirection: TextDirection.rtl,
                                       ),
                                       verticalSpace(20.h),
-                                      SizedBox(
-                                        width: double.infinity,
-                                        child: Primarybutton(
-                                          hight: 60.h,
-                                          buttoncolor: Colors.orange,
-                                          borderrediuse: 10.r,
-                                          onpress: () => showRatingSheet(context),
-                                          textcolor: Colors.white,
-                                          buttontext: 'كتابة تعليق',
-                                        ),
-                                      ),
+                                      // SizedBox(
+                                      //   width: double.infinity,
+                                      //   child: Primarybutton(
+                                      //     hight: 60.h,
+                                      //     buttoncolor: Colors.orange,
+                                      //     borderrediuse: 10.r,
+                                      //     onpress:
+                                      //         () => showRatingSheet(context),
+                                      //     textcolor: Colors.white,
+                                      //     buttontext: 'كتابة تعليق',
+                                      //   ),
+                                      // ),
                                     ],
                                   ),
                                 ),

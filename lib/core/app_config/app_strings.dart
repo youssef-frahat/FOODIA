@@ -39,6 +39,7 @@ class AppStrings {
   static const String pleaseEnterYourName = "الرجاء ادخال اسمك";
   static const String pleaseEnterYourEmail = "الرجاء ادخال بريدك الالكتروني";
   static const String phoneNumber = "رقم الهــاتف";
+  static const String addToCartSuccess = "تمت الاضافة الى السلة بنجاح";
   static const String emailAddress = "البريد الإلكتروني";
   static const String confarmPassword = "تأكيد كلمة المرور";
   static const String registerSuccess = "تم التسجيل بنجاح";

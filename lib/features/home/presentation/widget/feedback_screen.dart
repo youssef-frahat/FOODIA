@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 void showRatingSheet(BuildContext context) {
-  int _currentRating = 0; 
+  int _currentRating = 0;
 
   showModalBottomSheet(
     context: context,
@@ -20,7 +20,10 @@ void showRatingSheet(BuildContext context) {
               children: [
                 Text(
                   'ما مدى تقييمك؟',
-                  style: TextStyle(fontSize: 18.sp, fontWeight: FontWeight.bold),
+                  style: TextStyle(
+                    fontSize: 18.sp,
+                    fontWeight: FontWeight.bold,
+                  ),
                 ),
                 SizedBox(height: 10.h),
                 Row(
@@ -34,7 +37,7 @@ void showRatingSheet(BuildContext context) {
                       ),
                       onPressed: () {
                         setState(() {
-                          _currentRating = index + 1; 
+                          _currentRating = index + 1;
                         });
                       },
                     );
@@ -71,7 +74,7 @@ void showRatingSheet(BuildContext context) {
                       style: TextStyle(color: Colors.white, fontSize: 16.sp),
                     ),
                   ),
-                )
+                ),
               ],
             ),
           );

@@ -69,17 +69,17 @@ class _OtpScreenState extends State<OtpScreen> {
                 state is SendOtpCodeLoading) {
               AppMessages.showLoading(context);
             } else if (state is ValidateOtpCodeSuccess) {
-              context.pop(); // Close loading
+              context.pop();
               AppMessages.showSuccess(context, AppStrings.otpVerified);
               context.pushNamed(AppRoutes.bottomNavBar);
             } else if (state is ValidateOtpCodeError) {
-              context.pop(); // Close loading
+              context.pop();
               AppMessages.showError(context, AppStrings.codeIsInvalid);
             } else if (state is SendOtpCodeSuccess) {
-              context.pop(); // Close loading
+              context.pop();
               AppMessages.showSuccess(context, "تم إرسال الكود مرة أخرى بنجاح");
             } else if (state is SendOtpCodeError) {
-              context.pop(); // Close loading
+              context.pop();
               AppMessages.showError(context, state.error);
             }
           },
