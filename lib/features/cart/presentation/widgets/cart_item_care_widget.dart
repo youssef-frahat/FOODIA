@@ -1,14 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-
 import '../../../../core/extensions/spacing.dart';
 
-class CartItemCard extends StatelessWidget {
+class CartItemCard extends StatefulWidget {
   final String title;
   final String description;
   final String price;
   final String imageUrl;
-  final int quantity;
+  final int initialQuantity;
   final VoidCallback onAdd;
   final VoidCallback onRemove;
 
@@ -18,10 +17,42 @@ class CartItemCard extends StatelessWidget {
     required this.description,
     required this.price,
     required this.imageUrl,
-    required this.quantity,
+    required this.initialQuantity,
     required this.onAdd,
     required this.onRemove,
   });
+
+  @override
+  _CartItemCardState createState() => _CartItemCardState();
+}
+
+class _CartItemCardState extends State<CartItemCard> {
+  late int quantity;
+
+  @override
+  void initState() {
+    super.initState();
+    // Initialize quantity from the passed initial quantity
+    quantity = widget.initialQuantity;
+  }
+
+  // Increase quantity
+  void _increaseQuantity() {
+    setState(() {
+      quantity++;
+    });
+    widget.onAdd();  // You can trigger any external method to update the cart state if needed
+  }
+
+  // Decrease quantity
+  void _decreaseQuantity() {
+    if (quantity > 1) {
+      setState(() {
+        quantity--;
+      });
+      widget.onRemove();  // You can trigger any external method to update the cart state if needed
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -60,7 +91,7 @@ class CartItemCard extends StatelessWidget {
                   ),
                   child: CircleAvatar(
                     radius: 45.r,
-                    backgroundImage: NetworkImage(imageUrl),
+                    backgroundImage: NetworkImage(widget.imageUrl),
                   ),
                 ),
                 verticalSpace(10),
@@ -77,7 +108,7 @@ class CartItemCard extends StatelessWidget {
                     mainAxisSize: MainAxisSize.min,
                     children: [
                       IconButton(
-                        onPressed: onRemove,
+                        onPressed: _decreaseQuantity,
                         icon: Icon(Icons.remove, color: Colors.black),
                         iconSize: 16.sp,
                         padding: EdgeInsets.zero,
@@ -91,7 +122,7 @@ class CartItemCard extends StatelessWidget {
                         ),
                       ),
                       IconButton(
-                        onPressed: onAdd,
+                        onPressed: _increaseQuantity,
                         icon: Icon(Icons.add, color: Colors.black),
                         iconSize: 16.sp,
                         padding: EdgeInsets.zero,
@@ -113,7 +144,7 @@ class CartItemCard extends StatelessWidget {
                       Container(
                         constraints: BoxConstraints(maxWidth: 80.w),
                         child: Text(
-                          title,
+                          widget.title,
                           style: TextStyle(
                             fontSize: 16.sp,
                             fontWeight: FontWeight.bold,
@@ -122,7 +153,7 @@ class CartItemCard extends StatelessWidget {
                         ),
                       ),
                       Text(
-                        'ج.م$price',
+                        'ج.م${widget.price}',
                         style: TextStyle(
                           fontSize: 22.sp,
                           fontWeight: FontWeight.bold,
@@ -133,7 +164,7 @@ class CartItemCard extends StatelessWidget {
                   ),
                   verticalSpace(15),
                   Text(
-                    description,
+                    widget.description,
                     style: TextStyle(
                       fontSize: 14.sp,
                       color: Colors.grey[700],

@@ -4,13 +4,21 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:foodia_app/core/extensions/spacing.dart';
 import '../../../../core/app_config/image_urls.dart';
 import '../../../../core/di/dependency_injection.dart';
+import '../../../address/presentation/screen/address_selection_screen.dart';
 import '../logic/cubit/add_to_cart_cubit.dart';
 import '../widgets/cart_item_care_widget.dart';
 import '../widgets/custom_button_bar.dart';
 
-class CartScreen extends StatelessWidget {
+class CartScreen extends StatefulWidget {
   const CartScreen({super.key});
 
+  @override
+  State<CartScreen> createState() => _CartScreenState();
+}
+
+class _CartScreenState extends State<CartScreen> {
+   List<int> quantities = [];
+   double totalPrice = 0.0;
   @override
   Widget build(BuildContext context) {
     
@@ -20,11 +28,11 @@ class CartScreen extends StatelessWidget {
         child: BlocBuilder<AddToCartCubit, AddToCartState>(builder: (context, state) {
           final cartItems = (state is GetAllCartSuccess) ? state.getAllCartReModel.data : [];
 
-          final totalPrice = cartItems?.fold<num>(0, (sum, item) {
-            final price = num.tryParse(item.food?.price.toString() ?? '0') ?? 0;
-            final qty = item.qty ?? 1;
+           totalPrice = cartItems?.fold<double>(0.0, (sum, item) {
+            final price = num.tryParse(item.food?.price.toString() ?? '0') ?? 0.0;
+            final qty = quantities.isNotEmpty ? quantities[cartItems.indexOf(item)] : (item.qty ?? 1);
             return sum + (price * qty);
-          }) ?? 0;
+          }) ?? 0.0;
 
           return Stack(
             children: [
@@ -80,6 +88,9 @@ class CartScreen extends StatelessWidget {
                           physics: NeverScrollableScrollPhysics(),
                           itemBuilder: (context, index) {
                             final item = cartItems![index];
+                             if (quantities.length <= index) {
+                              quantities.add(item.qty ?? 1); 
+                            }
                             return Dismissible(
                               key: ValueKey(index),
                               direction: DismissDirection.endToStart,
@@ -102,9 +113,17 @@ class CartScreen extends StatelessWidget {
                                 description: item.food?.description ?? '',
                                 price: item.food?.price.toString() ?? '0',
                                 imageUrl: "$imageUrl${item.food?.image ?? ''}",
-                                quantity: item.qty!,
-                                onAdd: () {},
-                                onRemove: () {},
+                                initialQuantity: quantities[index],
+                                 onAdd: () {
+                                  setState(() {
+                                    quantities[index]++;  
+                                  });
+                                },
+                                 onRemove: () {
+                                  setState(() {
+                                    if (quantities[index] > 1) quantities[index]--;  
+                                  });
+                                },
                               ),
                             );
                           },
@@ -122,7 +141,7 @@ class CartScreen extends StatelessWidget {
                   child: CartBottomBar(
                     totalPrice: totalPrice.toInt(),
                     onOrderPressed: () {
-                      // تنفيذ الطلب
+                      Navigator.push(context, MaterialPageRoute(builder: (context) => AddressSelectionScreen()));
                     },
                   ),
                 ),
@@ -132,5 +151,4 @@ class CartScreen extends StatelessWidget {
       ),
     );
   }
-  
 }
