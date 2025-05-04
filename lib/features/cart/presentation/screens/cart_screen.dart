@@ -74,7 +74,7 @@ class CartScreen extends StatelessWidget {
                                 description: item.food?.description ?? '',
                                 price: item.food?.price.toString() ?? '0',
                                 imageUrl: "$imageUrl${item.food?.image ?? ''}",
-                                quantity: item.qty ?? 1,
+                                quantity: item.qty!,
                                 onAdd: () {},
                                 onRemove: () {},
                               ),

@@ -96,7 +96,7 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
             if (state is EditeUserProfileSuccess) {
               AppMessages.showSuccess(context, AppStrings.editProfileSuccess);
 
-              context.go(AppRoutes.bottomNavBar);
+              context.go(AppRoutes.home);
             }
             if (state is EditeUserProfileLoading) {
               AppMessages.showLoading(context);

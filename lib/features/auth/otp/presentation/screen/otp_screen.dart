@@ -65,13 +65,16 @@ class _OtpScreenState extends State<OtpScreen> {
         create: (context) => getIt<OtpUserCubit>(),
         child: BlocConsumer<OtpUserCubit, OtpUserState>(
           listener: (context, state) {
-            if (state is ValidateOtpCodeLoading ||
-                state is SendOtpCodeLoading) {
+            if (!context.mounted) return;
+
+            if ((state is ValidateOtpCodeLoading ||
+                    state is SendOtpCodeLoading) &&
+                ModalRoute.of(context)?.isCurrent == true) {
               AppMessages.showLoading(context);
             } else if (state is ValidateOtpCodeSuccess) {
               context.pop();
               AppMessages.showSuccess(context, AppStrings.otpVerified);
-              context.pushNamed(AppRoutes.bottomNavBar);
+              context.goNamed(AppRoutes.home);
             } else if (state is ValidateOtpCodeError) {
               context.pop();
               AppMessages.showError(context, AppStrings.codeIsInvalid);
@@ -83,6 +86,7 @@ class _OtpScreenState extends State<OtpScreen> {
               AppMessages.showError(context, state.error);
             }
           },
+
           builder: (context, state) {
             return SafeArea(
               child: Padding(
@@ -162,7 +166,13 @@ class _OtpScreenState extends State<OtpScreen> {
                       style: const TextStyle(fontSize: 14, color: Colors.grey),
                     ),
                     verticalSpace(20),
-                    CustomPinput(otpController: _otpController),
+                    CustomPinput(
+                      otpController: _otpController,
+                      onChanged: (value) {
+                        setState(() {});
+                      },
+                    ),
+
                     verticalSpace(10),
                     Row(
                       mainAxisAlignment: MainAxisAlignment.center,

@@ -61,7 +61,7 @@ class _LoginBodyWidgetState extends State<LoginBodyWidget> {
           } else if (state is LoginUserSuccess) {
             Navigator.of(context).pop();
             AppMessages.showSuccess(context, AppStrings.loginSuccess);
-            context.go(AppRoutes.bottomNavBar);
+            context.go(AppRoutes.home);
           } else if (state is LoginUserError) {
             Navigator.of(context).pop();
             AppMessages.showError(context, state.error);

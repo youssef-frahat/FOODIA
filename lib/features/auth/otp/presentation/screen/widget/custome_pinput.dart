@@ -9,10 +9,14 @@ import '../../../../../../core/app_config/app_colors.dart';
 import '../../../../../../core/app_config/font_styles.dart';
 
 class CustomPinput extends StatelessWidget {
-  const CustomPinput({super.key, required TextEditingController otpController})
-    : _otpController = otpController;
-
   final TextEditingController _otpController;
+  final void Function(String)? onChanged; // ⬅️ أضف هذا السطر
+
+  const CustomPinput({
+    super.key,
+    required TextEditingController otpController,
+    this.onChanged,
+  }) : _otpController = otpController;
 
   @override
   Widget build(BuildContext context) {
@@ -21,6 +25,7 @@ class CustomPinput extends StatelessWidget {
       child: Pinput(
         length: 4,
         controller: _otpController,
+        onChanged: onChanged, 
         defaultPinTheme: PinTheme(
           height: 74.h,
           width: 74.w,

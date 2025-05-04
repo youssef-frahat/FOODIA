@@ -72,8 +72,8 @@ class RouterGeneration {
 
         ShellRoute(
           builder: (context, state, child) {
-            return BottomNavBar(child: child);
-          },
+    return BottomNavBar(child: child); 
+  },
           routes: [
             GoRoute(
               path: AppRoutes.home,

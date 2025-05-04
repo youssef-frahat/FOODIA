@@ -1,10 +1,12 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 import 'package:foodia_app/features/on_boarding/onboardingPage.dart';
 import 'package:foodia_app/features/on_boarding/onboarding_model.dart';
 import 'package:go_router/go_router.dart';
 import 'package:smooth_page_indicator/smooth_page_indicator.dart';
-import 'package:shared_preferences/shared_preferences.dart';
 
+import '../../core/app_config/prefs_keys.dart';
+import '../../core/helpers/secure_local_storage.dart';
 import '../../core/routing/app_routes.dart';
 
 class OnboardingScreen extends StatefulWidget {
@@ -37,13 +39,11 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
         color: Colors.white,
       ),
     ),
-
     OnboardingItem(
       textStyle: TextStyle(
         fontFamily: 'Changa',
         fontSize: 24,
         fontWeight: FontWeight.bold,
-
         color: Colors.black, // Text color
       ),
       image: "assets/images/slide2.png",
@@ -82,19 +82,22 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
   @override
   void initState() {
     super.initState();
-    _checkIfLoggedIn(); // التحقق إذا كان المستخدم قد سجل الدخول مسبقًا
+    _checkIfLoggedIn(); 
   }
 
-  // التحقق إذا كان المستخدم قد سجل الدخول مسبقًا
+
   Future<void> _checkIfLoggedIn() async {
-    final prefs = await SharedPreferences.getInstance();
-    bool isLoggedIn = prefs.getBool('isLoggedIn') ?? false;
+  final token = await SecureLocalStorage.read(PrefsKeys.token);
 
-    if (isLoggedIn) {
-      // إذا كان المستخدم قد سجل الدخول، اذهب مباشرة إلى صفحة الـ Home
-      GoRouter.of(context).goNamed(AppRoutes.home);
-    }
+  if (token != null && token.isNotEmpty) {
+    // لو فيه توكن يبقى المستخدم مسجل
+    GoRouter.of(context).goNamed(AppRoutes.home);
+  } else {
+    // لو مفيش توكن يبقى المستخدم مش مسجل
+    GoRouter.of(context).goNamed(AppRoutes.onboarding);
   }
+}
+
 
   @override
   Widget build(BuildContext context) {
@@ -102,7 +105,6 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
       backgroundColor: Color(0xFFE0E5EC),
       body: Stack(
         children: [
-          // PageView لصفحات الـ Onboarding
           PageView.builder(
             controller: _pageController,
             itemCount: _onboardingItems.length,
@@ -115,7 +117,6 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
               return OnboardingPage(item: _onboardingItems[index]);
             },
           ),
-          // زر التخطي
           Positioned(
             top: 50,
             right: 20,
@@ -149,59 +150,22 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
               ),
             ),
           ),
-          // زر التالي أو "ابدأ الآن"
           Positioned(
             bottom: 20,
             right: 20,
             child:
                 _currentPage == _onboardingItems.length - 1
-                    ? ElevatedButton(
-                      onPressed: () {
-                        GoRouter.of(context).goNamed(AppRoutes.login);
-                      },
-                      style: ElevatedButton.styleFrom(
-                        backgroundColor: Color(0xFFFFA500),
-                        padding: EdgeInsets.symmetric(
-                          horizontal: 20,
-                          vertical: 10,
-                        ),
-                        shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(30),
-                        ),
-                      ),
-                      child: Text(
-                        "ابدأ الآن",
-                        style: TextStyle(
-                          fontFamily: 'Changa',
-                          fontSize: 16,
-                          color: Colors.white,
-                        ),
-                      ),
-                    )
-                    : ElevatedButton(
-                      onPressed: () {
-                        _pageController.nextPage(
+                    ? GestureDetector(
+                      onTap: () =>  GoRouter.of(context).goNamed(AppRoutes.login),
+                      child: SvgPicture.asset('assets/icons/next.svg'))
+                    : GestureDetector(
+                      onTap: () =>  _pageController.nextPage(
                           duration: Duration(milliseconds: 300),
                           curve: Curves.easeInOut,
-                        );
-                      },
-                      style: ElevatedButton.styleFrom(
-                        backgroundColor: Color(0xFFFFA500),
-                        padding: EdgeInsets.all(20),
-                        shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(30),
                         ),
-                      ),
-                      child: Text(
-                        "التالي",
-                        style: TextStyle(
-                          fontFamily: 'Changa',
-                          fontSize: 18,
-                          color: Colors.white,
-                          fontWeight: FontWeight.bold,
-                        ),
-                      ),
-                    ),
+                      child: SvgPicture.asset('assets/icons/next.svg'))
+                    
+                    
           ),
         ],
       ),
