@@ -49,3 +49,24 @@ final class GetAllCartError extends AddToCartState {
   @override
   List<Object> get props => [error];
 }
+
+//! DELETE FROM CART
+
+final class DeleteItemFromCartLoading extends AddToCartState {}
+
+final class DeleteItemFromCartSuccess extends AddToCartState {
+  final DeletItemCartModel deletItemCartModel;
+  const DeleteItemFromCartSuccess(this.deletItemCartModel);
+
+  @override
+  List<Object> get props => [deletItemCartModel];
+}
+
+final class DeleteItemFromCartError extends AddToCartState {
+  final String error;
+
+  const DeleteItemFromCartError(this.error);
+
+  @override
+  List<Object> get props => [error];
+}

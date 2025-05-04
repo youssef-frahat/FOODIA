@@ -2,6 +2,7 @@ import 'package:dartz/dartz.dart';
 import 'package:foodia_app/core/errors/failures.dart';
 import 'package:foodia_app/core/networking/api/api_services.dart';
 import 'package:foodia_app/features/cart/data/model/add_to_cart_model.dart';
+import 'package:foodia_app/features/cart/data/model/delet_item_cart_model.dart';
 import 'package:foodia_app/features/cart/data/model/get_all_cart_re_model/get_all_cart_re_model.dart';
 import 'package:foodia_app/features/cart/data/repo/add_to_cart_repo.dart';
 
@@ -46,6 +47,18 @@ class AddToCartRepoImpl implements AddToCartRepo {
     try {
       final response = await apiService.get(EndPoints.getCart);
       return Right(GetAllCartReModel.fromJson(response));
+    } on ServerException catch (e) {
+      return Left(ServerFailure(e.message));
+    } catch (e) {
+      return Left(ServerFailure(AppStrings.unexpectedError));
+    }
+  }
+
+  @override
+  Future<Either<Failure, DeletItemCartModel>> deleteItemFromCart({required int foodId}) async{
+    try {
+      final response = await apiService.delete('${EndPoints.deleteCart}/$foodId');
+      return Right(DeletItemCartModel.fromJson(response));
     } on ServerException catch (e) {
       return Left(ServerFailure(e.message));
     } catch (e) {

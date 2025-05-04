@@ -5,6 +5,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:foodia_app/features/cart/data/model/add_to_cart_model.dart';
 import 'package:foodia_app/features/cart/data/repo/add_to_cart_repo_impl.dart';
 
+import '../../../data/model/delet_item_cart_model.dart';
 import '../../../data/model/get_all_cart_re_model/get_all_cart_re_model.dart';
 
 part 'add_to_cart_state.dart';
@@ -43,4 +44,21 @@ class AddToCartCubit extends Cubit<AddToCartState> {
       emit(GetAllCartSuccess(getAllCartReModel));
     });
   }
+
+  Future<void> deleteItemFromCart({required int foodId}) async {
+    emit(DeleteItemFromCartLoading());
+    final result = await addToCartRepo.deleteItemFromCart(foodId: foodId);
+    result.fold((failure) => emit(DeleteItemFromCartError(failure.message)), (
+      deletItemCartModel,
+    ) {
+      if (deletItemCartModel.status == true) {
+        emit(DeleteItemFromCartSuccess(deletItemCartModel));
+      } else {
+        emit(DeleteItemFromCartError(deletItemCartModel.message ?? "فشل في حذف المنتج"));
+      }
+    });
+  }
+
+
+  
 }

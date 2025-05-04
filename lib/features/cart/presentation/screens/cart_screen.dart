@@ -13,21 +13,45 @@ class CartScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      body: BlocProvider(
+    
+    return Scaffold(    
+        body: BlocProvider(
         create: (context) => getIt<AddToCartCubit>()..getCart(),
-        child: BlocBuilder<AddToCartCubit, AddToCartState>(
-          builder: (context, state) {
-            final cartItems = (state is GetAllCartSuccess) ? state.getAllCartReModel.data : [];
+        child: BlocBuilder<AddToCartCubit, AddToCartState>(builder: (context, state) {
+          final cartItems = (state is GetAllCartSuccess) ? state.getAllCartReModel.data : [];
 
-            final totalPrice = cartItems?.fold<num>(0, (sum, item) {
-              final price = num.tryParse(item.food?.price.toString() ?? '0') ?? 0;
-              final qty = item.qty ?? 1;
-              return sum + (price * qty);
-            }) ?? 0;
+          final totalPrice = cartItems?.fold<num>(0, (sum, item) {
+            final price = num.tryParse(item.food?.price.toString() ?? '0') ?? 0;
+            final qty = item.qty ?? 1;
+            return sum + (price * qty);
+          }) ?? 0;
 
-            return Stack(
-              children: [
+          return Stack(
+            children: [
+              if (cartItems?.isEmpty ?? true)
+                Center(
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    children: [
+                      Icon(
+                        Icons.shopping_cart_outlined,
+                        size: 100,
+                        color: Colors.orange,
+                      ),
+                      SizedBox(height: 20),
+                      Text(
+                        'سلتك فارغة',
+                        style: TextStyle(
+                          fontSize: 18.sp,
+                          fontWeight: FontWeight.bold,
+                          color: Colors.black,
+                        ),
+                      ),
+                    ],
+                  ),
+                )
+              else
                 Padding(
                   padding: EdgeInsets.only(bottom: 130.h),
                   child: ListView(
@@ -68,7 +92,11 @@ class CartScreen extends StatelessWidget {
                                   child: const Icon(Icons.delete, color: Colors.white, size: 30),
                                 ),
                               ),
-                              onDismissed: (_) {},
+                              onDismissed: (_) async {
+                                final cubit = BlocProvider.of<AddToCartCubit>(context);
+                                await cubit.deleteItemFromCart(foodId: item.food?.id ?? 0);
+                                cubit.getCart();
+                              },
                               child: CartItemCard(
                                 title: item.food?.name ?? '',
                                 description: item.food?.description ?? '',
@@ -86,6 +114,7 @@ class CartScreen extends StatelessWidget {
                     ],
                   ),
                 ),
+              if (cartItems?.isNotEmpty ?? false)
                 Positioned(
                   left: 0,
                   right: 0,
@@ -97,11 +126,11 @@ class CartScreen extends StatelessWidget {
                     },
                   ),
                 ),
-              ],
-            );
-          },
-        ),
+            ],
+          );
+        }),
       ),
     );
   }
+  
 }
