@@ -16,38 +16,38 @@ class OtpUserRepoImpl implements OtpUserRepo {
   final ApiService apiService;
 
   OtpUserRepoImpl(this.apiService);
- @override
-Future<Either<Failure, OtpResponseModel>> verifyOtp({
-  required String phoneNumber,
-  required String otpCode,
-}) async {
-  try {
-    if (!await ConnectivityHelper.connected) {
-      return Left(NetworkFailure(AppStrings.checkInternetConnection));
+  @override
+  Future<Either<Failure, OtpResponseModel>> verifyOtp({
+    required String phoneNumber,
+    required String otpCode,
+  }) async {
+    try {
+      if (!await ConnectivityHelper.connected) {
+        return Left(NetworkFailure(AppStrings.checkInternetConnection));
+      }
+
+      final response = await apiService.post(
+        EndPoints.verifyOtp,
+        data: {'phone': phoneNumber, 'otp': otpCode},
+      );
+      log('OTP Verification Response: $response');
+
+      if (response['status'] == true) {
+        return Right(OtpResponseModel.fromJson(response));
+      } else {
+        return Left(
+          ServerFailure(response['message'] ?? AppStrings.unexpectedError),
+        );
+      }
+    } on NetworkException catch (e) {
+      return Left(NetworkFailure(e.message));
+    } on ServerException catch (e) {
+      return Left(ServerFailure(e.message));
+    } catch (e) {
+      log('Unexpected error in verifyOtp: $e');
+      return Left(ServerFailure(AppStrings.unexpectedError));
     }
-
-   final response = await apiService.post(
-  EndPoints.verifyOtp,
-  data: {'phone': phoneNumber, 'otp': otpCode},
-);
-log('OTP Verification Response: $response');
-
-if (response['status'] == true) {
-  return Right(OtpResponseModel.fromJson(response));
-} else {
-  return Left(ServerFailure(response['message'] ?? AppStrings.unexpectedError));
-}
-
-  } on NetworkException catch (e) {
-    return Left(NetworkFailure(e.message));
-  } on ServerException catch (e) {
-    return Left(ServerFailure(e.message));
-  } catch (e) {
-    log('Unexpected error in verifyOtp: $e');
-    return Left(ServerFailure(AppStrings.unexpectedError));
   }
-}
-
 
   @override
   Future<Either<Failure, OtpResponseModel>> sendOtp({
@@ -63,15 +63,14 @@ if (response['status'] == true) {
         data: {'phone': phoneNumber},
       );
 
-    if (response['status'] == true && response['message'] != null) {
-  log('OTP Sent Successfully: ${response['message']}');
-  return Right(OtpResponseModel.fromJson(response));
-} else {
-  return Left(
-    ServerFailure(response['error'] ?? AppStrings.unexpectedError),
-  );
-}
-
+      if (response['status'] == true && response['message'] != null) {
+        log('OTP Sent Successfully: ${response['message']}');
+        return Right(OtpResponseModel.fromJson(response));
+      } else {
+        return Left(
+          ServerFailure(response['error'] ?? AppStrings.unexpectedError),
+        );
+      }
     } on NetworkException catch (e) {
       return Left(NetworkFailure(e.message));
     } on ServerException catch (e) {

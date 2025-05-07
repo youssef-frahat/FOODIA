@@ -1,6 +1,7 @@
 import 'package:dartz/dartz.dart';
 import 'package:foodia_app/core/errors/failures.dart';
 import 'package:foodia_app/core/networking/api/api_services.dart';
+import 'package:foodia_app/features/followers/data/model/follow_cefe_model.dart';
 
 import '../../../../core/app_config/app_strings.dart';
 import '../../../../core/app_config/prefs_keys.dart';
@@ -73,6 +74,28 @@ class GetAllHomeRepoImpl implements GetAllHomeRepo {
       GetAllDetailsReposneModel getAllDetalisResponse =
           GetAllDetailsReposneModel.fromJson(response);
       return Right(getAllDetalisResponse);
+    } on NetworkException catch (e) {
+      return Left(NetworkFailure(e.message));
+    } on ServerException catch (e) {
+      return Left(ServerFailure(e.message));
+    } catch (e) {
+      return Left(ServerFailure(AppStrings.unexpectedError));
+    }
+  }
+
+  @override
+  Future<Either<Failure, FollowCefeModel>> followCefe({
+    required num cefeId,
+  }) async {
+    try {
+      final response = await apiService.post(
+        EndPoints.followChef,       
+       data: {
+          'chef_id': cefeId
+        }
+      );
+      FollowCefeModel cefeModel = FollowCefeModel.fromJson(response);
+      return Right(cefeModel);
     } on NetworkException catch (e) {
       return Left(NetworkFailure(e.message));
     } on ServerException catch (e) {

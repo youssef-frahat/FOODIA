@@ -41,7 +41,8 @@ class _CartItemCardState extends State<CartItemCard> {
     setState(() {
       quantity++;
     });
-    widget.onAdd();  // You can trigger any external method to update the cart state if needed
+    widget
+        .onAdd(); // You can trigger any external method to update the cart state if needed
   }
 
   // Decrease quantity
@@ -50,7 +51,8 @@ class _CartItemCardState extends State<CartItemCard> {
       setState(() {
         quantity--;
       });
-      widget.onRemove();  // You can trigger any external method to update the cart state if needed
+      widget
+          .onRemove(); // You can trigger any external method to update the cart state if needed
     }
   }
 

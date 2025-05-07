@@ -1,6 +1,8 @@
 import 'package:get_it/get_it.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
+import '../../features/address/data/repo/add_adress_repo_impl.dart';
+import '../../features/address/presentation/logic/cubit/all_adress_user_cubit.dart';
 import '../../features/auth/login/data/repo/login_user_repo_impl.dart';
 import '../../features/auth/login/presentation/logic/cubit/login_user_cubit.dart';
 import '../../features/auth/otp/data/repo/otp_user_repo_impl.dart';
@@ -9,6 +11,8 @@ import '../../features/auth/signin/data/repo/signin_user_repo_impel.dart';
 import '../../features/auth/signin/presentation/logic/cubit/signin_user_cubit.dart';
 import '../../features/cart/data/repo/add_to_cart_repo_impl.dart';
 import '../../features/cart/presentation/logic/cubit/add_to_cart_cubit.dart';
+import '../../features/followers/data/repo/get_followers/get_follower_repo_impl.dart';
+import '../../features/followers/presentation/logic/cubit/all_followers_cubit.dart';
 import '../../features/home/data/repo/get_all_home_repo_impl.dart';
 import '../../features/home/presentation/logic/get_all_categorys_logic/cubit/get_all_categorys_cubit.dart';
 import '../../features/home/presentation/logic/home_foods/cubit/all_foods_cubit.dart';
@@ -51,6 +55,13 @@ void _initRepositories() {
   getIt.registerLazySingleton<AddToCartRepoImpl>(
     () => AddToCartRepoImpl(getIt()),
   );
+  getIt.registerLazySingleton<AddAdressRepoImpl>(
+    () => AddAdressRepoImpl(getIt()),
+  );
+
+  getIt.registerLazySingleton<GetFollowerRepoImpl>(
+    () => GetFollowerRepoImpl(getIt()),
+  );
 }
 
 //! Cubits
@@ -64,4 +75,6 @@ void _initCubits() {
   );
   getIt.registerFactory<AllFoodsCubit>(() => AllFoodsCubit(getIt()));
   getIt.registerFactory<AddToCartCubit>(() => AddToCartCubit(getIt()));
+  getIt.registerFactory<AllAdressUserCubit>(() => AllAdressUserCubit(getIt()));
+  getIt.registerFactory<AllFollowersCubit>(() => AllFollowersCubit(getIt()));
 }

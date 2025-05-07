@@ -2,6 +2,7 @@ import 'dart:developer';
 
 import 'package:equatable/equatable.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:foodia_app/features/followers/data/model/follow_cefe_model.dart';
 import 'package:foodia_app/features/home/data/repo/get_all_home_repo_impl.dart';
 
 import '../../../../data/model/get_all_details_reposne_model/get_all_details_reposne_model.dart';
@@ -38,6 +39,19 @@ class AllFoodsCubit extends Cubit<AllFoodsState> {
           'GetAllDetalisResponseModel: ${getAllDetalisResponseModel.toString()}',
         );
         emit(AllDetailsSucss(getAllDetalisResponseModel));
+      },
+    );
+  }
+
+  Future<void> followCefe({required num cefeId}) async {
+    emit(AllFoodsLoading());
+    final result = await getAllHomeRepo.followCefe(cefeId: cefeId);
+    result.fold(
+      (failure) {
+        emit(AllFoodsError(failure.message));
+      },
+      (followCefeModel) {
+        emit(FollowChef(followCefeModel));
       },
     );
   }

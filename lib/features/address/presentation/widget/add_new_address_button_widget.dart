@@ -1,10 +1,12 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import '../../../../core/app_config/app_colors.dart';
-import '../../../../core/extensions/spacing.dart';
-import '../../../../core/witgets/custom_text_field.dart';
-import '../../../../core/witgets/primary_button.dart';
-import 'next_button_widget.dart';
+import 'package:foodia_app/core/app_config/app_colors.dart';
+import 'package:foodia_app/core/app_config/messages.dart';
+import 'package:foodia_app/core/extensions/spacing.dart';
+import 'package:foodia_app/core/witgets/custom_text_field.dart';
+import 'package:foodia_app/core/witgets/primary_button.dart';
+import '../logic/cubit/all_adress_user_cubit.dart';
 
 class AddNewAddressButtonWidget extends StatelessWidget {
   const AddNewAddressButtonWidget({super.key});
@@ -24,115 +26,139 @@ class AddNewAddressButtonWidget extends StatelessWidget {
           ),
           style: TextButton.styleFrom(
             backgroundColor: Colors.grey.shade200,
-            shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)),
+            shape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.circular(20),
+            ),
           ),
         ),
-        verticalSpace(16),
-        NextButtonWidget(onPressed: () {}),
       ],
     );
   }
 
   void _showAddNewAddressDialog(BuildContext context) {
+    final cityController = TextEditingController();
+    final centerController = TextEditingController();
+    final neighborhoodController = TextEditingController();
+    final streetController = TextEditingController();
+    final buildingController = TextEditingController();
+    final formKey = GlobalKey<FormState>();
+
     showDialog(
       context: context,
-      builder: (BuildContext context) {
-        return Dialog(
-          backgroundColor: Colors.white, // Custom background color for the dialog
-          shape: RoundedRectangleBorder(
-            borderRadius: BorderRadius.circular(20),
-          ),
-          child: Padding(
-            padding: EdgeInsets.all(20.0.w),
-            child: Column(
-              mainAxisSize: MainAxisSize.min,
-              children: [
-                // Close button (×) at the top-left corner
-                Align(
-                  alignment: Alignment.topLeft,
-                  child: IconButton(
-                    icon: const Icon(Icons.close, color: Colors.black),
-                    onPressed: () {
-                      Navigator.of(context).pop();
-                    },
+      builder: (BuildContext dialogContext) {
+        return BlocProvider.value(
+          value: context.read<AllAdressUserCubit>(),
+          child: BlocConsumer<AllAdressUserCubit, AllAdressUserState>(
+            listener: (context, state) {
+              if (state is AddAdressUserSuccess) {
+                Navigator.of(dialogContext).pop();
+                AppMessages.showSuccess(context, 'تم الحفظ بنجاح');
+                context.read<AllAdressUserCubit>().getAllAdressUser();
+              } else if (state is AllAdressUserFailure) {
+                ScaffoldMessenger.of(
+                  context,
+                ).showSnackBar(SnackBar(content: Text(state.failure.message)));
+              }
+            },
+            builder: (context, state) {
+              return Dialog(
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(20),
+                ),
+                child: Padding(
+                  padding: EdgeInsets.all(20.0.w),
+                  child: Form(
+                    key: formKey,
+                    child: SingleChildScrollView(
+                      child: Column(
+                        mainAxisSize: MainAxisSize.min,
+                        children: [
+                          Align(
+                            alignment: Alignment.topLeft,
+                            child: IconButton(
+                              icon: const Icon(Icons.close),
+                              onPressed:
+                                  () => Navigator.of(dialogContext).pop(),
+                            ),
+                          ),
+                          const Text(
+                            "اضافة عنوان جديد",
+                            style: TextStyle(
+                              fontSize: 18,
+                              fontWeight: FontWeight.bold,
+                            ),
+                          ),
+                          verticalSpace(16),
+                          MyTextFormField(
+                            controller: cityController,
+                            hintText: 'المدينة',
+                            validator:
+                                (v) => v!.isEmpty ? 'يرجى ادخال المدينة' : null,
+                          ),
+                          verticalSpace(16),
+                          MyTextFormField(
+                            controller: centerController,
+                            hintText: 'المركز',
+                            validator:
+                                (v) => v!.isEmpty ? 'يرجى ادخال المركز' : null,
+                          ),
+                          verticalSpace(16),
+                          MyTextFormField(
+                            controller: neighborhoodController,
+                            hintText: 'الحي',
+                            validator:
+                                (v) => v!.isEmpty ? 'يرجى ادخال الحي' : null,
+                          ),
+                          verticalSpace(16),
+                          MyTextFormField(
+                            controller: streetController,
+                            hintText: 'الشارع',
+                            validator:
+                                (v) => v!.isEmpty ? 'يرجى ادخال الشارع' : null,
+                          ),
+                          verticalSpace(16),
+                          MyTextFormField(
+                            controller: buildingController,
+                            hintText: 'المبني',
+                            keyboardType: TextInputType.number,
+                            validator:
+                                (v) =>
+                                    v!.isEmpty
+                                        ? 'يرجى ادخال رقم المبني او اسم العمارة'
+                                        : null,
+                          ),
+                          verticalSpace(16),
+                          state is AllAdressUserLoading
+                              ? const CircularProgressIndicator()
+                              : Primarybutton(
+                                buttontext: 'اضافة',
+                                buttoncolor: AppColors.primarycolor,
+                                hight: 48.h,
+                                borderrediuse: 50.r,
+                                textcolor: Colors.white,
+                                onpress: () {
+                                  if (formKey.currentState!.validate()) {
+                                    context
+                                        .read<AllAdressUserCubit>()
+                                        .addToAdress(
+                                          city: cityController.text,
+                                          center: centerController.text,
+                                          neighborhood:
+                                              neighborhoodController.text,
+                                          street: streetController.text,
+                                          buildingNumber:
+                                              buildingController.text,
+                                        );
+                                  }
+                                },
+                              ),
+                        ],
+                      ),
+                    ),
                   ),
                 ),
-                const Text(
-                  "اضافة عنوان جديد",
-                  style: TextStyle(
-                    fontSize: 18,
-                    fontWeight: FontWeight.bold,
-                  ),
-                ),
-                verticalSpace(16),
-                // Using MyTextFormField directly
-                MyTextFormField(
-                  hintText: 'المدينة',
-                  keyboardType: TextInputType.text,
-                  validator: (value) {
-                    if (value!.isEmpty) {
-                      return 'يرجى ادخال المدينة';
-                    }
-                    return null;
-                  },
-                ),
-                verticalSpace(16),
-                MyTextFormField(
-                  hintText: 'المركز',
-                  keyboardType: TextInputType.text,
-                  validator: (value) {
-                    if (value!.isEmpty) {
-                      return 'يرجى ادخال المركز';
-                    }
-                    return null;
-                  },
-                ),
-                verticalSpace(16),
-                MyTextFormField(
-                  hintText: 'الحي',
-                  keyboardType: TextInputType.text,
-                  validator: (value) {
-                    if (value!.isEmpty) {
-                      return 'يرجى ادخال الحي';
-                    }
-                    return null;
-                  },
-                ),
-                verticalSpace(16),
-                MyTextFormField(
-                  hintText: 'الشارع',
-                  keyboardType: TextInputType.text,
-                  validator: (value) {
-                    if (value!.isEmpty) {
-                      return 'يرجى ادخال الشارع';
-                    }
-                    return null;
-                  },
-                ),
-                verticalSpace(16),
-                MyTextFormField(
-                  hintText: 'المبني',
-                  keyboardType: TextInputType.text,
-                  validator: (value) {
-                    if (value!.isEmpty) {
-                      return 'يرجى ادخال رقم المبني او اسم العمارة';
-                    }
-                    return null;
-                  },
-                ),
-                verticalSpace(16),
-                Primarybutton(
-                  buttontext: 'اضافة',
-                  buttoncolor: AppColors.primarycolor,
-                  hight: 48.h,
-                  borderrediuse: 50.r,
-                  textcolor: Colors.white,
-                  onpress: () {
-                    // Handle the add address logic here
-                  },
-                ),
-              ],
-            ),
+              );
+            },
           ),
         );
       },

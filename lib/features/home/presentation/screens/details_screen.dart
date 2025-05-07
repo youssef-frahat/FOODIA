@@ -131,7 +131,9 @@ class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
                                       ),
                                       verticalSpace(8.h),
                                       ElevatedButton.icon(
-                                        onPressed: () {},
+                                        onPressed: () {
+                                          context.read<AllFoodsCubit>().followCefe(cefeId: details.data?.food?.chef?.id ?? 0);
+                                        },
                                         icon: Icon(Icons.add, size: 16.sp),
                                         label: Text(
                                           'متابعة',
@@ -536,19 +538,7 @@ class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
                                         ),
                                       ),
 
-                                      verticalSpace(20.h),
-                                      // SizedBox(
-                                      //   width: double.infinity,
-                                      //   child: Primarybutton(
-                                      //     hight: 60.h,
-                                      //     buttoncolor: Colors.orange,
-                                      //     borderrediuse: 10.r,
-                                      //     onpress:
-                                      //         () => showRatingSheet(context),
-                                      //     textcolor: Colors.white,
-                                      //     buttontext: 'كتابة تعليق',
-                                      //   ),
-                                      // ),
+                                     
                                     ],
                                   ),
                                 ),

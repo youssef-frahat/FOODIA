@@ -43,7 +43,7 @@ class AddToCartRepoImpl implements AddToCartRepo {
   }
 
   @override
-  Future<Either<Failure, GetAllCartReModel>> getCart() async{
+  Future<Either<Failure, GetAllCartReModel>> getCart() async {
     try {
       final response = await apiService.get(EndPoints.getCart);
       return Right(GetAllCartReModel.fromJson(response));
@@ -55,9 +55,13 @@ class AddToCartRepoImpl implements AddToCartRepo {
   }
 
   @override
-  Future<Either<Failure, DeletItemCartModel>> deleteItemFromCart({required int foodId}) async{
+  Future<Either<Failure, DeletItemCartModel>> deleteItemFromCart({
+    required int foodId,
+  }) async {
     try {
-      final response = await apiService.delete('${EndPoints.deleteCart}/$foodId');
+      final response = await apiService.delete(
+        '${EndPoints.deleteCart}/$foodId',
+      );
       return Right(DeletItemCartModel.fromJson(response));
     } on ServerException catch (e) {
       return Left(ServerFailure(e.message));

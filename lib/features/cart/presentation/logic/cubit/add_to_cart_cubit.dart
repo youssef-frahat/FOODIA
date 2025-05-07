@@ -33,7 +33,6 @@ class AddToCartCubit extends Cubit<AddToCartState> {
     });
   }
 
-
   Future<void> getCart() async {
     emit(GetAllCartLoading());
     final result = await addToCartRepo.getCart();
@@ -54,11 +53,12 @@ class AddToCartCubit extends Cubit<AddToCartState> {
       if (deletItemCartModel.status == true) {
         emit(DeleteItemFromCartSuccess(deletItemCartModel));
       } else {
-        emit(DeleteItemFromCartError(deletItemCartModel.message ?? "فشل في حذف المنتج"));
+        emit(
+          DeleteItemFromCartError(
+            deletItemCartModel.message ?? "فشل في حذف المنتج",
+          ),
+        );
       }
     });
   }
-
-
-  
 }

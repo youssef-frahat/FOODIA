@@ -82,22 +82,20 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
   @override
   void initState() {
     super.initState();
-    _checkIfLoggedIn(); 
+    _checkIfLoggedIn();
   }
-
 
   Future<void> _checkIfLoggedIn() async {
-  final token = await SecureLocalStorage.read(PrefsKeys.token);
+    final token = await SecureLocalStorage.read(PrefsKeys.token);
 
-  if (token != null && token.isNotEmpty) {
-    // لو فيه توكن يبقى المستخدم مسجل
-    GoRouter.of(context).goNamed(AppRoutes.home);
-  } else {
-    // لو مفيش توكن يبقى المستخدم مش مسجل
-    GoRouter.of(context).goNamed(AppRoutes.onboarding);
+    if (token != null && token.isNotEmpty) {
+      // لو فيه توكن يبقى المستخدم مسجل
+      GoRouter.of(context).goNamed(AppRoutes.home);
+    } else {
+      // لو مفيش توكن يبقى المستخدم مش مسجل
+      GoRouter.of(context).goNamed(AppRoutes.onboarding);
+    }
   }
-}
-
 
   @override
   Widget build(BuildContext context) {
@@ -156,16 +154,18 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
             child:
                 _currentPage == _onboardingItems.length - 1
                     ? GestureDetector(
-                      onTap: () =>  GoRouter.of(context).goNamed(AppRoutes.login),
-                      child: SvgPicture.asset('assets/icons/next.svg'))
+                      onTap:
+                          () => GoRouter.of(context).goNamed(AppRoutes.login),
+                      child: SvgPicture.asset('assets/icons/next.svg'),
+                    )
                     : GestureDetector(
-                      onTap: () =>  _pageController.nextPage(
-                          duration: Duration(milliseconds: 300),
-                          curve: Curves.easeInOut,
-                        ),
-                      child: SvgPicture.asset('assets/icons/next.svg'))
-                    
-                    
+                      onTap:
+                          () => _pageController.nextPage(
+                            duration: Duration(milliseconds: 300),
+                            curve: Curves.easeInOut,
+                          ),
+                      child: SvgPicture.asset('assets/icons/next.svg'),
+                    ),
           ),
         ],
       ),

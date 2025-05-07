@@ -20,4 +20,10 @@ class EndPoints {
   static String addCart = "$_baseUrl/addCart";
   static String getCart = "$_baseUrl/cart";
   static String deleteCart = "$_baseUrl/cart";
+  static String addAdress = "$_baseUrl/addresses";
+  static String getAdress = "$_baseUrl/addresses";
+  static String updateAdress = "$_baseUrl/addresses";
+  static String deleteAdress = "$_baseUrl/addresses";
+  static String followChef = "$_baseUrl/follow-chef";
+  static String getFollowers = "$_baseUrl/my-followed-chefs";
 }

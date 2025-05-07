@@ -25,7 +25,7 @@ class CustomPinput extends StatelessWidget {
       child: Pinput(
         length: 4,
         controller: _otpController,
-        onChanged: onChanged, 
+        onChanged: onChanged,
         defaultPinTheme: PinTheme(
           height: 74.h,
           width: 74.w,

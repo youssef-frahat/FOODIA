@@ -28,7 +28,6 @@ final class AddToCartError extends AddToCartState {
   List<Object> get props => [error];
 }
 
-
 //! GET CART
 
 final class GetAllCartLoading extends AddToCartState {}

@@ -12,6 +12,7 @@ import 'package:foodia_app/features/on_boarding/onbording.dart';
 import 'package:foodia_app/features/profile/presentation/screen/edit_profile_screen.dart';
 import 'package:foodia_app/features/profile/presentation/screen/profile_screen.dart';
 
+import '../../features/followers/presentation/screen/followers_screen.dart';
 import '../../features/home/presentation/screens/details_screen.dart';
 import 'app_routes.dart';
 
@@ -72,13 +73,20 @@ class RouterGeneration {
 
         ShellRoute(
           builder: (context, state, child) {
-    return BottomNavBar(child: child); 
-  },
+            return BottomNavBar(child: child);
+          },
           routes: [
             GoRoute(
               path: AppRoutes.home,
               name: AppRoutes.home,
               pageBuilder: _transitionBuilder((_, __) => const HomeScreen()),
+            ),
+            GoRoute(
+              path: AppRoutes.follow,
+              name: AppRoutes.follow,
+              pageBuilder: _transitionBuilder(
+                (_, __) => const FollowersScreen(),
+              ),
             ),
             GoRoute(
               path: AppRoutes.profileScreen,

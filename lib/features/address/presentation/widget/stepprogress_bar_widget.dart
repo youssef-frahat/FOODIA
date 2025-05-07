@@ -1,101 +1,92 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_screenutil/flutter_screenutil.dart';
 
-class ExactStepperWidget extends StatelessWidget {
-  const ExactStepperWidget({super.key});
+class ExactStepperWidget extends StatefulWidget {
+  const ExactStepperWidget({super.key, required this.currentStep});
 
-  @override
-  Widget build(BuildContext context) {
-    return Padding(
-      padding: EdgeInsets.symmetric(horizontal: 16.0, vertical: 8.0),
-      child: Column(
-        children: [
-          Row(
-            crossAxisAlignment: CrossAxisAlignment.center,
-            children: [
-              const _StepDot(active: true),
-              Container(
-                width: 180.w,
-                height: 2,
-                color: Colors.orange,
-              ),
-              const _StepDot(active: false),
-              Expanded(
-                child: Container(
-                  height: 2,
-                  color: Colors.grey.shade300,
-                ),
-              ),
-              const _StepDot(active: false),
-            ],
-          ),
-          const SizedBox(height: 10),
-      
-          // الأسهم + الأزرار
-          Row(
-            mainAxisAlignment: MainAxisAlignment.spaceAround,
-            children: const [
-              _StepLabel(title: "اضف عنوان"),
-              _StepLabel(title: "تفاصيل الطلب"),
-              _StepLabel(title: "الدفع"),
-            ],
-          ),
-        ],
-      ),
-    );
-  }
-}
-
-class _StepDot extends StatelessWidget {
-  final bool active;
-
-  const _StepDot({required this.active});
+  final int currentStep;
 
   @override
-  Widget build(BuildContext context) {
-    return Container(
-      width: 12,
-      height: 12,
-      decoration: BoxDecoration(
-        color: active ? Colors.orange : Colors.white,
-        border: Border.all(
-          color: active ? Colors.orange : Colors.grey.shade300,
-          width: 2,
-        ),
-        shape: BoxShape.circle,
-      ),
-    );
-  }
+  State<ExactStepperWidget> createState() => _ExactStepperWidgetState();
 }
 
-class _StepLabel extends StatelessWidget {
-  final String title;
-
-  const _StepLabel({required this.title});
+class _ExactStepperWidgetState extends State<ExactStepperWidget> {
+  final List<String> steps = const ["اضف عنوان", "تفاصيل الطلب", "الدفع"];
 
   @override
   Widget build(BuildContext context) {
     return Column(
       children: [
-        const Icon(
-          Icons.arrow_drop_up,
-          color: Colors.orange,
-          size: 20,
-        ),
-        Container(
-          padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 6),
-          decoration: BoxDecoration(
-            color: Colors.orange,
-            borderRadius: BorderRadius.circular(20),
-          ),
-          child: Text(
-            title,
-            style: const TextStyle(
-              color: Colors.white,
-              fontSize: 12,
-              fontWeight: FontWeight.bold,
-            ),
-          ),
+        Row(
+          textDirection: TextDirection.ltr,
+          children: List.generate(steps.length * 2 - 1, (index) {
+            if (index % 2 == 0) {
+              final stepIndex = index ~/ 2;
+              final isCurrent = widget.currentStep == stepIndex;
+              final isCompleted = widget.currentStep > stepIndex;
+
+              return Column(
+                children: [
+                  if (isCurrent)
+                    Icon(Icons.arrow_drop_down, color: Colors.orange, size: 24)
+                  else
+                    SizedBox(height: 24),
+
+                  Container(
+                    width: 12,
+                    height: 12,
+                    decoration: BoxDecoration(
+                      shape: BoxShape.circle,
+                      color:
+                          isCompleted || isCurrent
+                              ? Colors.orange
+                              : Colors.grey.shade300,
+                    ),
+                  ),
+                  const SizedBox(height: 6),
+
+                  Container(
+                    padding: const EdgeInsets.symmetric(
+                      horizontal: 8,
+                      vertical: 4,
+                    ),
+                    decoration: BoxDecoration(
+                      color: Colors.orange.withOpacity(0.1),
+                      borderRadius: BorderRadius.circular(8),
+                    ),
+                    child: Text(
+                      steps[stepIndex],
+                      style: TextStyle(
+                        fontSize: 12,
+                        fontWeight: FontWeight.bold,
+                        color: Colors.orange,
+                      ),
+                    ),
+                  ),
+                ],
+              );
+            } else {
+              final lineIndex = (index - 1) ~/ 2;
+              final isHalfFilled = widget.currentStep == lineIndex;
+              final isFilled = widget.currentStep > lineIndex;
+
+              return Expanded(
+                child: Container(
+                  height: 2,
+                  alignment: Alignment.centerLeft,
+                  decoration: BoxDecoration(color: Colors.grey.shade300),
+                  child: FractionallySizedBox(
+                    widthFactor:
+                        isFilled
+                            ? 1
+                            : isHalfFilled
+                            ? 0.5
+                            : 0,
+                    child: Container(height: 2, color: Colors.orange),
+                  ),
+                ),
+              );
+            }
+          }),
         ),
       ],
     );

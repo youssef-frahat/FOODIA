@@ -49,3 +49,12 @@ final class AllDetailsError extends AllFoodsState {
   @override
   List<Object> get props => [error];
 }
+
+final class FollowChef extends AllFoodsState {
+  final FollowCefeModel followCefe;
+
+  const FollowChef(this.followCefe);
+
+  @override
+  List<Object> get props => [followCefe];
+}

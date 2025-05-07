@@ -1,6 +1,7 @@
 import 'package:equatable/equatable.dart';
 
 class Chef extends Equatable {
+  final int? id;
   final String? name;
   final String? phone;
   final String? email;
@@ -13,6 +14,7 @@ class Chef extends Equatable {
   final dynamic token;
 
   const Chef({
+    this.id,
     this.name,
     this.phone,
     this.email,
@@ -26,6 +28,7 @@ class Chef extends Equatable {
   });
 
   factory Chef.fromJson(Map<String, dynamic> json) => Chef(
+    id: json['id'] as int?,
     name: json['name'] as String?,
     phone: json['phone'] as String?,
     email: json['email'] as String?,
@@ -39,6 +42,7 @@ class Chef extends Equatable {
   );
 
   Map<String, dynamic> toJson() => {
+    'id': id,
     'name': name,
     'phone': phone,
     'email': email,
