@@ -11,7 +11,7 @@ class AllFollowersInitial extends AllFollowersState {}
 class GetAllFollowersChefeLoading extends AllFollowersState {}
 
 class GetAllFollowersChefeSuccess extends AllFollowersState {
-  final GetAllFollowersChefeModel getAllFollowersChefeModel;
+  final GetAllFollorsChefeModel getAllFollowersChefeModel;
 
   const GetAllFollowersChefeSuccess(this.getAllFollowersChefeModel);
 
@@ -28,11 +28,24 @@ class GetAllFollowersChefeFailure extends AllFollowersState {
   List<Object?> get props => [error];
 }
 
-class SelectedChefChanged extends AllFollowersState {
-  final List<FoodModel> selectedFoods;
+// get foodes
 
-  const SelectedChefChanged(this.selectedFoods);
+class GetFoodesChefeLoading extends AllFollowersState {}
+
+class GetFoodesChefeSuccess extends AllFollowersState {
+  final GetFoodesChefeModel getFoodesChefeModel;
+
+  const GetFoodesChefeSuccess(this.getFoodesChefeModel);
 
   @override
-  List<Object?> get props => [selectedFoods];
+  List<Object?> get props => [getFoodesChefeModel];
+}
+
+class GetFoodesChefeFailure extends AllFollowersState {
+  final String error;
+
+  const GetFoodesChefeFailure(this.error);
+
+  @override
+  List<Object?> get props => [error];
 }

@@ -15,18 +15,21 @@ class ListViewBuilderCefi extends StatelessWidget {
       buildWhen: (previous, current) => previous != current,
       builder: (context, state) {
         if (state is GetAllFollowersChefeSuccess) {
-          final chefs = state.getAllFollowersChefeModel.data!.chefs ?? [];
+          final chefs = state.getAllFollowersChefeModel.data;
 
           return Padding(
             padding: REdgeInsets.symmetric(vertical: 20),
             child: SizedBox(
               height: 120.h,
               child: ListView.builder(
-                itemCount: chefs.length,
+                itemCount: chefs!.length,
                 scrollDirection: Axis.horizontal,
                 itemBuilder: (context, index) {
                   return GestureDetector(
-                    onTap: () =>  context.read<AllFollowersCubit>().selectChef(chefs[index].id!),
+                    onTap: () {
+                      context.read<AllFollowersCubit>().filterFoodsByChefId(chefs[index].id ?? 0);
+                    },
+
                     child: Column(
                       children: [
                         Container(
@@ -40,6 +43,10 @@ class ListViewBuilderCefi extends StatelessWidget {
                                 '${imageUrl}${chefs[index].image}',
                               ),
                               fit: BoxFit.cover,
+                            ),
+                             border: Border.all(
+                              color: Colors.orange,  
+                              width: 4.w,  
                             ),
                           ),
                         ),
@@ -62,7 +69,7 @@ class ListViewBuilderCefi extends StatelessWidget {
         } else if (state is GetAllFollowersChefeLoading) {
           return const Center(child: CircularProgressIndicator());
         } else if (state is GetAllFollowersChefeFailure) {
-          return Center(child: Text('حدث خطأ: ${state.error}'));
+          return Center(child: Text(state.error));
         } else {
           return const SizedBox.shrink();
         }

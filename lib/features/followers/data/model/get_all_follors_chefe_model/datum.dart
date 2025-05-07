@@ -1,6 +1,6 @@
 import 'package:equatable/equatable.dart';
 
-class Chef extends Equatable {
+class Datum extends Equatable {
   final int? id;
   final String? name;
   final String? phone;
@@ -16,7 +16,7 @@ class Chef extends Equatable {
   final DateTime? createdAt;
   final DateTime? updatedAt;
 
-  const Chef({
+  const Datum({
     this.id,
     this.name,
     this.phone,
@@ -33,7 +33,7 @@ class Chef extends Equatable {
     this.updatedAt,
   });
 
-  factory Chef.fromJson(Map<String, dynamic> json) => Chef(
+  factory Datum.fromJson(Map<String, dynamic> json) => Datum(
     id: json['id'] as int?,
     name: json['name'] as String?,
     phone: json['phone'] as String?,
@@ -72,40 +72,6 @@ class Chef extends Equatable {
     'created_at': createdAt?.toIso8601String(),
     'updated_at': updatedAt?.toIso8601String(),
   };
-
-  Chef copyWith({
-    int? id,
-    String? name,
-    String? phone,
-    String? email,
-    String? otp,
-    int? isVerify,
-    String? image,
-    String? wallet,
-    int? countSubscribe,
-    String? bio,
-    int? totalOrder,
-    dynamic fcmToken,
-    DateTime? createdAt,
-    DateTime? updatedAt,
-  }) {
-    return Chef(
-      id: id ?? this.id,
-      name: name ?? this.name,
-      phone: phone ?? this.phone,
-      email: email ?? this.email,
-      otp: otp ?? this.otp,
-      isVerify: isVerify ?? this.isVerify,
-      image: image ?? this.image,
-      wallet: wallet ?? this.wallet,
-      countSubscribe: countSubscribe ?? this.countSubscribe,
-      bio: bio ?? this.bio,
-      totalOrder: totalOrder ?? this.totalOrder,
-      fcmToken: fcmToken ?? this.fcmToken,
-      createdAt: createdAt ?? this.createdAt,
-      updatedAt: updatedAt ?? this.updatedAt,
-    );
-  }
 
   @override
   List<Object?> get props {

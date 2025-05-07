@@ -89,10 +89,8 @@ class GetAllHomeRepoImpl implements GetAllHomeRepo {
   }) async {
     try {
       final response = await apiService.post(
-        EndPoints.followChef,       
-       data: {
-          'chef_id': cefeId
-        }
+        EndPoints.followChef,
+        data: {'chef_id': cefeId},
       );
       FollowCefeModel cefeModel = FollowCefeModel.fromJson(response);
       return Right(cefeModel);

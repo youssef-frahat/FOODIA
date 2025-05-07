@@ -17,25 +17,19 @@ class FollowersScreen extends StatelessWidget {
         title: Text('اتابعه', style: TextStyle(fontFamily: 'Changa')),
         centerTitle: true,
       ),
-      body: BlocProvider(
-        create: (context) => getIt<AllFollowersCubit>()..getAllFollowersChefe(),
-        child: Column(
-          children: [
-            ListViewBuilderCefi(
-            
-            ),
-            DottedLineRedWidget(),
-            BlocBuilder<AllFollowersCubit, AllFollowersState>(
-              builder: (context, state) {
-                if (state is SelectedChefChanged) {
-                  return ListViewFoodsBody(foods: state.selectedFoods);
-                } else {
-                  return const Expanded(child: Center(child: Text("اختر شيف لعرض الأكل")));
-                }
-              },
-            ),
-          ],
-        ),
+      body: Column(
+        children: [
+          BlocProvider(
+            create:
+                (context) => getIt<AllFollowersCubit>()..getAllFollowersChefe(),
+            child: ListViewBuilderCefi(),
+          ),
+          DottedLineRedWidget(),
+          BlocProvider(
+            create: (context) => getIt<AllFollowersCubit>()..getFoodsChefe(),
+            child: ListViewFoodsBody(),
+          ),
+        ],
       ),
     );
   }

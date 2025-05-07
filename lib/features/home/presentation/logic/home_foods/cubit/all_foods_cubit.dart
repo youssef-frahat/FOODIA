@@ -48,7 +48,7 @@ class AllFoodsCubit extends Cubit<AllFoodsState> {
     final result = await getAllHomeRepo.followCefe(cefeId: cefeId);
     result.fold(
       (failure) {
-        emit(AllFoodsError(failure.message));
+        emit(FollowChefError(failure.message));
       },
       (followCefeModel) {
         emit(FollowChef(followCefeModel));

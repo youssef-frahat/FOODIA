@@ -33,6 +33,7 @@ class AppStrings {
   static const String prepared = "تم التحضير";
   static const String inPreparation = "قيد التحضير";
   static const String wallet = "المحفظة";
+  static const String followChefSuccess = "تمت المتابعة بنجاح";
   static const String editProfileSuccess = "تم تعديل الملف الشخصي بنجاح";
   static const String name = "الإسم";
   static const String logoutSuccess = "تم تسجيل الخروج بنجاح";

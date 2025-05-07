@@ -25,5 +25,6 @@ class EndPoints {
   static String updateAdress = "$_baseUrl/addresses";
   static String deleteAdress = "$_baseUrl/addresses";
   static String followChef = "$_baseUrl/follow-chef";
-  static String getFollowers = "$_baseUrl/my-followed-chefs";
+  static String getFollowers = "$_baseUrl/followed-chefs";
+  static String getFoodsChefe = "$_baseUrl/followed-chefs/foods";
 }
