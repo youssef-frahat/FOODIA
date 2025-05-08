@@ -74,7 +74,7 @@ class _OtpScreenState extends State<OtpScreen> {
             } else if (state is ValidateOtpCodeSuccess) {
               context.pop();
               AppMessages.showSuccess(context, AppStrings.otpVerified);
-              context.goNamed(AppRoutes.home);
+              context.goNamed(AppRoutes.login);
             } else if (state is ValidateOtpCodeError) {
               context.pop();
               AppMessages.showError(context, AppStrings.codeIsInvalid);

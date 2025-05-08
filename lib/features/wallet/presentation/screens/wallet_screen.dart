@@ -20,7 +20,8 @@ class WalletScreen extends StatefulWidget {
   State<WalletScreen> createState() => _WalletScreenState();
 }
 
-class _WalletScreenState extends State<WalletScreen> with WidgetsBindingObserver {
+class _WalletScreenState extends State<WalletScreen>
+    with WidgetsBindingObserver {
   late GetBalanceCubit _cubit;
 
   @override
@@ -62,19 +63,19 @@ class _WalletScreenState extends State<WalletScreen> with WidgetsBindingObserver
               final rawUrl = state.addToBalanceModel.data?.paymentUrl ?? '';
               final sanitizedUrl = sanitizeUrl(rawUrl);
 
-              final result = await Navigator.push<bool>(
+              await Navigator.push<bool>(
                 context,
                 MaterialPageRoute(
                   builder: (_) => WebViewPaymentPage(url: sanitizedUrl),
                 ),
-              );
-
-              if (result == true) {
-                AppMessages.showSuccess(context, "تمت عملية الدفع بنجاح");
-                _cubit.getBalance(); 
-              } else if (result == false) {
-                AppMessages.showError(context, "تم إلغاء عملية الدفع");
-              }
+              ).then((result) {
+                _cubit.getBalance(); // ✅ يحدث البيانات دائمًا بعد العودة
+                if (result == true) {
+                  AppMessages.showSuccess(context, "تمت عملية الدفع بنجاح");
+                } else if (result == false) {
+                  AppMessages.showError(context, "تم إلغاء عملية الدفع");
+                }
+              });
             } else if (state is AddBalanceFailure) {
               AppMessages.showError(context, state.failure.message);
             }
@@ -89,8 +90,7 @@ class _WalletScreenState extends State<WalletScreen> with WidgetsBindingObserver
                 return Center(child: Text(state.failure.message));
               }
 
-              if (state is GetBalanceSuccess ||
-                  state is AddBalanceSuccess) {
+              if (state is GetBalanceSuccess || state is AddBalanceSuccess) {
                 final balance =
                     (context.read<GetBalanceCubit>().state is GetBalanceSuccess)
                         ? (context.read<GetBalanceCubit>().state

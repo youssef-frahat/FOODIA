@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:foodia_app/core/di/dependency_injection.dart';
 import 'package:foodia_app/features/cart/presentation/screens/cart_screen.dart';
 import 'package:go_router/go_router.dart';
 
@@ -15,6 +17,7 @@ import 'package:foodia_app/features/profile/presentation/screen/profile_screen.d
 import '../../features/followers/presentation/screen/followers_screen.dart';
 import '../../features/home/presentation/screens/details_screen.dart';
 import '../../features/order/presentation/screen/order_screen.dart';
+import '../../features/profile/presentation/logic/cubit/user_profile_cubit.dart';
 import '../../features/wallet/presentation/screens/wallet_screen.dart';
 import 'app_routes.dart';
 
@@ -113,22 +116,24 @@ class RouterGeneration {
             //     return ProductDetailsScreen(foodId: foodId);
             //   },
             // ),
-            GoRoute(
-              path: AppRoutes.editProfileScreen,
-              name: AppRoutes.editProfileScreen,
-              pageBuilder: (context, state) {
-                final data = state.extra as Map<String, dynamic>?;
-                return _buildTransitionPage(
-                  EditProfileScreen(
-                    name: data?['name'] ?? '',
-                    email: data?['email'] ?? '',
-                    phone: data?['phone'] ?? '',
-                    image: data?['image'] ?? '',
-                  ),
-                  state,
-                );
-              },
-            ),
+          GoRoute(
+  path: AppRoutes.editProfileScreen,
+  name: AppRoutes.editProfileScreen,
+  pageBuilder: (context, state) {
+    final data = state.extra as Map<String, dynamic>?;
+
+    return _buildTransitionPage(
+      EditProfileScreen(
+        name: data?['name'] ?? '',
+        email: data?['email'] ?? '',
+        phone: data?['phone'] ?? '',
+        image: data?['image'] ?? '',
+      ),
+      state,
+    );
+  },
+),
+
           ],
         ),
       ],

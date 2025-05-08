@@ -1,10 +1,11 @@
+import 'dart:developer';
 import 'dart:io';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:foodia_app/core/routing/app_routes.dart';
 import 'package:go_router/go_router.dart';
+
 import 'package:image_picker/image_picker.dart';
 
 import '../../../../core/app_config/app_colors.dart';
@@ -85,18 +86,20 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
 
   @override
   Widget build(BuildContext context) {
-    return BlocProvider(
-      create: (context) => getIt<UserProfileCubit>(),
-      child: Scaffold(
-        body: BlocConsumer<UserProfileCubit, UserProfileState>(
+    return Scaffold(
+      body: BlocProvider.value(
+        value: getIt<UserProfileCubit>(),
+        child: BlocConsumer<UserProfileCubit, UserProfileState>(
           listener: (context, state) {
             if (state is EditeUserProfileError) {
+              Navigator.of(context, rootNavigator: true).pop();
               AppMessages.showError(context, state.error);
             }
             if (state is EditeUserProfileSuccess) {
+              Navigator.of(context, rootNavigator: true).pop();
+              context.read<UserProfileCubit>().getUserProfile();
               AppMessages.showSuccess(context, AppStrings.editProfileSuccess);
-
-              context.go(AppRoutes.home);
+              context.pop();
             }
             if (state is EditeUserProfileLoading) {
               AppMessages.showLoading(context);
@@ -235,7 +238,7 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
                           return null;
                         },
                       ),
-                      verticalSpace(180),
+                      verticalSpace(80),
                       Primarybutton(
                         buttontext: 'حفظ',
                         buttoncolor: AppColors.primarycolor,
@@ -244,17 +247,22 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
                         textcolor: Colors.white,
                         onpress: () {
                           if (_formKey.currentState?.validate() ?? false) {
-                            context.read<UserProfileCubit>().updateUserProfile(
-                              name: _nameController.text.trim(),
-                              phone: _phoneController.text.trim(),
-                              email: _emailController.text.trim(),
-                              currentPassword:
-                                  _currentPasswordController.text.trim(),
-                              password: _newPasswordController.text.trim(),
-                              passwordConfirmation:
-                                  _confirmPasswordController.text.trim(),
-                              image: selectedImage,
-                            );
+                            context
+                                .read<UserProfileCubit>()
+                                .updateUserProfile(
+                                  name: _nameController.text.trim(),
+                                  phone: _phoneController.text.trim(),
+                                  email: _emailController.text.trim(),
+                                  currentPassword:
+                                      _currentPasswordController.text.trim(),
+                                  password: _newPasswordController.text.trim(),
+                                  passwordConfirmation:
+                                      _confirmPasswordController.text.trim(),
+                                  image: selectedImage,
+                                )
+                                .then((_) {
+                                  Navigator.pop(context, true);
+                                });
                           }
                         },
                       ),
@@ -278,6 +286,6 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
     });
 
     String imagePath = selectedImage!.path.split('/').last;
-    print('Selected image path: $imagePath');
+    log('Selected image path: $imagePath');
   }
 }
