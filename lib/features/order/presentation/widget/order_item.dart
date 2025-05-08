@@ -18,7 +18,8 @@ class OrderItemWidget extends StatelessWidget {
     required this.title,
     required this.status,
     required this.price,
-    required this.quantity, required this.deletOrder,
+    required this.quantity,
+    required this.deletOrder,
   });
 
   Map<String, Map<String, dynamic>> get statusMapping => {

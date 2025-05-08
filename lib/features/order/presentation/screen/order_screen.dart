@@ -1,4 +1,3 @@
-
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -43,19 +42,23 @@ class OrderScreen extends StatelessWidget {
                 return Center(child: Text(state.message));
               } else if (state is OrderItemLoaded) {
                 final orderItems = state.getAllOrderItemModel.orderItems;
-                
+
                 if (orderItems == null || orderItems.isEmpty) {
                   return Center(
                     child: Column(
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
-                        SvgPicture.asset('assets/icons/nav_bar/cart.svg', height: 100.h , color: Colors.orange,),
+                        SvgPicture.asset(
+                          'assets/icons/nav_bar/cart.svg',
+                          height: 100.h,
+                          color: Colors.orange,
+                        ),
                         verticalSpace(20),
                         Text(
                           'لا توجد طلبات حالياً',
                           style: TextStyle(
                             fontSize: 18.sp,
-                            color: Colors.orange,  
+                            color: Colors.orange,
                             fontWeight: FontWeight.bold,
                           ),
                         ),
@@ -76,7 +79,7 @@ class OrderScreen extends StatelessWidget {
                       quantity: orderItems[index].qty ?? 0,
                       deletOrder: () {
                         context.read<OrderItemCubit>().cancelOrder(
-                          orderId: orderItems[index].id ?? 0
+                          orderId: orderItems[index].id ?? 0,
                         );
                       },
                     );

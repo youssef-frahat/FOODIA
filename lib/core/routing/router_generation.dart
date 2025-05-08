@@ -95,7 +95,7 @@ class RouterGeneration {
               name: AppRoutes.orderScreen,
               pageBuilder: _transitionBuilder((_, __) => const OrderScreen()),
             ),
-             GoRoute(
+            GoRoute(
               path: AppRoutes.wallet,
               name: AppRoutes.wallet,
               pageBuilder: _transitionBuilder((_, __) => const WalletScreen()),

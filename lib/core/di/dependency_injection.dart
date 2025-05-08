@@ -20,6 +20,8 @@ import '../../features/order/data/repo/order_item_repo_impl.dart';
 import '../../features/order/presentation/logic/cubit/order_item_cubit.dart';
 import '../../features/profile/data/repo/get_user_profile_repo_impl.dart';
 import '../../features/profile/presentation/logic/cubit/user_profile_cubit.dart';
+import '../../features/wallet/data/repo/walet_repo_impl.dart';
+import '../../features/wallet/presentation/logic/cubit/get_balance_cubit.dart';
 import '../networking/api/api_services.dart';
 
 final getIt = GetIt.instance;
@@ -68,6 +70,9 @@ void _initRepositories() {
   getIt.registerLazySingleton<OrderItemRepoImpl>(
     () => OrderItemRepoImpl(getIt()),
   );
+   getIt.registerLazySingleton<WaletRepoImpl>(
+    () => WaletRepoImpl(getIt()),
+  );
 }
 
 //! Cubits
@@ -84,4 +89,5 @@ void _initCubits() {
   getIt.registerFactory<AllAdressUserCubit>(() => AllAdressUserCubit(getIt()));
   getIt.registerFactory<AllFollowersCubit>(() => AllFollowersCubit(getIt()));
   getIt.registerFactory<OrderItemCubit>(() => OrderItemCubit(getIt()));
+  getIt.registerFactory<GetBalanceCubit>(() => GetBalanceCubit(getIt()));
 }

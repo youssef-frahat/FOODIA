@@ -1,0 +1,8 @@
+import 'package:dartz/dartz.dart';
+
+import '../../../../core/errors/failures.dart';
+import '../model/get_wallet_model/get_wallet_model.dart';
+
+abstract class WalletRepo {
+   Future<Either<Failure, GetWalletModel>> getBalance();
+}
