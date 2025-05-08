@@ -27,7 +27,9 @@ class ListViewBuilderCefi extends StatelessWidget {
                 itemBuilder: (context, index) {
                   return GestureDetector(
                     onTap: () {
-                      context.read<AllFollowersCubit>().filterFoodsByChefId(chefs[index].id ?? 0);
+                      context.read<AllFollowersCubit>().filterFoodsByChefId(
+                        chefs[index].id ?? 0,
+                      );
                     },
 
                     child: Column(
@@ -44,9 +46,9 @@ class ListViewBuilderCefi extends StatelessWidget {
                               ),
                               fit: BoxFit.cover,
                             ),
-                             border: Border.all(
-                              color: Colors.orange,  
-                              width: 4.w,  
+                            border: Border.all(
+                              color: Colors.orange,
+                              width: 4.w,
                             ),
                           ),
                         ),

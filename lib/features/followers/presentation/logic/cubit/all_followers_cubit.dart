@@ -32,14 +32,13 @@ class AllFollowersCubit extends Cubit<AllFollowersState> {
     });
   }
 
-
-   void filterFoodsByChefId(int chefId) async {
-    emit(GetFoodesChefeLoading()); 
-    final result = await getFollowerRepoImpl.getFoodeChefe(); 
+  void filterFoodsByChefId(int chefId) async {
+    emit(GetFoodesChefeLoading());
+    final result = await getFollowerRepoImpl.getFoodeChefe();
     result.fold((l) => emit(GetFoodesChefeFailure(l.message)), (r) {
-      final filteredFoods = r.data?.where((food) => food.chefId == chefId).toList();
+      final filteredFoods =
+          r.data?.where((food) => food.chefId == chefId).toList();
       emit(GetFoodesChefeSuccess(r.copyWith(data: filteredFoods)));
     });
   }
 }
-

@@ -27,4 +27,6 @@ class EndPoints {
   static String followChef = "$_baseUrl/follow-chef";
   static String getFollowers = "$_baseUrl/followed-chefs";
   static String getFoodsChefe = "$_baseUrl/followed-chefs/foods";
+  static String order = "$_baseUrl/my-orders";
+  static String cancelOrder = "$_baseUrl/cancel-order";
 }

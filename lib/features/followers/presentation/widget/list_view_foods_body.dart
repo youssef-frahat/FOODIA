@@ -20,9 +20,7 @@ class ListViewFoodsBody extends StatelessWidget {
               padding: REdgeInsets.symmetric(horizontal: 16),
               itemCount: foodes!.length,
               itemBuilder: (context, index) {
-                return FoodCard(
-                  foodesModel: foodes[index],
-                );
+                return FoodCard(foodesModel: foodes[index]);
               },
             ),
           );

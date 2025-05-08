@@ -14,6 +14,7 @@ import 'package:foodia_app/features/profile/presentation/screen/profile_screen.d
 
 import '../../features/followers/presentation/screen/followers_screen.dart';
 import '../../features/home/presentation/screens/details_screen.dart';
+import '../../features/order/presentation/screen/order_screen.dart';
 import 'app_routes.dart';
 
 class RouterGeneration {
@@ -87,6 +88,11 @@ class RouterGeneration {
               pageBuilder: _transitionBuilder(
                 (_, __) => const FollowersScreen(),
               ),
+            ),
+            GoRoute(
+              path: AppRoutes.orderScreen,
+              name: AppRoutes.orderScreen,
+              pageBuilder: _transitionBuilder((_, __) => const OrderScreen()),
             ),
             GoRoute(
               path: AppRoutes.profileScreen,

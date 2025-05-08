@@ -13,7 +13,7 @@ class FoodCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return InkWell(
-      onTap: () {} ,
+      onTap: () {},
       child: Container(
         margin: REdgeInsets.symmetric(vertical: 15),
         width: double.infinity,
@@ -90,7 +90,7 @@ class FoodCard extends StatelessWidget {
               ],
             ),
             verticalSpace(10),
-      
+
             Padding(
               padding: EdgeInsets.symmetric(horizontal: 100.w),
               child: Text(

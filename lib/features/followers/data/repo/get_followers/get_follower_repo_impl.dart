@@ -30,11 +30,12 @@ class GetFollowerRepoImpl implements GetFollowersRepo {
   }
 
   @override
-  Future<Either<Failure, GetFoodesChefeModel>> getFoodeChefe()async {
-  try {
+  Future<Either<Failure, GetFoodesChefeModel>> getFoodeChefe() async {
+    try {
       final response = await apiService.get(EndPoints.getFoodsChefe);
-      GetFoodesChefeModel getFoodesChefeModel =
-          GetFoodesChefeModel.fromJson(response);
+      GetFoodesChefeModel getFoodesChefeModel = GetFoodesChefeModel.fromJson(
+        response,
+      );
       return Right(getFoodesChefeModel);
     } on NetworkException catch (e) {
       return Left(NetworkFailure(e.message));

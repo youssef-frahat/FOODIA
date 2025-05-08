@@ -11,9 +11,10 @@ class GetFoodesChefeModel {
     return GetFoodesChefeModel(
       status: json['status'] as bool?,
       message: json['message'] as String?,
-      data: (json['data'] as List<dynamic>?)
-          ?.map((e) => FoodesModel.fromJson(e as Map<String, dynamic>))
-          .toList(),
+      data:
+          (json['data'] as List<dynamic>?)
+              ?.map((e) => FoodesModel.fromJson(e as Map<String, dynamic>))
+              .toList(),
     );
   }
 
@@ -23,11 +24,15 @@ class GetFoodesChefeModel {
     'data': data?.map((e) => e.toJson()).toList(),
   };
 
-  GetFoodesChefeModel copyWith({bool? status, String? message, List<FoodesModel>? data}) {
+  GetFoodesChefeModel copyWith({
+    bool? status,
+    String? message,
+    List<FoodesModel>? data,
+  }) {
     return GetFoodesChefeModel(
       status: status ?? this.status,
       message: message ?? this.message,
-      data: data ?? this.data, 
+      data: data ?? this.data,
     );
   }
 }

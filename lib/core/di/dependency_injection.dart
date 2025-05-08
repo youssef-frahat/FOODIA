@@ -16,6 +16,8 @@ import '../../features/followers/presentation/logic/cubit/all_followers_cubit.da
 import '../../features/home/data/repo/get_all_home_repo_impl.dart';
 import '../../features/home/presentation/logic/get_all_categorys_logic/cubit/get_all_categorys_cubit.dart';
 import '../../features/home/presentation/logic/home_foods/cubit/all_foods_cubit.dart';
+import '../../features/order/data/repo/order_item_repo_impl.dart';
+import '../../features/order/presentation/logic/cubit/order_item_cubit.dart';
 import '../../features/profile/data/repo/get_user_profile_repo_impl.dart';
 import '../../features/profile/presentation/logic/cubit/user_profile_cubit.dart';
 import '../networking/api/api_services.dart';
@@ -62,6 +64,10 @@ void _initRepositories() {
   getIt.registerLazySingleton<GetFollowerRepoImpl>(
     () => GetFollowerRepoImpl(getIt()),
   );
+
+  getIt.registerLazySingleton<OrderItemRepoImpl>(
+    () => OrderItemRepoImpl(getIt()),
+  );
 }
 
 //! Cubits
@@ -77,4 +83,5 @@ void _initCubits() {
   getIt.registerFactory<AddToCartCubit>(() => AddToCartCubit(getIt()));
   getIt.registerFactory<AllAdressUserCubit>(() => AllAdressUserCubit(getIt()));
   getIt.registerFactory<AllFollowersCubit>(() => AllFollowersCubit(getIt()));
+  getIt.registerFactory<OrderItemCubit>(() => OrderItemCubit(getIt()));
 }

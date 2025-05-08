@@ -17,7 +17,7 @@ class BottomNavBar extends StatelessWidget {
     int getCurrentIndex() {
       if (location.startsWith(AppRoutes.home)) return 0;
       if (location.startsWith(AppRoutes.follow)) return 1;
-      if (location.startsWith('/orders')) return 2;
+      if (location.startsWith(AppRoutes.orderScreen)) return 2;
       if (location.startsWith('/wallet')) return 3;
       if (location.startsWith(AppRoutes.profileScreen)) return 4;
       return 0;
@@ -32,7 +32,7 @@ class BottomNavBar extends StatelessWidget {
           context.go(AppRoutes.follow);
           break;
         case 2:
-          context.go('/orders');
+          context.go(AppRoutes.orderScreen);
           break;
         case 3:
           context.go('/wallet');
