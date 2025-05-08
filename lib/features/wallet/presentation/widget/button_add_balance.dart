@@ -17,7 +17,7 @@ class ButtonAddBalance extends StatelessWidget {
         },
         style: ElevatedButton.styleFrom(
           backgroundColor: Colors.orange, 
-          padding: EdgeInsets.symmetric(vertical: 14.h, horizontal: 20.w),
+          padding: EdgeInsets.symmetric( vertical: 10.h, horizontal: 15.w),
           shape: RoundedRectangleBorder(
             borderRadius: BorderRadius.circular(30.r),
           ),

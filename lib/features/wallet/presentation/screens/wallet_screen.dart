@@ -17,6 +17,7 @@ class WalletScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
+        backgroundColor: Colors.white,
         title: const Text(
           'المحفظة',
           style: TextStyle(fontFamily: 'Changa', fontSize: 20),

@@ -60,7 +60,7 @@
                   child: Text(
                       date,
                     style: TextStyle(
-                      color: Colors.white,
+                      color: Colors.black,
                       fontSize: 14.sp,
                     ),
                   ),
