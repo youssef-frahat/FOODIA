@@ -4,6 +4,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:foodia_app/core/di/dependency_injection.dart';
+import 'package:foodia_app/core/extensions/spacing.dart';
 
 import '../../../../core/app_config/messages.dart';
 import '../logic/cubit/order_item_cubit.dart';
@@ -49,7 +50,7 @@ class OrderScreen extends StatelessWidget {
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
                         SvgPicture.asset('assets/icons/nav_bar/cart.svg', height: 100.h , color: Colors.orange,),
-                        SizedBox(height: 16.h),
+                        verticalSpace(20),
                         Text(
                           'لا توجد طلبات حالياً',
                           style: TextStyle(
