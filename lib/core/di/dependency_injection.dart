@@ -70,9 +70,7 @@ void _initRepositories() {
   getIt.registerLazySingleton<OrderItemRepoImpl>(
     () => OrderItemRepoImpl(getIt()),
   );
-   getIt.registerLazySingleton<WaletRepoImpl>(
-    () => WaletRepoImpl(getIt()),
-  );
+  getIt.registerLazySingleton<WaletRepoImpl>(() => WaletRepoImpl(getIt()));
 }
 
 //! Cubits

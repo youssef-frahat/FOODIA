@@ -5,9 +5,7 @@ import '../../../../core/extensions/spacing.dart';
 
 class BalanceCardWidget extends StatelessWidget {
   final String amount;
-  const BalanceCardWidget({
-    super.key, required this.amount,
-  });
+  const BalanceCardWidget({super.key, required this.amount});
 
   @override
   Widget build(BuildContext context) {

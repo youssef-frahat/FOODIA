@@ -34,12 +34,16 @@ class OrderItemRepoImpl implements OrderItemRepo {
   }
 
   @override
-  Future<Either<Failure, CanseleOrderModel>> cancelOrder({required int orderId}) async{
+  Future<Either<Failure, CanseleOrderModel>> cancelOrder({
+    required int orderId,
+  }) async {
     try {
-      final response = await apiService.get('${EndPoints.cancelOrder}/$orderId',
-     
+      final response = await apiService.get(
+        '${EndPoints.cancelOrder}/$orderId',
       );
-      CanseleOrderModel canseleOrderModel = CanseleOrderModel.fromJson(response);
+      CanseleOrderModel canseleOrderModel = CanseleOrderModel.fromJson(
+        response,
+      );
       return Right(canseleOrderModel);
     } on NetworkException catch (e) {
       return Left(NetworkFailure(e.message));

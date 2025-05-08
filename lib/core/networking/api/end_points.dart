@@ -30,4 +30,5 @@ class EndPoints {
   static String order = "$_baseUrl/my-orders";
   static String cancelOrder = "$_baseUrl/cancel-order";
   static String balance = "$_baseUrl/wallet/balance";
+  static String addBalance= "$_baseUrl/wallet/recharge";
 }

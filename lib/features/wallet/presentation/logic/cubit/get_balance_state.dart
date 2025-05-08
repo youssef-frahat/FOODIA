@@ -23,3 +23,24 @@ final class GetBalanceFailure extends GetBalanceState {
   final Failure failure;
   const GetBalanceFailure(this.failure);
 }
+
+//!!!! add balance
+
+
+final class AddBalanceSuccess extends GetBalanceState {
+  final AddToBalanceModel addToBalanceModel;
+  const AddBalanceSuccess(this.addToBalanceModel);
+
+  @override
+  List<Object> get props => [addToBalanceModel];
+}
+
+final class AddBalanceFailure extends GetBalanceState {
+  final Failure failure;
+  const AddBalanceFailure(this.failure);
+}
+
+
+
+
+final class AddingBalanceLoading extends GetBalanceState {}

@@ -6,5 +6,7 @@ import '../model/get_all_order_item_model/get_all_order_item_model.dart';
 
 abstract class OrderItemRepo {
   Future<Either<Failure, GetAllOrderItemModel>> getAllOrderItem();
-  Future<Either<Failure, CanseleOrderModel>> cancelOrder({required int orderId});
+  Future<Either<Failure, CanseleOrderModel>> cancelOrder({
+    required int orderId,
+  });
 }
