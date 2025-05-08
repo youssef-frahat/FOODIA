@@ -29,45 +29,54 @@
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
             Row(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Text(
-                  'نوع المعاملة: ',
-                  style: TextStyle(
-                    fontSize: 14.sp,
-                    color: Colors.black,
-                    fontWeight: FontWeight.w600,
-                  ),
-                ),
-                Text(
-                  transactionType,
-                  style: TextStyle(
-                    fontSize: 14.sp,
-                    color: Colors.green,
-                    fontWeight: FontWeight.w600,
-                  ),
-                ),
-                Spacer(),
-                Container(
-                  padding: REdgeInsets.symmetric(
-                    vertical: 4,
-                    horizontal: 8,
-                  ),
-                  decoration: BoxDecoration(
-                    color: Colors.orange,
-                    borderRadius: BorderRadius.circular(8),
-                  ),
-                  child: Text(
-                      date,
-                    style: TextStyle(
-                      color: Colors.black,
-                      fontSize: 14.sp,
-                    ),
-                  ),
-                ),
-              ],
+  crossAxisAlignment: CrossAxisAlignment.start,
+  children: [
+    Text(
+      'نوع المعاملة: ',
+      style: TextStyle(
+        fontSize: 14.sp,
+        color: Colors.black,
+        fontWeight: FontWeight.w600,
+      ),
+    ),
+    Text(
+      transactionType,
+      style: TextStyle(
+        fontSize: 14.sp,
+        color: Colors.green,
+        fontWeight: FontWeight.w600,
+      ),
+    ),
+    Spacer(),
+    // Container يحتوي على الأيقونة والتاريخ
+    Container(
+      padding: REdgeInsets.symmetric(vertical: 4, horizontal: 12),
+      decoration: BoxDecoration(
+        color: Colors.orange,
+        borderRadius: BorderRadius.circular(8),
+      ),
+      child: Row(
+        mainAxisSize: MainAxisSize.min, 
+        children: [
+          Icon(
+            Icons.calendar_today, 
+            color: Colors.black, 
+            size: 16.sp, 
+          ),
+          horizontalSpace(8),
+          Text(
+            date,
+            style: TextStyle(
+              color: Colors.black,
+              fontSize: 14.sp,
             ),
-      
+          ),
+        ],
+      ),
+    ),
+  ],
+),
+
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               crossAxisAlignment: CrossAxisAlignment.start,
