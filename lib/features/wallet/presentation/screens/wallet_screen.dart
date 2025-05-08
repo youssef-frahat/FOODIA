@@ -1,10 +1,8 @@
-
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:foodia_app/core/di/dependency_injection.dart';
 import 'package:intl/intl.dart';
-import 'package:url_launcher/url_launcher.dart';
 
 import '../../../../core/app_config/messages.dart';
 import '../../../../core/extensions/spacing.dart';
@@ -12,6 +10,7 @@ import '../../../../core/url/luncer_url.dart';
 import '../logic/cubit/get_balance_cubit.dart';
 import '../widget/balance_card_widget.dart';
 import '../widget/button_add_balance.dart';
+import '../widget/payment_web_view.dart';
 import '../widget/transaction_item_widget.dart';
 
 class WalletScreen extends StatefulWidget {
@@ -62,15 +61,19 @@ class _WalletScreenState extends State<WalletScreen> with WidgetsBindingObserver
             if (state is AddBalanceSuccess) {
               final rawUrl = state.addToBalanceModel.data?.paymentUrl ?? '';
               final sanitizedUrl = sanitizeUrl(rawUrl);
-              final uri = Uri.parse(sanitizedUrl);
 
-              print("🔗 Trying to open: $sanitizedUrl");
+              final result = await Navigator.push<bool>(
+                context,
+                MaterialPageRoute(
+                  builder: (_) => WebViewPaymentPage(url: sanitizedUrl),
+                ),
+              );
 
-              try {
-                await launchUrl(uri, mode: LaunchMode.externalApplication);
-              } catch (e) {
-                print('❗ Error launching: $e');
-                AppMessages.showError(context, 'تعذر فتح رابط الدفع');
+              if (result == true) {
+                AppMessages.showSuccess(context, "تمت عملية الدفع بنجاح");
+                _cubit.getBalance(); 
+              } else if (result == false) {
+                AppMessages.showError(context, "تم إلغاء عملية الدفع");
               }
             } else if (state is AddBalanceFailure) {
               AppMessages.showError(context, state.failure.message);
@@ -78,7 +81,7 @@ class _WalletScreenState extends State<WalletScreen> with WidgetsBindingObserver
           },
           child: BlocBuilder<GetBalanceCubit, GetBalanceState>(
             builder: (context, state) {
-              if (state is GetBalanceLoading) {
+              if (state is GetBalanceLoading || state is AddingBalanceLoading) {
                 return const Center(child: CircularProgressIndicator());
               }
 
@@ -87,11 +90,13 @@ class _WalletScreenState extends State<WalletScreen> with WidgetsBindingObserver
               }
 
               if (state is GetBalanceSuccess ||
-                  state is AddingBalanceLoading ||
                   state is AddBalanceSuccess) {
-                final balance = (context.read<GetBalanceCubit>().state is GetBalanceSuccess)
-                    ? (context.read<GetBalanceCubit>().state as GetBalanceSuccess).getWalletModel
-                    : null;
+                final balance =
+                    (context.read<GetBalanceCubit>().state is GetBalanceSuccess)
+                        ? (context.read<GetBalanceCubit>().state
+                                as GetBalanceSuccess)
+                            .getWalletModel
+                        : null;
 
                 if (balance == null) {
                   return const Center(child: CircularProgressIndicator());
@@ -128,9 +133,11 @@ class _WalletScreenState extends State<WalletScreen> with WidgetsBindingObserver
                               balance.data?.wallets?[index].createdAt,
                             );
                             return TransactionItemWidget(
-                              amount: balance.data?.wallets?[index].amount ?? '',
+                              amount:
+                                  balance.data?.wallets?[index].amount ?? '',
                               date: formattedDate,
-                              transactionType: balance.data?.wallets?[index].type ?? '',
+                              transactionType:
+                                  balance.data?.wallets?[index].type ?? '',
                             );
                           },
                         ),

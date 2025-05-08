@@ -1,53 +1,50 @@
 import 'package:flutter/material.dart';
 import 'package:webview_flutter/webview_flutter.dart';
 
-class PaymentWebView extends StatefulWidget {
-  final String paymentUrl;
+class WebViewPaymentPage extends StatefulWidget {
+  final String url;
 
-  const PaymentWebView({super.key, required this.paymentUrl});
+  const WebViewPaymentPage({super.key, required this.url});
 
   @override
-  _PaymentWebViewState createState() => _PaymentWebViewState();
+  _WebViewPaymentPageState createState() => _WebViewPaymentPageState();
 }
 
-class _PaymentWebViewState extends State<PaymentWebView> {
-  WebViewController? _controller; 
+class _WebViewPaymentPageState extends State<WebViewPaymentPage> {
+  late final WebViewController _controller;
 
   @override
   void initState() {
     super.initState();
-
-    final controller = WebViewController()
+    _controller = WebViewController()
       ..setJavaScriptMode(JavaScriptMode.unrestricted)
-      ..setNavigationDelegate(NavigationDelegate(
-        onPageStarted: (url) {
-          print("Page started loading: $url");
-        },
-        onPageFinished: (url) {
-          print("Page finished loading: $url");
-        },
-        onNavigationRequest: (NavigationRequest request) {
-          if (request.url.startsWith('https://www.youtube.com/')) {
-            return NavigationDecision.prevent;
-          }
-          return NavigationDecision.navigate;
-        },
-      ))
-      ..loadRequest(Uri.parse(widget.paymentUrl));
+      ..setNavigationDelegate(
+        NavigationDelegate(
+          onPageFinished: (url) {
+  if (url.contains("success") || url.contains("confirmed")) {
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      Navigator.pop(context, true);
+    });
+  }
+},
+onPageStarted: (url) {
+  if (url.contains("cancel") || url.contains("failed")) {
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      Navigator.pop(context, false);
+    });
+  }
+},
 
-    _controller = controller;
+        ),
+      )
+      ..loadRequest(Uri.parse(widget.url));
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: const Text('إتمام الدفع'),
-        backgroundColor: Colors.orange,
-      ),
-      body: _controller == null
-          ? const Center(child: CircularProgressIndicator()) 
-          : WebViewWidget(controller: _controller!), 
+      appBar: AppBar(title: Text("إتمام عملية الدفع", style: TextStyle(fontFamily: 'Changa', fontSize: 25,color: Colors.orange)),centerTitle: true,),
+      body: WebViewWidget(controller: _controller),
     );
   }
 }
