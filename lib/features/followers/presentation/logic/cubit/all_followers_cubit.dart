@@ -3,6 +3,7 @@ import 'dart:developer';
 import 'package:equatable/equatable.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
+import '../../../data/model/chefe_profile_model/chefe_profile_model.dart';
 import '../../../data/model/get_all_follors_chefe_model/get_all_follors_chefe_model.dart';
 import '../../../data/model/get_foodes_chefe_model/get_foodes_chefe_model.dart';
 import '../../../data/repo/get_followers/get_follower_repo_impl.dart';
@@ -18,7 +19,7 @@ class AllFollowersCubit extends Cubit<AllFollowersState> {
     emit(GetAllFollowersChefeLoading());
     final result = await getFollowerRepoImpl.getChefeFollowers();
     result.fold((l) => emit(GetAllFollowersChefeFailure(l.message)), (r) {
-      log("Chefe data: $r");
+      
       emit(GetAllFollowersChefeSuccess(r));
     });
   }
@@ -27,18 +28,19 @@ class AllFollowersCubit extends Cubit<AllFollowersState> {
     emit(GetFoodesChefeLoading());
     final result = await getFollowerRepoImpl.getFoodeChefe();
     result.fold((l) => emit(GetFoodesChefeFailure(l.message)), (r) {
-      log("Foods data: $r");
+     log("Foods data: ${r.toString()}");
+
       emit(GetFoodesChefeSuccess(r));
     });
   }
 
-  void filterFoodsByChefId(int chefId) async {
-    emit(GetFoodesChefeLoading());
-    final result = await getFollowerRepoImpl.getFoodeChefe();
-    result.fold((l) => emit(GetFoodesChefeFailure(l.message)), (r) {
-      final filteredFoods =
-          r.data?.where((food) => food.chefId == chefId).toList();
-      emit(GetFoodesChefeSuccess(r.copyWith(data: filteredFoods)));
-    });
+
+  void getProfileChefe({required int chefId}) async {
+    emit(GetProfileChefeLoading());
+    final result = await getFollowerRepoImpl.getProfileChefe(cefeId: chefId);
+    result.fold(
+      (failure) => emit(GetProfileChefeFailure(failure.message)),
+      (data) => emit(GetProfileChefeSuccess(data)),
+    );
   }
 }

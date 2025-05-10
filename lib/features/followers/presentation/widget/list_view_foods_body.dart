@@ -15,12 +15,24 @@ class ListViewFoodsBody extends StatelessWidget {
         if (state is GetFoodesChefeSuccess) {
           final foodes = state.getFoodesChefeModel.data;
 
+          if (foodes == null || foodes.isEmpty) {
+            return const Center(child: Text('لا توجد أطعمة لعرضها.'));
+          }
+
           return Expanded(
             child: ListView.builder(
-              padding: REdgeInsets.symmetric(horizontal: 16),
-              itemCount: foodes!.length,
+              padding: EdgeInsets.symmetric(horizontal: 16.w),
+              itemCount: foodes.length,
               itemBuilder: (context, index) {
-                return FoodCard(foodesModel: foodes[index]);
+                return FoodCard(
+                  name: foodes[index].name ?? '',
+                  description: foodes[index].description ?? '',
+                  foodType: foodes[index].foodType ?? '',
+                  imageUrl: foodes[index].image ?? '',
+                  price: foodes[index].price.toString(),
+                  offerPrice: foodes[index].offerPrice.toString(),
+                 
+                );
               },
             ),
           );

@@ -136,25 +136,29 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
               ),
             ),
           ),
-       Positioned(
+      Positioned(
   bottom: 30,
   left: 20,
   child: Transform(
     alignment: Alignment.center,
     transform: Matrix4.rotationY(3.1416), 
-    child: SmoothPageIndicator(
-      controller: _pageController,
-      count: _onboardingItems.length,
-      effect: const ExpandingDotsEffect(
-        activeDotColor: Colors.white,
-        dotColor: Colors.orange,
-        dotHeight: 10,
-        dotWidth: 10,
-        spacing: 8,
+    child: Align(
+      alignment: Alignment.centerRight, 
+      child: SmoothPageIndicator(
+        controller: _pageController,
+        count: _onboardingItems.length,
+        effect: const ExpandingDotsEffect(
+          activeDotColor: Colors.white,
+          dotColor: Colors.orange,
+          dotHeight: 10,
+          dotWidth: 10,
+          spacing: 8,
+        ),
       ),
     ),
   ),
 ),
+
 
           Positioned(
             bottom: 20,
