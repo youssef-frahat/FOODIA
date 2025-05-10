@@ -23,12 +23,13 @@ class _ProfileScreenState extends State<ProfileScreen> {
     _cubit = getIt<UserProfileCubit>();
     _cubit.getUserProfile();
   }
-  @override
 
+  @override
   void dispose() {
     _cubit.close();
     super.dispose();
   }
+
   @override
   Widget build(BuildContext context) {
     return BlocProvider(

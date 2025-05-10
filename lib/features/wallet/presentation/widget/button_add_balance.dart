@@ -12,15 +12,17 @@ class ButtonAddBalance extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final isLoading = context.watch<GetBalanceCubit>().state is AddingBalanceLoading;
+    final isLoading =
+        context.watch<GetBalanceCubit>().state is AddingBalanceLoading;
 
     return Center(
       child: ElevatedButton(
-        onPressed: isLoading
-            ? null // لا تكرر الطلب أثناء الإرسال
-            : () {
-                _showDialog(context, context);
-              },
+        onPressed:
+            isLoading
+                ? null // لا تكرر الطلب أثناء الإرسال
+                : () {
+                  _showDialog(context, context);
+                },
         style: ElevatedButton.styleFrom(
           backgroundColor: Colors.orange,
           padding: EdgeInsets.symmetric(vertical: 10.h, horizontal: 15.w),
@@ -28,30 +30,31 @@ class ButtonAddBalance extends StatelessWidget {
             borderRadius: BorderRadius.circular(30.r),
           ),
         ),
-        child: isLoading
-            ? const SizedBox(
-                width: 20,
-                height: 20,
-                child: CircularProgressIndicator(
-                  color: Colors.white,
-                  strokeWidth: 2,
-                ),
-              )
-            : Row(
-                mainAxisSize: MainAxisSize.min,
-                children: [
-                  Text(
-                    'أضف رصيد لمحفظتك',
-                    style: TextStyle(
-                      fontSize: 16.sp,
-                      color: Colors.white,
-                      fontFamily: 'Changa',
-                    ),
+        child:
+            isLoading
+                ? const SizedBox(
+                  width: 20,
+                  height: 20,
+                  child: CircularProgressIndicator(
+                    color: Colors.white,
+                    strokeWidth: 2,
                   ),
-                  horizontalSpace(10),
-                  SvgPicture.asset('assets/icons/add_wallet.svg'),
-                ],
-              ),
+                )
+                : Row(
+                  mainAxisSize: MainAxisSize.min,
+                  children: [
+                    Text(
+                      'أضف رصيد لمحفظتك',
+                      style: TextStyle(
+                        fontSize: 16.sp,
+                        color: Colors.white,
+                        fontFamily: 'Changa',
+                      ),
+                    ),
+                    horizontalSpace(10),
+                    SvgPicture.asset('assets/icons/add_wallet.svg'),
+                  ],
+                ),
       ),
     );
   }
@@ -99,7 +102,9 @@ class ButtonAddBalance extends StatelessWidget {
                     final amount = int.tryParse(amountController.text);
                     if (amount != null && amount > 0) {
                       Navigator.pop(context); // اغلاق الديالوج
-                      parentContext.read<GetBalanceCubit>().addBalance(amount: amount);
+                      parentContext.read<GetBalanceCubit>().addBalance(
+                        amount: amount,
+                      );
                     } else {
                       ScaffoldMessenger.of(context).showSnackBar(
                         const SnackBar(content: Text('يرجى إدخال مبلغ صحيح')),

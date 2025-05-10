@@ -1,7 +1,6 @@
 import 'dart:developer';
 
 import 'package:dio/dio.dart';
-import 'package:easy_localization/easy_localization.dart';
 
 import '../../app_config/app_strings.dart';
 import '../../app_config/prefs_keys.dart';
@@ -41,7 +40,7 @@ class ApiService {
     Object? data,
   }) async {
     if (!await ConnectivityHelper.connected) {
-      throw NetworkException(AppStrings.checkInternetConnection.tr());
+      throw NetworkException(AppStrings.checkInternetConnection);
     }
     final Response response = await dio.get(
       endpoint,
@@ -59,7 +58,7 @@ class ApiService {
     Object? data,
   }) async {
     if (!await ConnectivityHelper.connected) {
-      throw NetworkException(AppStrings.checkInternetConnection.tr());
+      throw NetworkException(AppStrings.checkInternetConnection);
     }
     final Response response = await dio.post(
       endpoint,
@@ -77,7 +76,7 @@ class ApiService {
     Map<String, dynamic>? queryParameters,
   }) async {
     if (!await ConnectivityHelper.connected) {
-      throw NetworkException(AppStrings.checkInternetConnection.tr());
+      throw NetworkException(AppStrings.checkInternetConnection);
     }
     final Response response = await dio.delete(
       endpoint,

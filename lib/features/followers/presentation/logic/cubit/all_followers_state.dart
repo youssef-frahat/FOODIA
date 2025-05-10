@@ -49,3 +49,25 @@ class GetFoodesChefeFailure extends AllFollowersState {
   @override
   List<Object?> get props => [error];
 }
+
+// !
+
+class GetProfileChefeLoading extends AllFollowersState {}
+
+class GetProfileChefeSuccess extends AllFollowersState {
+  final ChefeProfileModel chefeProfileModel;
+
+  const GetProfileChefeSuccess(this.chefeProfileModel);
+
+  @override
+  List<Object?> get props => [chefeProfileModel];
+}
+
+class GetProfileChefeFailure extends AllFollowersState {
+  final String error;
+
+  const GetProfileChefeFailure(this.error);
+
+  @override
+  List<Object?> get props => [error];
+}

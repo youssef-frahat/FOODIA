@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:foodia_app/core/di/dependency_injection.dart';
+
 import 'package:foodia_app/features/cart/presentation/screens/cart_screen.dart';
 import 'package:go_router/go_router.dart';
 
@@ -14,10 +13,10 @@ import 'package:foodia_app/features/on_boarding/onbording.dart';
 import 'package:foodia_app/features/profile/presentation/screen/edit_profile_screen.dart';
 import 'package:foodia_app/features/profile/presentation/screen/profile_screen.dart';
 
+import '../../features/followers/presentation/screen/followers_details_chfa.dart';
 import '../../features/followers/presentation/screen/followers_screen.dart';
 import '../../features/home/presentation/screens/details_screen.dart';
 import '../../features/order/presentation/screen/order_screen.dart';
-import '../../features/profile/presentation/logic/cubit/user_profile_cubit.dart';
 import '../../features/wallet/presentation/screens/wallet_screen.dart';
 import 'app_routes.dart';
 
@@ -69,6 +68,14 @@ class RouterGeneration {
           },
         ),
         GoRoute(
+          name: AppRoutes.followDetails,
+          path: AppRoutes.followDetails,
+          builder: (context, state) {
+            final chefeId = state.extra as int;
+            return ChefProfileScreen(cefeId: chefeId);
+          },
+        ),
+        GoRoute(
           path: AppRoutes.forgetpassword,
           name: AppRoutes.forgetpassword,
           pageBuilder: (context, state) {
@@ -116,24 +123,23 @@ class RouterGeneration {
             //     return ProductDetailsScreen(foodId: foodId);
             //   },
             // ),
-          GoRoute(
-  path: AppRoutes.editProfileScreen,
-  name: AppRoutes.editProfileScreen,
-  pageBuilder: (context, state) {
-    final data = state.extra as Map<String, dynamic>?;
+            GoRoute(
+              path: AppRoutes.editProfileScreen,
+              name: AppRoutes.editProfileScreen,
+              pageBuilder: (context, state) {
+                final data = state.extra as Map<String, dynamic>?;
 
-    return _buildTransitionPage(
-      EditProfileScreen(
-        name: data?['name'] ?? '',
-        email: data?['email'] ?? '',
-        phone: data?['phone'] ?? '',
-        image: data?['image'] ?? '',
-      ),
-      state,
-    );
-  },
-),
-
+                return _buildTransitionPage(
+                  EditProfileScreen(
+                    name: data?['name'] ?? '',
+                    email: data?['email'] ?? '',
+                    phone: data?['phone'] ?? '',
+                    image: data?['image'] ?? '',
+                  ),
+                  state,
+                );
+              },
+            ),
           ],
         ),
       ],

@@ -17,19 +17,22 @@ class FollowersScreen extends StatelessWidget {
         title: Text('اتابعه', style: TextStyle(fontFamily: 'Changa')),
         centerTitle: true,
       ),
-      body: Column(
-        children: [
-          BlocProvider(
-            create:
-                (context) => getIt<AllFollowersCubit>()..getAllFollowersChefe(),
-            child: ListViewBuilderCefi(),
-          ),
-          DottedLineRedWidget(),
-          BlocProvider(
-            create: (context) => getIt<AllFollowersCubit>()..getFoodsChefe(),
-            child: ListViewFoodsBody(),
-          ),
-        ],
+      body: SingleChildScrollView(
+        child: Column(
+          children: [
+            BlocProvider(
+              create:
+                  (context) =>
+                      getIt<AllFollowersCubit>()..getAllFollowersChefe(),
+              child: ListViewBuilderCefi(),
+            ),
+            DottedLineRedWidget(),
+            BlocProvider(
+              create: (context) => getIt<AllFollowersCubit>()..getFoodsChefe(),
+              child: ListViewFoodsBody(),
+            ),
+          ],
+        ),
       ),
     );
   }

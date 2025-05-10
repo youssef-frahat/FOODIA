@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 void showRatingSheet(BuildContext context) {
-  int _currentRating = 0;
+  int currentRating = 0;
 
   showModalBottomSheet(
     context: context,
@@ -31,13 +31,13 @@ void showRatingSheet(BuildContext context) {
                   children: List.generate(5, (index) {
                     return IconButton(
                       icon: Icon(
-                        index < _currentRating ? Icons.star : Icons.star_border,
+                        index < currentRating ? Icons.star : Icons.star_border,
                         color: Colors.amber,
                         size: 30.sp,
                       ),
                       onPressed: () {
                         setState(() {
-                          _currentRating = index + 1;
+                          currentRating = index + 1;
                         });
                       },
                     );

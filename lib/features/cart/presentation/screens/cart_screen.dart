@@ -141,8 +141,9 @@ class _CartScreenState extends State<CartScreen> {
                                   },
                                   onRemove: () {
                                     setState(() {
-                                      if (quantities[index] > 1)
+                                      if (quantities[index] > 1) {
                                         quantities[index]--;
+                                      }
                                     });
                                   },
                                 ),

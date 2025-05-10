@@ -2,7 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:foodia_app/core/app_config/image_urls.dart';
+import 'package:foodia_app/core/routing/app_routes.dart';
 import 'package:foodia_app/features/followers/presentation/logic/cubit/all_followers_cubit.dart';
+import 'package:go_router/go_router.dart';
 
 import '../../../../core/extensions/spacing.dart';
 
@@ -27,8 +29,9 @@ class ListViewBuilderCefi extends StatelessWidget {
                 itemBuilder: (context, index) {
                   return GestureDetector(
                     onTap: () {
-                      context.read<AllFollowersCubit>().filterFoodsByChefId(
-                        chefs[index].id ?? 0,
+                      context.push(
+                        AppRoutes.followDetails,
+                        extra: chefs[index].id,
                       );
                     },
 
@@ -42,7 +45,7 @@ class ListViewBuilderCefi extends StatelessWidget {
                             shape: BoxShape.circle,
                             image: DecorationImage(
                               image: NetworkImage(
-                                '${imageUrl}${chefs[index].image}',
+                                '$imageUrl${chefs[index].image}',
                               ),
                               fit: BoxFit.cover,
                             ),
