@@ -27,7 +27,7 @@ class ChefProfileScreen extends StatelessWidget {
             } else if (state is GetProfileChefeFailure) {
               return Center(child: Text('حدث خطأ: ${state.error}'));
             } else if (state is GetProfileChefeSuccess) {
-              final profileChefe = state.chefeProfileModel.data;
+              final profileChefe = state.chefeProfileModel.data ?? null;
 
               return Stack(
                 clipBehavior: Clip.none,
@@ -62,7 +62,7 @@ class ChefProfileScreen extends StatelessWidget {
                                   child: CircleAvatar(
                                     radius: 50.r,
                                     backgroundImage: NetworkImage(
-                                      '$imageUrl${profileChefe?.chef?.image ?? ''}',
+                                      '${imageUrl}${profileChefe?.chef?.image ?? ''}',
                                     ),
                                   ),
                                 ),
@@ -148,7 +148,7 @@ class ChefProfileScreen extends StatelessWidget {
                                 name: foodItem?.name ?? 'لا يوجد اسم للوجبة',
                                 description:
                                     foodItem?.description ?? 'لا يوجد وصف',
-                                imageUrl: '$imageUrl${foodItem?.image ?? ''}',
+                                imageUrl: '${imageUrl}${foodItem?.image ?? ''}',
                                 price: foodItem?.price ?? '0',
                                 foodType: foodItem?.foodType ?? 'غير محدد',
                                 offerPrice: foodItem?.offerPrice ?? '0',
