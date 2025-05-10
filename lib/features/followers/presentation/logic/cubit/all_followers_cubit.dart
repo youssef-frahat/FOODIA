@@ -19,7 +19,6 @@ class AllFollowersCubit extends Cubit<AllFollowersState> {
     emit(GetAllFollowersChefeLoading());
     final result = await getFollowerRepoImpl.getChefeFollowers();
     result.fold((l) => emit(GetAllFollowersChefeFailure(l.message)), (r) {
-      
       emit(GetAllFollowersChefeSuccess(r));
     });
   }
@@ -28,12 +27,11 @@ class AllFollowersCubit extends Cubit<AllFollowersState> {
     emit(GetFoodesChefeLoading());
     final result = await getFollowerRepoImpl.getFoodeChefe();
     result.fold((l) => emit(GetFoodesChefeFailure(l.message)), (r) {
-     log("Foods data: ${r.toString()}");
+      log("Foods data: ${r.toString()}");
 
       emit(GetFoodesChefeSuccess(r));
     });
   }
-
 
   void getProfileChefe({required int chefId}) async {
     emit(GetProfileChefeLoading());

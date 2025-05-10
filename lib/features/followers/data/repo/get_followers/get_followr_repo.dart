@@ -8,5 +8,7 @@ import '../../model/get_foodes_chefe_model/get_foodes_chefe_model.dart';
 abstract class GetFollowersRepo {
   Future<Either<Failure, GetAllFollorsChefeModel>> getChefeFollowers();
   Future<Either<Failure, GetFoodesChefeModel>> getFoodeChefe();
-  Future<Either<Failure, ChefeProfileModel>> getProfileChefe({required int cefeId});
+  Future<Either<Failure, ChefeProfileModel>> getProfileChefe({
+    required int cefeId,
+  });
 }

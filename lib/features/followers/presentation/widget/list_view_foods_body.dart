@@ -31,7 +31,6 @@ class ListViewFoodsBody extends StatelessWidget {
                   imageUrl: foodes[index].image ?? '',
                   price: foodes[index].price.toString(),
                   offerPrice: foodes[index].offerPrice.toString(),
-                 
                 );
               },
             ),

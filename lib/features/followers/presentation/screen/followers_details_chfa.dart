@@ -16,7 +16,9 @@ class ChefProfileScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       body: BlocProvider(
-        create: (context) => getIt<AllFollowersCubit>()..getProfileChefe(chefId: cefeId),
+        create:
+            (context) =>
+                getIt<AllFollowersCubit>()..getProfileChefe(chefId: cefeId),
         child: BlocBuilder<AllFollowersCubit, AllFollowersState>(
           buildWhen: (previous, current) => previous != current,
           builder: (context, state) {
@@ -26,8 +28,7 @@ class ChefProfileScreen extends StatelessWidget {
               return Center(child: Text('حدث خطأ: ${state.error}'));
             } else if (state is GetProfileChefeSuccess) {
               final profileChefe = state.chefeProfileModel.data ?? null;
-              
-             
+
               return Stack(
                 clipBehavior: Clip.none,
                 children: [
@@ -42,7 +43,11 @@ class ChefProfileScreen extends StatelessWidget {
                     ),
                   ),
                   Padding(
-                    padding: REdgeInsets.only(top: 60.h, left: 16.w, right: 16.w),
+                    padding: REdgeInsets.only(
+                      top: 60.h,
+                      left: 16.w,
+                      right: 16.w,
+                    ),
                     child: Column(
                       children: [
                         CustomWigetArrowBack(),
@@ -92,7 +97,9 @@ class ChefProfileScreen extends StatelessWidget {
                                     children: [
                                       Spacer(),
                                       Text(
-                                        profileChefe?.chef?.countSubscribe.toString() ?? '0',
+                                        profileChefe?.chef?.countSubscribe
+                                                .toString() ??
+                                            '0',
                                         style: TextStyle(
                                           color: Colors.black,
                                           fontSize: 15.sp,
@@ -135,10 +142,12 @@ class ChefProfileScreen extends StatelessWidget {
                             padding: EdgeInsets.only(bottom: 16.h),
                             itemCount: profileChefe?.foods?.data?.length ?? 0,
                             itemBuilder: (context, index) {
-                              final foodItem = profileChefe?.foods?.data?[index];
+                              final foodItem =
+                                  profileChefe?.foods?.data?[index];
                               return FoodCard(
                                 name: foodItem?.name ?? 'لا يوجد اسم للوجبة',
-                                description: foodItem?.description ?? 'لا يوجد وصف',
+                                description:
+                                    foodItem?.description ?? 'لا يوجد وصف',
                                 imageUrl: '${imageUrl}${foodItem?.image ?? ''}',
                                 price: foodItem?.price ?? '0',
                                 foodType: foodItem?.foodType ?? 'غير محدد',

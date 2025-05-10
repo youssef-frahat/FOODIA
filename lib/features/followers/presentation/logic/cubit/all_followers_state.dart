@@ -50,7 +50,6 @@ class GetFoodesChefeFailure extends AllFollowersState {
   List<Object?> get props => [error];
 }
 
-
 // !
 
 class GetProfileChefeLoading extends AllFollowersState {}
@@ -63,7 +62,6 @@ class GetProfileChefeSuccess extends AllFollowersState {
   @override
   List<Object?> get props => [chefeProfileModel];
 }
-
 
 class GetProfileChefeFailure extends AllFollowersState {
   final String error;

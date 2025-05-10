@@ -22,7 +22,8 @@ class FollowersScreen extends StatelessWidget {
           children: [
             BlocProvider(
               create:
-                  (context) => getIt<AllFollowersCubit>()..getAllFollowersChefe(),
+                  (context) =>
+                      getIt<AllFollowersCubit>()..getAllFollowersChefe(),
               child: ListViewBuilderCefi(),
             ),
             DottedLineRedWidget(),

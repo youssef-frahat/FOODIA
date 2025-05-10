@@ -29,7 +29,10 @@ class ListViewBuilderCefi extends StatelessWidget {
                 itemBuilder: (context, index) {
                   return GestureDetector(
                     onTap: () {
-                      context.push(AppRoutes.followDetails,extra: chefs[index].id);
+                      context.push(
+                        AppRoutes.followDetails,
+                        extra: chefs[index].id,
+                      );
                     },
 
                     child: Column(

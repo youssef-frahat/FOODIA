@@ -49,32 +49,36 @@ class GetFollowerRepoImpl implements GetFollowersRepo {
     }
   }
 
- @override
-Future<Either<Failure, ChefeProfileModel>> getProfileChefe({required int cefeId}) async {
-  try {
-    // إرسال الطلب
-    final response = await apiService.get('${EndPoints.getProfileChefe}/$cefeId');
-    
-    // تسجيل الـ response
-    log("API Response: $response");
+  @override
+  Future<Either<Failure, ChefeProfileModel>> getProfileChefe({
+    required int cefeId,
+  }) async {
+    try {
+      // إرسال الطلب
+      final response = await apiService.get(
+        '${EndPoints.getProfileChefe}/$cefeId',
+      );
 
-    // التأكد من صحة الاستجابة
-    if (response == null || response['status'] != true) {
-      return Left(ServerFailure('Invalid response or status not true'));
+      // تسجيل الـ response
+      log("API Response: $response");
+
+      // التأكد من صحة الاستجابة
+      if (response == null || response['status'] != true) {
+        return Left(ServerFailure('Invalid response or status not true'));
+      }
+
+      // تحويل الاستجابة إلى موديل
+      ChefeProfileModel chefeProfileModel = ChefeProfileModel.fromJson(
+        response,
+      );
+
+      return Right(chefeProfileModel);
+    } on ServerException catch (e) {
+      // استثناءات الخادم
+      return Left(ServerFailure(e.message));
+    } catch (e) {
+      // استثناءات أخرى
+      return Left(ServerFailure('Unexpected error occurred: $e'));
     }
-
-    // تحويل الاستجابة إلى موديل
-    ChefeProfileModel chefeProfileModel = ChefeProfileModel.fromJson(response);
-    
-    return Right(chefeProfileModel);
-  } on ServerException catch (e) {
-    // استثناءات الخادم
-    return Left(ServerFailure(e.message));
-  } catch (e) {
-    // استثناءات أخرى
-    return Left(ServerFailure('Unexpected error occurred: $e'));
   }
 }
-
-  }
-
