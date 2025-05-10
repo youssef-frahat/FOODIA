@@ -1,4 +1,3 @@
-import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';
@@ -7,6 +6,7 @@ import 'package:foodia_app/core/app_config/app_strings.dart';
 import 'package:foodia_app/core/witgets/wiget_back.dart';
 import 'package:foodia_app/features/cart/presentation/logic/cubit/add_to_cart_cubit.dart';
 import 'package:go_router/go_router.dart';
+import 'package:intl/intl.dart';
 import '../../../../core/app_config/image_urls.dart';
 import '../../../../core/app_config/messages.dart';
 import '../../../../core/di/dependency_injection.dart';
@@ -78,7 +78,7 @@ class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
 
                     final DateTime? parsedDate =
                         hasReviews
-                            ? DateTime.tryParse(reviews![0].createdAt ?? '')
+                            ? DateTime.tryParse(reviews[0].createdAt ?? '')
                             : null;
 
                     final String formattedDate =

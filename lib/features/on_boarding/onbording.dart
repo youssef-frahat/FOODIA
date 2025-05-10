@@ -103,18 +103,22 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
       backgroundColor: Color(0xFFE0E5EC),
       body: Stack(
         children: [
-          PageView.builder(
-            controller: _pageController,
-            itemCount: _onboardingItems.length,
-            onPageChanged: (index) {
-              setState(() {
-                _currentPage = index;
-              });
-            },
-            itemBuilder: (context, index) {
-              return OnboardingPage(item: _onboardingItems[index]);
-            },
-          ),
+          Directionality(
+  textDirection: TextDirection.ltr,
+  child: PageView.builder(
+    controller: _pageController,
+    itemCount: _onboardingItems.length,
+    onPageChanged: (index) {
+      setState(() {
+        _currentPage = index;
+      });
+    },
+    itemBuilder: (context, index) {
+      return OnboardingPage(item: _onboardingItems[index]);
+    },
+  ),
+),
+
           Positioned(
             top: 50,
             right: 20,
@@ -132,22 +136,26 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
               ),
             ),
           ),
-          // مؤشر الصفحات
-          Positioned(
-            bottom: 30,
-            left: 20,
-            child: SmoothPageIndicator(
-              controller: _pageController,
-              count: _onboardingItems.length,
-              effect: const ExpandingDotsEffect(
-                activeDotColor: Colors.white,
-                dotColor: Colors.orange,
-                dotHeight: 10,
-                dotWidth: 10,
-                spacing: 8,
-              ),
-            ),
-          ),
+       Positioned(
+  bottom: 30,
+  left: 20,
+  child: Transform(
+    alignment: Alignment.center,
+    transform: Matrix4.rotationY(3.1416), 
+    child: SmoothPageIndicator(
+      controller: _pageController,
+      count: _onboardingItems.length,
+      effect: const ExpandingDotsEffect(
+        activeDotColor: Colors.white,
+        dotColor: Colors.orange,
+        dotHeight: 10,
+        dotWidth: 10,
+        spacing: 8,
+      ),
+    ),
+  ),
+),
+
           Positioned(
             bottom: 20,
             right: 20,
