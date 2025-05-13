@@ -16,4 +16,8 @@ class AppRoutes {
   static const String followDetails = '/followDetails';
   static const String orderScreen = '/orderScreen';
   static const String wallet = '/wallet';
+  static const String orderDetails = '/orderDetails';
+  static const String addressSelectionScreen = '/addressSelectionScreen';
+  static const String searchResultScreen = '/searchResultScreen';
+  static const String payment = '/payment';
 }

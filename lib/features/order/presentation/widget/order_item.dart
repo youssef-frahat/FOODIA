@@ -22,10 +22,14 @@ class OrderItemWidget extends StatelessWidget {
     required this.deletOrder,
   });
 
+// قيد الانتظار 
+// قيد التحضير
+// مكتمل 
+// ملغاة
   Map<String, Map<String, dynamic>> get statusMapping => {
-    'pending': {'text': 'قيد الانتظار', 'color': Colors.orange},
-    'cancelled': {'text': 'ملغي', 'color': Colors.red},
-    'prepared': {'text': 'تم التجهيز', 'color': Colors.green},
+    'pending': {'text': 'قيد الانتظار ', 'color': Colors.orange},
+    'cancelled': {'text': 'ملغاة', 'color': Colors.red},
+    'prepared': {'text': 'مكتمل', 'color': Colors.green},
     'preparing': {'text': 'قيد التحضير', 'color': const Color(0xFF0E83F9)},
   };
 

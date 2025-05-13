@@ -13,9 +13,14 @@ import 'package:foodia_app/features/on_boarding/onbording.dart';
 import 'package:foodia_app/features/profile/presentation/screen/edit_profile_screen.dart';
 import 'package:foodia_app/features/profile/presentation/screen/profile_screen.dart';
 
+import '../../features/address/presentation/screen/address_selection_screen.dart';
+import '../../features/address/presentation/screen/payment.dart';
+import '../../features/address/presentation/widget/order_details.dart';
 import '../../features/followers/presentation/screen/followers_details_chfa.dart';
 import '../../features/followers/presentation/screen/followers_screen.dart';
+import '../../features/home/data/model/get_home_foods_model/datum.dart';
 import '../../features/home/presentation/screens/details_screen.dart';
+import '../../features/home/presentation/widget/search_result_screen.dart';
 import '../../features/order/presentation/screen/order_screen.dart';
 import '../../features/wallet/presentation/screens/wallet_screen.dart';
 import 'app_routes.dart';
@@ -67,6 +72,22 @@ class RouterGeneration {
             return ProductDetailsScreen(foodId: foodId);
           },
         ),
+      GoRoute(
+  name: AppRoutes.searchResultScreen,
+  path: AppRoutes.searchResultScreen,
+  builder: (context, state) {
+    final data = state.extra as Map<String, dynamic>;
+    final String query = data['query'] as String;
+    final List<FoodsModel> foods = data['foods'] as List<FoodsModel>;
+
+    return SearchResultScreen(
+      searchQuery: query,
+      allFoods: foods,
+    );
+  },
+),
+
+
         GoRoute(
           name: AppRoutes.followDetails,
           path: AppRoutes.followDetails,
@@ -74,6 +95,34 @@ class RouterGeneration {
             final chefeId = state.extra as int;
             return ChefProfileScreen(
               cefeId: chefeId,
+            );
+          },
+        ),
+          GoRoute(
+          name: AppRoutes.addressSelectionScreen,
+          path: AppRoutes.addressSelectionScreen,
+          builder: (context, state) {
+            return AddressSelectionScreen(
+            );
+          },
+        ),
+        GoRoute(
+          name: AppRoutes.orderDetails,
+          path: AppRoutes.orderDetails,
+          builder: (context, state) {
+            final addressId  = state.extra as int;
+            return OrderDetails(
+              addressId: addressId,
+            );
+          },
+        ),
+         GoRoute(
+          name: AppRoutes.payment,
+          path: AppRoutes.payment,
+          builder: (context, state) {
+            final addressId  = state.extra as int;
+            return PaymentScreen(
+              addressId: addressId,
             );
           },
         ),

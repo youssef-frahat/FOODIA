@@ -2,56 +2,35 @@ part of 'all_followers_cubit.dart';
 
 abstract class AllFollowersState extends Equatable {
   const AllFollowersState();
+
   @override
   List<Object?> get props => [];
 }
 
 class AllFollowersInitial extends AllFollowersState {}
 
-class GetAllFollowersChefeLoading extends AllFollowersState {}
+class AllFollowersLoading extends AllFollowersState {}
 
-class GetAllFollowersChefeSuccess extends AllFollowersState {
-  final GetAllFollorsChefeModel getAllFollowersChefeModel;
-
-  const GetAllFollowersChefeSuccess(this.getAllFollowersChefeModel);
-
-  @override
-  List<Object?> get props => [getAllFollowersChefeModel];
-}
-
-class GetAllFollowersChefeFailure extends AllFollowersState {
+class AllFollowersFailure extends AllFollowersState {
   final String error;
 
-  const GetAllFollowersChefeFailure(this.error);
+  const AllFollowersFailure(this.error);
 
   @override
   List<Object?> get props => [error];
 }
 
-// get foodes
+class AllFollowersChefe extends AllFollowersState {
+  final GetMyFollowrsModel followers;
 
-class GetFoodesChefeLoading extends AllFollowersState {}
+  const AllFollowersChefe(
+    this.followers,
 
-class GetFoodesChefeSuccess extends AllFollowersState {
-  final GetFoodesChefeModel getFoodesChefeModel;
-
-  const GetFoodesChefeSuccess(this.getFoodesChefeModel);
-
-  @override
-  List<Object?> get props => [getFoodesChefeModel];
-}
-
-class GetFoodesChefeFailure extends AllFollowersState {
-  final String error;
-
-  const GetFoodesChefeFailure(this.error);
+  );
 
   @override
-  List<Object?> get props => [error];
+  List<Object?> get props => [followers];
 }
-
-
-// !
 
 class GetProfileChefeLoading extends AllFollowersState {}
 
@@ -63,7 +42,6 @@ class GetProfileChefeSuccess extends AllFollowersState {
   @override
   List<Object?> get props => [chefeProfileModel];
 }
-
 
 class GetProfileChefeFailure extends AllFollowersState {
   final String error;

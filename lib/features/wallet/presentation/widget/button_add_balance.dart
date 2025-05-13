@@ -16,11 +16,7 @@ class ButtonAddBalance extends StatelessWidget {
 
     return Center(
       child: ElevatedButton(
-        onPressed: isLoading
-            ? null // لا تكرر الطلب أثناء الإرسال
-            : () {
-                _showDialog(context, context);
-              },
+        onPressed: isLoading ? null : () => _showDialog(context),
         style: ElevatedButton.styleFrom(
           backgroundColor: Colors.orange,
           padding: EdgeInsets.symmetric(vertical: 10.h, horizontal: 15.w),
@@ -30,11 +26,11 @@ class ButtonAddBalance extends StatelessWidget {
         ),
         child: isLoading
             ? const SizedBox(
-                width: 20,
-                height: 20,
+                width: 24,
+                height: 24,
                 child: CircularProgressIndicator(
                   color: Colors.white,
-                  strokeWidth: 2,
+                  strokeWidth: 2.5,
                 ),
               )
             : Row(
@@ -56,13 +52,13 @@ class ButtonAddBalance extends StatelessWidget {
     );
   }
 
-  void _showDialog(BuildContext context, BuildContext parentContext) {
+  void _showDialog(BuildContext context) {
     final amountController = TextEditingController();
 
     showDialog(
       context: context,
       barrierDismissible: false,
-      builder: (BuildContext context) {
+      builder: (BuildContext dialogContext) {
         return AlertDialog(
           shape: RoundedRectangleBorder(
             borderRadius: BorderRadius.circular(20.r),
@@ -86,22 +82,22 @@ class ButtonAddBalance extends StatelessWidget {
                   keyboardType: TextInputType.number,
                   validator: (value) {
                     if (value == null || value.trim().isEmpty) {
-                      return 'يرجى ادخال المبلغ';
+                      return 'يرجى إدخال المبلغ';
                     }
                     return null;
                   },
                 ),
                 verticalSpace(20),
                 Primarybutton(
-                  buttontext: 'اضف',
+                  buttontext: 'أضف',
                   buttoncolor: Colors.orange,
                   onpress: () {
                     final amount = int.tryParse(amountController.text);
                     if (amount != null && amount > 0) {
-                      Navigator.pop(context); // اغلاق الديالوج
-                      parentContext.read<GetBalanceCubit>().addBalance(amount: amount);
+                      Navigator.pop(dialogContext); 
+                      context.read<GetBalanceCubit>().addBalance(amount: amount);
                     } else {
-                      ScaffoldMessenger.of(context).showSnackBar(
+                      ScaffoldMessenger.of(dialogContext).showSnackBar(
                         const SnackBar(content: Text('يرجى إدخال مبلغ صحيح')),
                       );
                     }

@@ -36,7 +36,6 @@ class FoodCard extends StatelessWidget {
       child: Row(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          // صورة الطعام
           Container(
             height: 110.h,
             width: 110.w,
@@ -50,7 +49,6 @@ class FoodCard extends StatelessWidget {
           ),
           horizontalSpace(10),
 
-          // النصوص: الاسم، النوع، الوصف
           Expanded(
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,

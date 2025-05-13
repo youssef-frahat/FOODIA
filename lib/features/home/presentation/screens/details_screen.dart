@@ -43,6 +43,9 @@ class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
         child: Builder(
           builder: (context) {
             return BlocListener<AllFoodsCubit, AllFoodsState>(
+              listenWhen:
+                  (previous, current) =>
+                      current is FollowChef || current is FollowChefError,
               listener: (context, state) {
                 if (state is FollowChef) {
                   setState(() {
@@ -54,13 +57,15 @@ class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
                     AppStrings.followChefSuccess,
                   );
                 } else if (state is FollowChefError) {
-                  setState(() {
-                    isLoading = false; // Stop loading if there's an error
-                  });
+                  setState(() => isLoading = false);
                   AppMessages.showError(context, state.error);
                 }
               },
               child: BlocBuilder<AllFoodsCubit, AllFoodsState>(
+                 buildWhen: (previous, current) =>
+                    current is AllDetailsSucss ||
+                    current is AllDetailsError ||
+                    current is AllDetailsLoading,
                 builder: (context, state) {
                   if (state is AllDetailsLoading || isLoading) {
                     return const Center(child: CircularProgressIndicator());
@@ -68,23 +73,23 @@ class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
 
                   if (state is AllDetailsError) {
                     AppMessages.showError(context, state.error);
-                    return Center(child: Text('Error: ${state.error}'));
+                    return Center(child: Text('حدث خطأ: ${state.error}'));
                   }
 
                   if (state is AllDetailsSucss) {
                     final details = state.getAllDetalisResponseModel;
-                    final reviews = details.data?.reviews;
-                    final hasReviews = reviews != null && reviews.isNotEmpty;
+                    final food = details.data?.food;
+                    final chef = food?.chef;
+                    final reviews = details.data?.reviews ?? [];
 
-                    final DateTime? parsedDate =
-                        hasReviews
-                            ? DateTime.tryParse(reviews[0].createdAt ?? '')
-                            : null;
+                    final hasReviews = reviews.isNotEmpty;
+                    final parsedDate = hasReviews
+                        ? DateTime.tryParse(reviews[0].createdAt ?? '')
+                        : null;
+                    final formattedDate = parsedDate != null
+                        ? DateFormat('dd/MM/yyyy', 'ar').format(parsedDate)
+                        : 'تاريخ غير متاح';
 
-                    final String formattedDate =
-                        parsedDate != null
-                            ? DateFormat('dd/MM/yyyy', 'ar').format(parsedDate)
-                            : 'تاريخ غير متاح';
 
                     return Stack(
                       clipBehavior: Clip.none,
@@ -97,7 +102,7 @@ class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
                               Stack(
                                 children: [
                                   Image.network(
-                                    "${imageUrl}${details.data?.food?.image ?? ''}",
+                                    "$imageUrl${details.data?.food?.image ?? ''}",
                                     height: 350.h,
                                     width: double.infinity,
                                     fit: BoxFit.cover,
@@ -138,7 +143,7 @@ class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
                                             CircleAvatar(
                                               radius: 35.r,
                                               backgroundImage: NetworkImage(
-                                                "${imageUrl}${details.data?.food?.chef?.image ?? ''}",
+                                                "$imageUrl${details.data?.food?.chef?.image ?? ''}",
                                               ),
                                             ),
                                             SizedBox(height: 6.h),

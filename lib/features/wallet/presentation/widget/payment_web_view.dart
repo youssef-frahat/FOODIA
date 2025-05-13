@@ -12,6 +12,13 @@ class WebViewPaymentPage extends StatefulWidget {
 
 class _WebViewPaymentPageState extends State<WebViewPaymentPage> {
   late final WebViewController _controller;
+  bool _hasReturned = false;
+
+  void _safePop(bool result) {
+    if (_hasReturned) return;
+    _hasReturned = true;
+    Navigator.pop(context, result);
+  }
 
   @override
   void initState() {
@@ -21,20 +28,19 @@ class _WebViewPaymentPageState extends State<WebViewPaymentPage> {
       ..setNavigationDelegate(
         NavigationDelegate(
           onPageFinished: (url) {
-  if (url.contains("success") || url.contains("confirmed")) {
-    WidgetsBinding.instance.addPostFrameCallback((_) {
-      Navigator.pop(context, true);
-    });
-  }
-},
-onPageStarted: (url) {
-  if (url.contains("cancel") || url.contains("failed")) {
-    WidgetsBinding.instance.addPostFrameCallback((_) {
-      Navigator.pop(context, false);
-    });
-  }
-},
-
+            if (url.contains("success") || url.contains("confirmed")) {
+              WidgetsBinding.instance.addPostFrameCallback((_) {
+                _safePop(true);
+              });
+            }
+          },
+          onPageStarted: (url) {
+            if (url.contains("cancel") || url.contains("failed")) {
+              WidgetsBinding.instance.addPostFrameCallback((_) {
+                _safePop(false);
+              });
+            }
+          },
         ),
       )
       ..loadRequest(Uri.parse(widget.url));
@@ -43,7 +49,13 @@ onPageStarted: (url) {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: Text("إتمام عملية الدفع", style: TextStyle(fontFamily: 'Changa', fontSize: 25,color: Colors.orange)),centerTitle: true,),
+      appBar: AppBar(
+        title: Text(
+          "إتمام عملية الدفع",
+          style: TextStyle(fontFamily: 'Changa', fontSize: 25, color: Colors.orange),
+        ),
+        centerTitle: true,
+      ),
       body: WebViewWidget(controller: _controller),
     );
   }

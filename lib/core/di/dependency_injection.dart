@@ -3,6 +3,7 @@ import 'package:shared_preferences/shared_preferences.dart';
 
 import '../../features/address/data/repo/add_adress_repo_impl.dart';
 import '../../features/address/presentation/logic/cubit/all_adress_user_cubit.dart';
+import '../../features/address/presentation/logic/order/cubit/order_cubit.dart';
 import '../../features/auth/login/data/repo/login_user_repo_impl.dart';
 import '../../features/auth/login/presentation/logic/cubit/login_user_cubit.dart';
 import '../../features/auth/otp/data/repo/otp_user_repo_impl.dart';
@@ -14,8 +15,10 @@ import '../../features/cart/presentation/logic/cubit/add_to_cart_cubit.dart';
 import '../../features/followers/data/repo/get_followers/get_follower_repo_impl.dart';
 import '../../features/followers/presentation/logic/cubit/all_followers_cubit.dart';
 import '../../features/home/data/repo/get_all_home_repo_impl.dart';
+import '../../features/home/data/repo/special_offer_repo/special_offer_repo_impl.dart';
 import '../../features/home/presentation/logic/get_all_categorys_logic/cubit/get_all_categorys_cubit.dart';
 import '../../features/home/presentation/logic/home_foods/cubit/all_foods_cubit.dart';
+import '../../features/home/presentation/logic/special_offer/cubit/special_offer_cubit.dart';
 import '../../features/order/data/repo/order_item_repo_impl.dart';
 import '../../features/order/presentation/logic/cubit/order_item_cubit.dart';
 import '../../features/profile/data/repo/get_user_profile_repo_impl.dart';
@@ -71,6 +74,7 @@ void _initRepositories() {
     () => OrderItemRepoImpl(getIt()),
   );
   getIt.registerLazySingleton<WaletRepoImpl>(() => WaletRepoImpl(getIt()));
+  getIt.registerLazySingleton<SpecialOfferRepoImpl>(() => SpecialOfferRepoImpl(getIt()));
 }
 
 //! Cubits
@@ -88,4 +92,6 @@ void _initCubits() {
   getIt.registerFactory<AllFollowersCubit>(() => AllFollowersCubit(getIt()));
   getIt.registerFactory<OrderItemCubit>(() => OrderItemCubit(getIt()));
   getIt.registerFactory<GetBalanceCubit>(() => GetBalanceCubit(getIt()));
+  getIt.registerFactory<SpecialOfferCubit>(() => SpecialOfferCubit(getIt()));
+  getIt.registerFactory<OrderCubit>(() => OrderCubit(getIt()));
 }

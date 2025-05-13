@@ -25,11 +25,13 @@ class EndPoints {
   static String updateAdress = "$_baseUrl/addresses";
   static String deleteAdress = "$_baseUrl/addresses";
   static String followChef = "$_baseUrl/follow-chef";
-  static String getFollowers = "$_baseUrl/followed-chefs";
+  static String getFollowers = "$_baseUrl/my-followed-chefs";
   static String getFoodsChefe = "$_baseUrl/followed-chefs/foods";
   static String getProfileChefe = "$_baseUrl/followed";
   static String order = "$_baseUrl/my-orders";
   static String cancelOrder = "$_baseUrl/cancel-order";
   static String balance = "$_baseUrl/wallet/balance";
+  static String orderDetails= "$_baseUrl/order/details";
   static String addBalance= "$_baseUrl/wallet/recharge";
+  static String specialOffer = "$_baseUrl/user/offer-prices";
 }

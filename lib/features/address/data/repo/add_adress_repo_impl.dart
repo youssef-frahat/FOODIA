@@ -2,6 +2,7 @@ import 'package:dartz/dartz.dart';
 import 'package:foodia_app/core/errors/failures.dart';
 import 'package:foodia_app/features/address/data/model/add_to_adress_response_model/add_to_adress_response_model.dart';
 import 'package:foodia_app/features/address/data/model/get_all_adress_user_model/get_all_adress_user_model.dart';
+import 'package:foodia_app/features/address/data/model/get_order_detilas_model/get_order_detilas_model.dart';
 import 'package:foodia_app/features/address/data/repo/add_adress_repo.dart';
 
 import '../../../../core/app_config/app_strings.dart';
@@ -56,6 +57,23 @@ class AddAdressRepoImpl implements AddAdressRepo {
       GetAllAdressUserModel getAllAdressUserModel =
           GetAllAdressUserModel.fromJson(response);
       return Right(getAllAdressUserModel);
+    } on NetworkException catch (e) {
+      return Left(NetworkFailure(e.message));
+    } on ServerException catch (e) {
+      return Left(ServerFailure(e.message));
+    }
+  }
+
+  @override
+  Future<Either<Failure, GetOrderDetilasModel>> getAllOrderDetails() async{
+    try {
+      if (!await ConnectivityHelper.connected) {
+        return const Left(NetworkFailure(AppStrings.checkInternetConnection));
+      }
+      final response = await apiService.get(EndPoints.orderDetails);
+      GetOrderDetilasModel order =
+          GetOrderDetilasModel.fromJson(response);
+      return Right(order);
     } on NetworkException catch (e) {
       return Left(NetworkFailure(e.message));
     } on ServerException catch (e) {

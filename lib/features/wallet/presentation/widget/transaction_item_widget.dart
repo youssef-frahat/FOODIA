@@ -1,12 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-
 import '../../../../core/extensions/spacing.dart';
 
 class TransactionItemWidget extends StatelessWidget {
   final String date;
   final String transactionType;
   final String amount;
+
   const TransactionItemWidget({
     super.key,
     required this.date,
@@ -14,8 +14,39 @@ class TransactionItemWidget extends StatelessWidget {
     required this.amount,
   });
 
+  // ✅ ترجمة مفاتيح النوع لنصوص عربية
+  String _mapTransactionType(String type) {
+    final t = type.trim();
+    switch (t) {
+      case 'messages.cancelOrder':
+        return 'إلغاء طلبى';
+      case 'messages.rejectOrder':
+        return 'رفض طلبى';
+      default:
+        return t; // لو أصلاً بالعربي زي "إضافة رصيد"
+    }
+  }
+
+  // ✅ اختيار اللون حسب نوع العملية
+  Color _getTransactionColor(String type) {
+    final normalized = _mapTransactionType(type);
+
+    if (normalized.contains('إضافة') || normalized.contains('رصيد')) {
+      return Colors.green;
+    } else if (normalized.contains('إلغاء')) {
+      return Colors.red;
+    } else if (normalized.contains('رفض')) {
+      return Colors.orange.shade700;
+    } else {
+      return Colors.grey;
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
+    final String translatedType = _mapTransactionType(transactionType);
+    final Color typeColor = _getTransactionColor(transactionType);
+
     return Container(
       width: double.infinity,
       height: 110.h,
@@ -40,15 +71,14 @@ class TransactionItemWidget extends StatelessWidget {
                 ),
               ),
               Text(
-                transactionType,
+                translatedType,
                 style: TextStyle(
                   fontSize: 14.sp,
-                  color: Colors.green,
+                  color: typeColor,
                   fontWeight: FontWeight.w600,
                 ),
               ),
-              Spacer(),
-              // Container يحتوي على الأيقونة والتاريخ
+              const Spacer(),
               Container(
                 padding: REdgeInsets.symmetric(vertical: 4, horizontal: 12),
                 decoration: BoxDecoration(
@@ -81,7 +111,7 @@ class TransactionItemWidget extends StatelessWidget {
               Text('المبلغ:', style: TextStyle(fontSize: 14.sp)),
               horizontalSpace(12),
               Text(
-                '$amount جنية',
+                '$amount جنيه',
                 style: TextStyle(color: Colors.black, fontSize: 14.sp),
               ),
             ],

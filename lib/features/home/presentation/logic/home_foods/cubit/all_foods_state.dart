@@ -1,69 +1,69 @@
 part of 'all_foods_cubit.dart';
 
-sealed class AllFoodsState extends Equatable {
+abstract class AllFoodsState extends Equatable {
   const AllFoodsState();
 
   @override
-  List<Object> get props => [];
+  List<Object?> get props => [];
 }
 
-final class AllFoodsInitial extends AllFoodsState {}
+class AllFoodsInitial extends AllFoodsState {}
 
-final class AllFoodsLoading extends AllFoodsState {}
+class AllFoodsLoading extends AllFoodsState {}
 
-final class AllFoodsLoaded extends AllFoodsState {
-  final GetHomeFoodsModel getHomeFoodsModel;
+class AllFoodsLoaded extends AllFoodsState {
+  final List<FoodsModel> foods;
 
-  const AllFoodsLoaded(this.getHomeFoodsModel);
+  const AllFoodsLoaded(this.foods);
 
   @override
-  List<Object> get props => [getHomeFoodsModel];
+  List<Object?> get props => [foods];
 }
 
-final class AllFoodsError extends AllFoodsState {
+class AllFoodsError extends AllFoodsState {
   final String error;
 
   const AllFoodsError(this.error);
 
   @override
-  List<Object> get props => [error];
+  List<Object?> get props => [error];
 }
 
-//! Get All Details By Id
-final class AllDetailsLoading extends AllFoodsState {}
+class AllDetailsLoading extends AllFoodsState {}
 
-final class AllDetailsSucss extends AllFoodsState {
+class AllDetailsSucss extends AllFoodsState {
   final GetAllDetailsReposneModel getAllDetalisResponseModel;
 
   const AllDetailsSucss(this.getAllDetalisResponseModel);
 
   @override
-  List<Object> get props => [getAllDetalisResponseModel];
+  List<Object?> get props => [getAllDetalisResponseModel];
 }
 
-final class AllDetailsError extends AllFoodsState {
+class AllDetailsError extends AllFoodsState {
   final String error;
 
   const AllDetailsError(this.error);
 
   @override
-  List<Object> get props => [error];
+  List<Object?> get props => [error];
 }
 
-final class FollowChef extends AllFoodsState {
+
+class FollowChef extends AllFoodsState {
   final FollowCefeModel followCefe;
 
   const FollowChef(this.followCefe);
 
   @override
-  List<Object> get props => [followCefe];
+  List<Object?> get props => [followCefe];
 }
 
-final class FollowChefError extends AllFoodsState {
+class FollowChefError extends AllFoodsState {
   final String error;
 
   const FollowChefError(this.error);
 
   @override
-  List<Object> get props => [error];
+  List<Object?> get props => [error];
 }

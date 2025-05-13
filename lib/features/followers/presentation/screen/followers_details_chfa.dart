@@ -4,6 +4,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:foodia_app/core/app_config/image_urls.dart';
 import 'package:foodia_app/core/extensions/spacing.dart';
 import 'package:foodia_app/core/witgets/wiget_back.dart';
+import 'package:go_router/go_router.dart';
 import '../../../../core/di/dependency_injection.dart';
 import '../logic/cubit/all_followers_cubit.dart';
 import '../widget/food_card.dart';
@@ -45,7 +46,11 @@ class ChefProfileScreen extends StatelessWidget {
                     padding: REdgeInsets.only(top: 60.h, left: 16.w, right: 16.w),
                     child: Column(
                       children: [
-                        CustomWigetArrowBack(),
+                        CustomWigetArrowBack(
+                          onpress: () {
+                            context.pop(context);
+                          },
+                        ),
                         Row(
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
@@ -57,7 +62,7 @@ class ChefProfileScreen extends StatelessWidget {
                                   child: CircleAvatar(
                                     radius: 50.r,
                                     backgroundImage: NetworkImage(
-                                      '${imageUrl}${profileChefe?.chef?.image ?? ''}',
+                                      '$imageUrl${profileChefe?.chef?.image ?? ''}',
                                     ),
                                   ),
                                 ),
@@ -92,7 +97,7 @@ class ChefProfileScreen extends StatelessWidget {
                                     children: [
                                       Spacer(),
                                       Text(
-                                        profileChefe?.chef?.countSubscribe.toString() ?? '0',
+                                        "${profileChefe?.chef?.countSubscribe.toString()} متابع",
                                         style: TextStyle(
                                           color: Colors.black,
                                           fontSize: 15.sp,

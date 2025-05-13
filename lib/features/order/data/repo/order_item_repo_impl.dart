@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:dartz/dartz.dart';
 
 import 'package:foodia_app/core/errors/failures.dart';
@@ -23,6 +25,7 @@ class OrderItemRepoImpl implements OrderItemRepo {
       GetAllOrderItemModel getAllOrderItemModel = GetAllOrderItemModel.fromJson(
         response,
       );
+      log(response.toString());
       return Right(getAllOrderItemModel);
     } on NetworkException catch (e) {
       return Left(NetworkFailure(e.message));

@@ -3,9 +3,11 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:foodia_app/core/app_config/messages.dart';
 import 'package:foodia_app/core/di/dependency_injection.dart';
+import 'package:go_router/go_router.dart';
 
 import '../../../../core/app_config/app_colors.dart';
 import '../../../../core/extensions/spacing.dart';
+import '../../../../core/routing/app_routes.dart';
 import '../../../../core/witgets/primary_button.dart';
 import '../logic/cubit/all_adress_user_cubit.dart';
 import '../widget/add_new_address_button_widget.dart';
@@ -82,8 +84,13 @@ class _AddressSelectionScreenState extends State<AddressSelectionScreen> {
                             );
                           } else {
                             setState(() {
-                              currentStep++;
+                              currentStep = 1;
                             });
+
+                            context.pushNamed(
+                              AppRoutes.orderDetails,
+                              extra: selectedAddressId,
+                            );
                           }
                         },
                       ),

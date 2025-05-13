@@ -14,63 +14,116 @@ class ListViewBuilderCefi extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return BlocBuilder<AllFollowersCubit, AllFollowersState>(
-      buildWhen: (previous, current) => previous != current,
       builder: (context, state) {
-        if (state is GetAllFollowersChefeSuccess) {
-          final chefs = state.getAllFollowersChefeModel.data;
+        if (state is AllFollowersChefe) {
+          final chefs = state.followers.data;
 
-          return Padding(
-            padding: REdgeInsets.symmetric(vertical: 20),
-            child: SizedBox(
-              height: 120.h,
-              child: ListView.builder(
-                itemCount: chefs!.length,
-                scrollDirection: Axis.horizontal,
-                itemBuilder: (context, index) {
-                  return GestureDetector(
+          if (chefs == null || chefs.isEmpty) {
+            return const Center(child: Text('لا توجد شيفات لعرضها.'));
+          }
+
+          return Expanded(
+            child: ListView.separated(
+              itemCount: chefs.length,
+              separatorBuilder: (_, __) => SizedBox(width: 12.w),
+              itemBuilder: (context, index) {
+                final chef = chefs[index];
+
+                return Padding(
+                  padding: EdgeInsets.symmetric(
+                    vertical: 8.h,
+                    horizontal: 16.w,
+                  ),
+                  child: GestureDetector(
                     onTap: () {
-                      context.push(AppRoutes.followDetails,extra: chefs[index].id);
+                      context.push(AppRoutes.followDetails, extra: chef.id);
                     },
+                    child: Container(
+                      padding: EdgeInsets.symmetric(
+                        horizontal: 12.w,
+                        vertical: 10.h,
+                      ),
+                      height: 100.h,
+                      decoration: BoxDecoration(
+                        color: Colors.white,
+                        borderRadius: BorderRadius.circular(16.r),
+                        border: Border.all(color: Colors.orange, width: 2.w),
+                        boxShadow: [
+                          BoxShadow(
+                            color: Colors.orange.withOpacity(0.08),
+                            blurRadius: 8,
+                            offset: const Offset(0, 4),
+                          ),
+                        ],
+                      ),
+                      child: Row(
+                        crossAxisAlignment: CrossAxisAlignment.center,
+                        children: [
+                          CircleAvatar(
+                            radius: 30.r,
+                            backgroundImage: NetworkImage(
+                              '$imageUrl${chef.image}',
+                            ),
+                          ),
+                          SizedBox(width: 12.w),
 
-                    child: Column(
-                      children: [
-                        Container(
-                          margin: const EdgeInsets.symmetric(horizontal: 15),
-                          height: 90.h,
-                          width: 90.w,
-                          decoration: BoxDecoration(
-                            shape: BoxShape.circle,
-                            image: DecorationImage(
-                              image: NetworkImage(
-                                '${imageUrl}${chefs[index].image}',
+                          Expanded(
+                            child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                Text(
+                                  chef.name ?? '',
+                                  style: TextStyle(
+                                    fontSize: 16.sp,
+                                    fontWeight: FontWeight.bold,
+                                    fontFamily: 'Changa',
+                                  ),
+                                ),
+                                verticalSpace(10),
+                                Text(
+                                  chef.bio ?? '',
+                                  style: TextStyle(
+                                    fontSize: 12.sp,
+                                    color: Colors.grey,
+                                    fontFamily: 'Changa',
+                                  ),
+                                  maxLines: 1,
+                                  overflow: TextOverflow.ellipsis,
+                                ),
+                              ],
+                            ),
+                          ),
+
+                          Row(
+                            children: [
+                              Icon(
+                                Icons.people,
+                                color: Colors.orange,
+                                size: 20.sp,
                               ),
-                              fit: BoxFit.cover,
-                            ),
-                            border: Border.all(
-                              color: Colors.orange,
-                              width: 4.w,
-                            ),
+                              SizedBox(width: 4.w),
+                              Text(
+                                '${chef.countSubscribe}',
+                                style: TextStyle(
+                                  fontWeight: FontWeight.bold,
+                                  fontSize: 14.sp,
+                                  color: Colors.orange,
+                                  fontFamily: 'Changa',
+                                ),
+                              ),
+                            ],
                           ),
-                        ),
-                        verticalSpace(8),
-                        Text(
-                          chefs[index].name ?? '',
-                          style: TextStyle(
-                            fontWeight: FontWeight.w600,
-                            fontSize: 15.sp,
-                            fontFamily: 'Changa',
-                          ),
-                        ),
-                      ],
+                        ],
+                      ),
                     ),
-                  );
-                },
-              ),
+                  ),
+                );
+              },
             ),
           );
-        } else if (state is GetAllFollowersChefeLoading) {
+        } else if (state is AllFollowersLoading) {
           return const Center(child: CircularProgressIndicator());
-        } else if (state is GetAllFollowersChefeFailure) {
+        } else if (state is AllFollowersFailure) {
           return Center(child: Text(state.error));
         } else {
           return const SizedBox.shrink();
