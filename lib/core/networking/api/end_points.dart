@@ -31,7 +31,10 @@ class EndPoints {
   static String order = "$_baseUrl/my-orders";
   static String cancelOrder = "$_baseUrl/cancel-order";
   static String balance = "$_baseUrl/wallet/balance";
-  static String orderDetails= "$_baseUrl/order/details";
-  static String addBalance= "$_baseUrl/wallet/recharge";
+  static String orderDetails = "$_baseUrl/order/details";
+  static String addBalance = "$_baseUrl/wallet/recharge";
+  static String checkout = "$_baseUrl/checkout";
   static String specialOffer = "$_baseUrl/user/offer-prices";
+  static String payOrder = "$_baseUrl/pay-order";
+  static String forgetPassword = "$_baseUrl/forget-password";
 }

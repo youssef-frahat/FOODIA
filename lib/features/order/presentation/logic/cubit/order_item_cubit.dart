@@ -2,7 +2,7 @@ import 'package:equatable/equatable.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 import '../../../data/model/cansele_order_model.dart';
-import '../../../data/model/get_all_order_item_model/get_all_order_item_model.dart';
+import '../../../data/model/get_all_order_response_model/get_all_order_response_model.dart';
 import '../../../data/repo/order_item_repo_impl.dart';
 
 part 'order_item_state.dart';

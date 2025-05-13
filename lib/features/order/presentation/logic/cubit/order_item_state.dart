@@ -12,11 +12,11 @@ final class OrderItemInitial extends OrderItemState {}
 final class OrderItemLoading extends OrderItemState {}
 
 final class OrderItemLoaded extends OrderItemState {
-  final GetAllOrderItemModel getAllOrderItemModel;
-  const OrderItemLoaded(this.getAllOrderItemModel);
+  final GetAllOrderResponseModel order;
+  const OrderItemLoaded(this.order);
 
   @override
-  List<Object> get props => [getAllOrderItemModel];
+  List<Object> get props => [order];
 }
 
 final class OrderItemError extends OrderItemState {

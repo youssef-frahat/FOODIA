@@ -14,7 +14,6 @@ import '../../../../../core/app_config/app_colors.dart';
 import '../../../../../core/routing/app_routes.dart';
 import '../../../../../core/witgets/custom_text_field.dart';
 import '../../../../../core/witgets/primary_button.dart';
-import '../../../../../core/witgets/wiget_back.dart';
 import '../logic/cubit/signin_user_cubit.dart';
 
 class SigninBodyWidget extends StatefulWidget {
@@ -54,7 +53,7 @@ class _SigninBodyWidgetState extends State<SigninBodyWidget> {
           } else if (state is SigninUserSuccess) {
             // Navigator.of(context).pop();
             // AppMessages.showSuccess(context, AppStrings.registerSuccess);
-            context.pushNamed(
+            context.goNamed(
               AppRoutes.otpScreen,
               extra: _phoneController.text.trim(),
             );
@@ -70,11 +69,11 @@ class _SigninBodyWidgetState extends State<SigninBodyWidget> {
               padding: EdgeInsets.symmetric(horizontal: 16.w),
               child: ListView(
                 children: [
-                  CustomWigetArrowBack(
-                    onpress: () {
-                      context.pop();
-                    },
-                  ),
+                  // CustomWigetArrowBack(
+                  //   onpress: () {
+                  //     context.pop();
+                  //   },
+                  // ),
                   verticalSpace(20),
                   Center(
                     child: Image.asset(

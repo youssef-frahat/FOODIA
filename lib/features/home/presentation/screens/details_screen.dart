@@ -62,10 +62,11 @@ class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
                 }
               },
               child: BlocBuilder<AllFoodsCubit, AllFoodsState>(
-                 buildWhen: (previous, current) =>
-                    current is AllDetailsSucss ||
-                    current is AllDetailsError ||
-                    current is AllDetailsLoading,
+                buildWhen:
+                    (previous, current) =>
+                        current is AllDetailsSucss ||
+                        current is AllDetailsError ||
+                        current is AllDetailsLoading,
                 builder: (context, state) {
                   if (state is AllDetailsLoading || isLoading) {
                     return const Center(child: CircularProgressIndicator());
@@ -83,13 +84,14 @@ class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
                     final reviews = details.data?.reviews ?? [];
 
                     final hasReviews = reviews.isNotEmpty;
-                    final parsedDate = hasReviews
-                        ? DateTime.tryParse(reviews[0].createdAt ?? '')
-                        : null;
-                    final formattedDate = parsedDate != null
-                        ? DateFormat('dd/MM/yyyy', 'ar').format(parsedDate)
-                        : 'تاريخ غير متاح';
-
+                    final parsedDate =
+                        hasReviews
+                            ? DateTime.tryParse(reviews[0].createdAt ?? '')
+                            : null;
+                    final formattedDate =
+                        parsedDate != null
+                            ? DateFormat('dd/MM/yyyy', 'ar').format(parsedDate)
+                            : 'تاريخ غير متاح';
 
                     return Stack(
                       clipBehavior: Clip.none,

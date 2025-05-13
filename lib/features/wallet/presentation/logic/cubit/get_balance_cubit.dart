@@ -24,12 +24,9 @@ class GetBalanceCubit extends Cubit<GetBalanceState> {
   addBalance({required int amount}) async {
     emit(AddingBalanceLoading());
     final result = await walletRepo.addBalance(amount: amount);
-    result.fold(
-      (l) => emit(AddBalanceFailure(l)),
-      (r) {
-        emit(AddBalanceSuccess(r));
-        getBalance(); 
-      },
-    );
+    result.fold((l) => emit(AddBalanceFailure(l)), (r) {
+      emit(AddBalanceSuccess(r));
+      getBalance();
+    });
   }
 }

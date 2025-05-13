@@ -9,12 +9,10 @@ part 'order_state.dart';
 
 class OrderCubit extends Cubit<OrderState> {
   final AddAdressRepoImpl addAdressRepoImpl;
-  OrderCubit(
-    this.addAdressRepoImpl,
-  ) : super(OrderInitial());
-  getOrderDetails()async{
+  OrderCubit(this.addAdressRepoImpl) : super(OrderInitial());
+  getOrderDetails() async {
     emit(GetOrderLoading());
-     final result = await addAdressRepoImpl.getAllOrderDetails();
+    final result = await addAdressRepoImpl.getAllOrderDetails();
     result.fold(
       (l) => emit(GetOrderFailure(l)),
       (r) => emit(GetOrderScuccess(r)),

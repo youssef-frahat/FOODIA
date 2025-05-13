@@ -14,10 +14,13 @@ class SearchResultScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final filteredFoods = allFoods
-        .where((food) =>
-            food.name!.toLowerCase().contains(searchQuery.toLowerCase()))
-        .toList();
+    final filteredFoods =
+        allFoods
+            .where(
+              (food) =>
+                  food.name!.toLowerCase().contains(searchQuery.toLowerCase()),
+            )
+            .toList();
 
     return Scaffold(
       backgroundColor: Colors.white,
@@ -27,15 +30,16 @@ class SearchResultScreen extends StatelessWidget {
         foregroundColor: Colors.black,
         elevation: 0,
       ),
-      body: filteredFoods.isEmpty
-          ? const Center(child: Text('لا توجد نتائج مطابقة'))
-          : ListView.builder(
-              itemCount: filteredFoods.length,
-              itemBuilder: (context, index) {
-                final food = filteredFoods[index];
-                return OrderWidget(getHomeFoodsModel: food);
-              },
-            ),
+      body:
+          filteredFoods.isEmpty
+              ? const Center(child: Text('لا توجد نتائج مطابقة'))
+              : ListView.builder(
+                itemCount: filteredFoods.length,
+                itemBuilder: (context, index) {
+                  final food = filteredFoods[index];
+                  return OrderWidget(getHomeFoodsModel: food);
+                },
+              ),
     );
   }
 }

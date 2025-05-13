@@ -1,4 +1,3 @@
-
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_native_splash/flutter_native_splash.dart';
@@ -8,7 +7,7 @@ import 'package:foodia_app/core/routing/router_generation.dart';
 import 'core/di/dependency_injection.dart';
 import 'core/locale/locales.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'features/wallet/presentation/logic/cubit/get_balance_cubit.dart'; 
+import 'features/wallet/presentation/logic/cubit/get_balance_cubit.dart';
 
 late final bool isLoggedIn;
 
@@ -17,7 +16,7 @@ void main() async {
   WidgetsBinding widgetsBinding = WidgetsFlutterBinding.ensureInitialized();
   await setupGetIt();
   await EasyLocalization.ensureInitialized();
- FlutterNativeSplash.preserve(widgetsBinding: widgetsBinding);
+  FlutterNativeSplash.preserve(widgetsBinding: widgetsBinding);
   FlutterNativeSplash.remove();
   runApp(
     EasyLocalization(
@@ -51,7 +50,9 @@ class Foodia extends StatelessWidget {
             theme: ThemeData(
               fontFamily: 'Changa',
               scaffoldBackgroundColor: const Color(0xFFF8F8F8),
-              appBarTheme: const AppBarTheme(backgroundColor: Color(0xFFF8F8F8)),
+              appBarTheme: const AppBarTheme(
+                backgroundColor: Color(0xFFF8F8F8),
+              ),
             ),
             routerConfig: router,
           ),

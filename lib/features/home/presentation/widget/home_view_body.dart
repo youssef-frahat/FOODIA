@@ -35,7 +35,9 @@ class _HomeViewBodyState extends State<HomeViewBody> {
             decoration: InputDecoration(
               hintText: 'ابحث عن الأكل...',
               prefixIcon: const Icon(Icons.search),
-              border: OutlineInputBorder(borderRadius: BorderRadius.circular(12)),
+              border: OutlineInputBorder(
+                borderRadius: BorderRadius.circular(12),
+              ),
               filled: true,
               fillColor: const Color(0xFFF8F8F8),
             ),

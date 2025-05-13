@@ -14,29 +14,42 @@ class TransactionItemWidget extends StatelessWidget {
     required this.amount,
   });
 
-  // ✅ ترجمة مفاتيح النوع لنصوص عربية
   String _mapTransactionType(String type) {
     final t = type.trim();
     switch (t) {
+      case 'messages.payOrder':
+      case 'payOrder':
+        return 'دفع طلب';
+
       case 'messages.cancelOrder':
-        return 'إلغاء طلبى';
+      case 'cancelOrder':
+        return 'إلغاء طلب';
+
       case 'messages.rejectOrder':
-        return 'رفض طلبى';
+      case 'rejectOrder':
+        return 'رفض طلب';
+
+      case 'messages.addBalance':
+      case 'addBalance':
+      case 'اضافة رصيد':
+        return 'إضافة رصيد';
+
       default:
-        return t; // لو أصلاً بالعربي زي "إضافة رصيد"
+        return t;
     }
   }
 
-  // ✅ اختيار اللون حسب نوع العملية
   Color _getTransactionColor(String type) {
     final normalized = _mapTransactionType(type);
 
-    if (normalized.contains('إضافة') || normalized.contains('رصيد')) {
+    if (normalized.contains('إضافة')) {
       return Colors.green;
     } else if (normalized.contains('إلغاء')) {
       return Colors.red;
     } else if (normalized.contains('رفض')) {
       return Colors.orange.shade700;
+    } else if (normalized.contains('دفع')) {
+      return Colors.blue;
     } else {
       return Colors.grey;
     }

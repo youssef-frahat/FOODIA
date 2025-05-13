@@ -23,5 +23,4 @@ final class GetOrderFailure extends OrderState {
   List<Object> get props => [failure];
 }
 
-
-final class  GetOrderLoading extends OrderState {}
+final class GetOrderLoading extends OrderState {}

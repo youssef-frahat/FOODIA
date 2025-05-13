@@ -23,10 +23,7 @@ class AllFollowersFailure extends AllFollowersState {
 class AllFollowersChefe extends AllFollowersState {
   final GetMyFollowrsModel followers;
 
-  const AllFollowersChefe(
-    this.followers,
-
-  );
+  const AllFollowersChefe(this.followers);
 
   @override
   List<Object?> get props => [followers];

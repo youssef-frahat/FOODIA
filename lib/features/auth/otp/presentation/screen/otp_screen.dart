@@ -96,7 +96,7 @@ class _OtpScreenState extends State<OtpScreen> {
                 ),
                 child: Column(
                   children: [
-                    CustomWigetArrowBack(onpress: () => context.pop()),
+                    // CustomWigetArrowBack(onpress: () => context.pop()),
                     verticalSpace(10),
                     Stack(
                       clipBehavior: Clip.none,

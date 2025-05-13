@@ -49,7 +49,6 @@ class AllDetailsError extends AllFoodsState {
   List<Object?> get props => [error];
 }
 
-
 class FollowChef extends AllFoodsState {
   final FollowCefeModel followCefe;
 

@@ -77,7 +77,10 @@ class OrderItemCard extends StatelessWidget {
                       children: [
                         Text(
                           'الكمية: ',
-                          style: TextStyle(fontSize: 13.sp, fontFamily: 'Changa'),
+                          style: TextStyle(
+                            fontSize: 13.sp,
+                            fontFamily: 'Changa',
+                          ),
                         ),
                         Text(
                           '$quantity',
@@ -90,7 +93,10 @@ class OrderItemCard extends StatelessWidget {
                         SizedBox(width: 16.w),
                         Text(
                           'السعر: ',
-                          style: TextStyle(fontSize: 13.sp, fontFamily: 'Changa'),
+                          style: TextStyle(
+                            fontSize: 13.sp,
+                            fontFamily: 'Changa',
+                          ),
                         ),
                         Text(
                           'ج.م $price',
@@ -108,7 +114,10 @@ class OrderItemCard extends StatelessWidget {
                       children: [
                         Text(
                           'الإجمالي',
-                          style: TextStyle(fontSize: 12.sp, fontFamily: 'Changa'),
+                          style: TextStyle(
+                            fontSize: 12.sp,
+                            fontFamily: 'Changa',
+                          ),
                         ),
                         Text(
                           'ج.م $total',

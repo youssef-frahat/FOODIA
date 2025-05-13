@@ -77,26 +77,30 @@ class OrderWidget extends StatelessWidget {
           // ✅ Product image with tap to details
           GestureDetector(
             onTap: () {
-              context.push(AppRoutes.detailsScreen,
-                  extra: getHomeFoodsModel.id);
+              context.push(
+                AppRoutes.detailsScreen,
+                extra: getHomeFoodsModel.id,
+              );
             },
             child: CachedNetworkImage(
               imageUrl: "$imageUrl${getHomeFoodsModel.image ?? ''}",
               width: 100.w,
               height: 100.h,
               fit: BoxFit.cover,
-              placeholder: (context, url) => Container(
-                width: 100.w,
-                height: 100.h,
-                alignment: Alignment.center,
-                child: const CircularProgressIndicator(),
-              ),
-              errorWidget: (context, url, error) => Container(
-                width: 100.w,
-                height: 100.h,
-                color: Colors.grey[300],
-                child: const Icon(Icons.broken_image),
-              ),
+              placeholder:
+                  (context, url) => Container(
+                    width: 100.w,
+                    height: 100.h,
+                    alignment: Alignment.center,
+                    child: const CircularProgressIndicator(),
+                  ),
+              errorWidget:
+                  (context, url, error) => Container(
+                    width: 100.w,
+                    height: 100.h,
+                    color: Colors.grey[300],
+                    child: const Icon(Icons.broken_image),
+                  ),
             ),
           ),
 
@@ -106,8 +110,10 @@ class OrderWidget extends StatelessWidget {
           Expanded(
             child: GestureDetector(
               onTap: () {
-                context.push(AppRoutes.detailsScreen,
-                    extra: getHomeFoodsModel.id);
+                context.push(
+                  AppRoutes.detailsScreen,
+                  extra: getHomeFoodsModel.id,
+                );
               },
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.end,

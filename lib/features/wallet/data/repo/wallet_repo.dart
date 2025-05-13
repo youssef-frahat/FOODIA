@@ -6,10 +6,5 @@ import '../model/get_wallet_model/get_wallet_model.dart';
 
 abstract class WalletRepo {
   Future<Either<Failure, GetWalletModel>> getBalance();
-  Future<Either<Failure, AddToBalanceModel>> addBalance(
-    {
-      required int amount,
-    }
-  );
-  
+  Future<Either<Failure, AddToBalanceModel>> addBalance({required int amount});
 }

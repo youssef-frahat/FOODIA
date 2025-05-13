@@ -2,8 +2,13 @@ import 'package:get_it/get_it.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 import '../../features/address/data/repo/add_adress_repo_impl.dart';
+import '../../features/address/data/repo/payment/payment_repo_impl.dart';
+import '../../features/address/presentation/logic/cheke_out/cubit/cheke_out_cubit.dart';
 import '../../features/address/presentation/logic/cubit/all_adress_user_cubit.dart';
 import '../../features/address/presentation/logic/order/cubit/order_cubit.dart';
+import '../../features/address/presentation/logic/payment/cubit/pay_ment_order_cubit.dart';
+import '../../features/auth/forgotPassword/data/repo/forgot_passowrd_repo_impl.dart';
+import '../../features/auth/forgotPassword/presentation/logic/forgetPassword/cubit/forget_password_cubit.dart';
 import '../../features/auth/login/data/repo/login_user_repo_impl.dart';
 import '../../features/auth/login/presentation/logic/cubit/login_user_cubit.dart';
 import '../../features/auth/otp/data/repo/otp_user_repo_impl.dart';
@@ -73,8 +78,14 @@ void _initRepositories() {
   getIt.registerLazySingleton<OrderItemRepoImpl>(
     () => OrderItemRepoImpl(getIt()),
   );
+  getIt.registerLazySingleton<PaymentRepoImpl>(() => PaymentRepoImpl(getIt()));
   getIt.registerLazySingleton<WaletRepoImpl>(() => WaletRepoImpl(getIt()));
-  getIt.registerLazySingleton<SpecialOfferRepoImpl>(() => SpecialOfferRepoImpl(getIt()));
+  getIt.registerLazySingleton<SpecialOfferRepoImpl>(
+    () => SpecialOfferRepoImpl(getIt()),
+  );
+  getIt.registerLazySingleton<ForgotPassowrdRepoImpl>(
+    () => ForgotPassowrdRepoImpl(getIt()),
+  );
 }
 
 //! Cubits
@@ -94,4 +105,7 @@ void _initCubits() {
   getIt.registerFactory<GetBalanceCubit>(() => GetBalanceCubit(getIt()));
   getIt.registerFactory<SpecialOfferCubit>(() => SpecialOfferCubit(getIt()));
   getIt.registerFactory<OrderCubit>(() => OrderCubit(getIt()));
+  getIt.registerFactory<ChekeOutCubit>(() => ChekeOutCubit(getIt()));
+  getIt.registerFactory<PayMentOrderCubit>(() => PayMentOrderCubit(getIt()));
+  getIt.registerFactory<ForgetPasswordCubit>(() => ForgetPasswordCubit(getIt()));
 }

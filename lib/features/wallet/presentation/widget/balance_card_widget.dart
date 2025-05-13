@@ -36,7 +36,7 @@ class BalanceCardWidget extends StatelessWidget {
             ),
             verticalSpace(20),
             Text(
-              '$amount جنية',    //! handel Amount
+              '$amount جنية', //! handel Amount
               style: TextStyle(
                 color: Colors.white,
                 fontSize: 32.sp,

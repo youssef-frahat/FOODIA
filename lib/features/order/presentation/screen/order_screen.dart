@@ -41,7 +41,7 @@ class OrderScreen extends StatelessWidget {
               } else if (state is OrderItemError) {
                 return Center(child: Text(state.message));
               } else if (state is OrderItemLoaded) {
-                final orderItems = state.getAllOrderItemModel.orderItems;
+                final orderItems = state.order.data;
 
                 if (orderItems == null || orderItems.isEmpty) {
                   return Center(

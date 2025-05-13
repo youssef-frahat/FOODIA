@@ -23,27 +23,28 @@ class _WebViewPaymentPageState extends State<WebViewPaymentPage> {
   @override
   void initState() {
     super.initState();
-    _controller = WebViewController()
-      ..setJavaScriptMode(JavaScriptMode.unrestricted)
-      ..setNavigationDelegate(
-        NavigationDelegate(
-          onPageFinished: (url) {
-            if (url.contains("success") || url.contains("confirmed")) {
-              WidgetsBinding.instance.addPostFrameCallback((_) {
-                _safePop(true);
-              });
-            }
-          },
-          onPageStarted: (url) {
-            if (url.contains("cancel") || url.contains("failed")) {
-              WidgetsBinding.instance.addPostFrameCallback((_) {
-                _safePop(false);
-              });
-            }
-          },
-        ),
-      )
-      ..loadRequest(Uri.parse(widget.url));
+    _controller =
+        WebViewController()
+          ..setJavaScriptMode(JavaScriptMode.unrestricted)
+          ..setNavigationDelegate(
+            NavigationDelegate(
+              onPageFinished: (url) {
+                if (url.contains("success") || url.contains("confirmed")) {
+                  WidgetsBinding.instance.addPostFrameCallback((_) {
+                    _safePop(true);
+                  });
+                }
+              },
+              onPageStarted: (url) {
+                if (url.contains("cancel") || url.contains("failed")) {
+                  WidgetsBinding.instance.addPostFrameCallback((_) {
+                    _safePop(false);
+                  });
+                }
+              },
+            ),
+          )
+          ..loadRequest(Uri.parse(widget.url));
   }
 
   @override
@@ -52,7 +53,11 @@ class _WebViewPaymentPageState extends State<WebViewPaymentPage> {
       appBar: AppBar(
         title: Text(
           "إتمام عملية الدفع",
-          style: TextStyle(fontFamily: 'Changa', fontSize: 25, color: Colors.orange),
+          style: TextStyle(
+            fontFamily: 'Changa',
+            fontSize: 25,
+            color: Colors.orange,
+          ),
         ),
         centerTitle: true,
       ),

@@ -110,7 +110,10 @@ class _SpecialOfferSliderState extends State<SpecialOfferSlider> {
                                   crossAxisAlignment: CrossAxisAlignment.start,
                                   children: [
                                     Container(
-                                      constraints: BoxConstraints(maxWidth: 200.w, maxHeight: 100.h),
+                                      constraints: BoxConstraints(
+                                        maxWidth: 200.w,
+                                        maxHeight: 100.h,
+                                      ),
                                       child: Text(
                                         offer.name ?? '',
                                         style: TextStyle(
@@ -129,7 +132,8 @@ class _SpecialOfferSliderState extends State<SpecialOfferSlider> {
                                           style: TextStyle(
                                             fontSize: 16.sp,
                                             color: Colors.white,
-                                            decoration: TextDecoration.lineThrough,
+                                            decoration:
+                                                TextDecoration.lineThrough,
                                           ),
                                         ),
                                         SizedBox(width: 8.w),

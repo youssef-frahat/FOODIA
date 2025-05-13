@@ -26,7 +26,6 @@ final class GetBalanceFailure extends GetBalanceState {
 
 //!!!! add balance
 
-
 final class AddBalanceSuccess extends GetBalanceState {
   final AddToBalanceModel addToBalanceModel;
   const AddBalanceSuccess(this.addToBalanceModel);
@@ -39,8 +38,5 @@ final class AddBalanceFailure extends GetBalanceState {
   final Failure failure;
   const AddBalanceFailure(this.failure);
 }
-
-
-
 
 final class AddingBalanceLoading extends GetBalanceState {}

@@ -16,7 +16,6 @@ class GetFollowerRepoImpl implements GetFollowersRepo {
   GetFollowerRepoImpl(this.apiService);
 
   @override
-
   Future<Either<Failure, GetMyFollowrsModel>> getChefeFollowers() async {
     try {
       final response = await apiService.get(EndPoints.getFollowers);
@@ -48,27 +47,28 @@ class GetFollowerRepoImpl implements GetFollowersRepo {
   //   }
   // }
 
- @override
-Future<Either<Failure, ChefeProfileModel>> getProfileChefe({required int cefeId}) async {
-  try {
-    final response = await apiService.get('${EndPoints.getProfileChefe}/$cefeId');
+  @override
+  Future<Either<Failure, ChefeProfileModel>> getProfileChefe({
+    required int cefeId,
+  }) async {
+    try {
+      final response = await apiService.get(
+        '${EndPoints.getProfileChefe}/$cefeId',
+      );
 
-    log("API Response: $response");
+      log("API Response: $response");
 
-    if (response == null || response['status'] != true) {
-      return Left(ServerFailure('Invalid response or status not true'));
+      if (response == null || response['status'] != true) {
+        return Left(ServerFailure('Invalid response or status not true'));
+      }
+
+      ChefeProfileModel chefeProfileModel = ChefeProfileModel.fromMap(response);
+
+      return Right(chefeProfileModel);
+    } on ServerException catch (e) {
+      return Left(ServerFailure(e.message));
+    } catch (e) {
+      return Left(ServerFailure('Unexpected error occurred: $e'));
     }
-
-    ChefeProfileModel chefeProfileModel = ChefeProfileModel.fromMap(response);
-
-
-    return Right(chefeProfileModel);
-  } on ServerException catch (e) {
-    return Left(ServerFailure(e.message));
-  } catch (e) {
-    return Left(ServerFailure('Unexpected error occurred: $e'));
   }
 }
-
-  }
-

@@ -13,19 +13,16 @@ part 'all_foods_state.dart';
 class AllFoodsCubit extends Cubit<AllFoodsState> {
   final GetAllHomeRepoImpl getAllHomeRepo;
   AllFoodsCubit(this.getAllHomeRepo) : super(AllFoodsInitial());
-List<FoodsModel> _allFoods = [];
+  List<FoodsModel> _allFoods = [];
   List<FoodsModel> filteredFoods = [];
   Future<void> getAllFoods({String foodName = ''}) async {
     emit(AllFoodsLoading());
     final result = await getAllHomeRepo.getAllHomeFoods(foodName: foodName);
-    result.fold(
-      (failure) => emit(AllFoodsError(failure.message)),
-      (model) {
-        _allFoods = model.data?.data ?? [];
-        filteredFoods = _allFoods;
-        emit(AllFoodsLoaded(filteredFoods));
-      },
-    );
+    result.fold((failure) => emit(AllFoodsError(failure.message)), (model) {
+      _allFoods = model.data?.data ?? [];
+      filteredFoods = _allFoods;
+      emit(AllFoodsLoaded(filteredFoods));
+    });
   }
 
   Future<void> getAllDetalisById({required num foodId}) async {
@@ -44,25 +41,24 @@ List<FoodsModel> _allFoods = [];
     );
   }
 
-Future<void> followCefe({required num cefeId}) async {
-  final result = await getAllHomeRepo.followCefe(cefeId: cefeId);
-  result.fold(
-    (failure) {
-      emit(FollowChefError(failure.message));
-    },
-    (followCefeModel) {
-      emit(FollowChef(followCefeModel));
-    },
-  );
-}
-void filterByCategory(int categoryId) {
-  filteredFoods = _allFoods
-      .where((food) => food.categoryId == categoryId)
-      .toList();
+  Future<void> followCefe({required num cefeId}) async {
+    final result = await getAllHomeRepo.followCefe(cefeId: cefeId);
+    result.fold(
+      (failure) {
+        emit(FollowChefError(failure.message));
+      },
+      (followCefeModel) {
+        emit(FollowChef(followCefeModel));
+      },
+    );
+  }
 
-  emit(AllFoodsLoaded(filteredFoods));
-}
+  void filterByCategory(int categoryId) {
+    filteredFoods =
+        _allFoods.where((food) => food.categoryId == categoryId).toList();
 
+    emit(AllFoodsLoaded(filteredFoods));
+  }
 
   void resetFilter() {
     filteredFoods = _allFoods;

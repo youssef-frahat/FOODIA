@@ -104,20 +104,20 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
       body: Stack(
         children: [
           Directionality(
-  textDirection: TextDirection.ltr,
-  child: PageView.builder(
-    controller: _pageController,
-    itemCount: _onboardingItems.length,
-    onPageChanged: (index) {
-      setState(() {
-        _currentPage = index;
-      });
-    },
-    itemBuilder: (context, index) {
-      return OnboardingPage(item: _onboardingItems[index]);
-    },
-  ),
-),
+            textDirection: TextDirection.ltr,
+            child: PageView.builder(
+              controller: _pageController,
+              itemCount: _onboardingItems.length,
+              onPageChanged: (index) {
+                setState(() {
+                  _currentPage = index;
+                });
+              },
+              itemBuilder: (context, index) {
+                return OnboardingPage(item: _onboardingItems[index]);
+              },
+            ),
+          ),
 
           Positioned(
             top: 50,
@@ -136,29 +136,28 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
               ),
             ),
           ),
-      Positioned(
-  bottom: 30,
-  left: 20,
-  child: Transform(
-    alignment: Alignment.center,
-    transform: Matrix4.rotationY(3.1416), 
-    child: Align(
-      alignment: Alignment.centerRight, 
-      child: SmoothPageIndicator(
-        controller: _pageController,
-        count: _onboardingItems.length,
-        effect: const ExpandingDotsEffect(
-          activeDotColor: Colors.white,
-          dotColor: Colors.orange,
-          dotHeight: 10,
-          dotWidth: 10,
-          spacing: 8,
-        ),
-      ),
-    ),
-  ),
-),
-
+          Positioned(
+            bottom: 30,
+            left: 20,
+            child: Transform(
+              alignment: Alignment.center,
+              transform: Matrix4.rotationY(3.1416),
+              child: Align(
+                alignment: Alignment.centerRight,
+                child: SmoothPageIndicator(
+                  controller: _pageController,
+                  count: _onboardingItems.length,
+                  effect: const ExpandingDotsEffect(
+                    activeDotColor: Colors.white,
+                    dotColor: Colors.orange,
+                    dotHeight: 10,
+                    dotWidth: 10,
+                    spacing: 8,
+                  ),
+                ),
+              ),
+            ),
+          ),
 
           Positioned(
             bottom: 20,

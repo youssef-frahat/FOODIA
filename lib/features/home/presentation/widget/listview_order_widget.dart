@@ -29,30 +29,38 @@ class ListviewOrderWidget extends StatelessWidget {
           if (state is AllFoodsLoaded) {
             final allFoods = state.foods;
 
-            final filteredFoods = allFoods
-                .where((food) =>
-                    food.name!.toLowerCase().contains(searchQuery.toLowerCase()))
-                .toList();
+            final filteredFoods =
+                allFoods
+                    .where(
+                      (food) => food.name!.toLowerCase().contains(
+                        searchQuery.toLowerCase(),
+                      ),
+                    )
+                    .toList();
 
             return Expanded(
-              child: filteredFoods.isEmpty
-                  ? const Center(child: Text('لا توجد نتائج مطابقة'))
-                  : ListView.builder(
-                      itemCount: filteredFoods.length,
-                      itemBuilder: (context, index) {
-                        final food = filteredFoods[index];
-                        return BlocListener<AddToCartCubit, AddToCartState>(
-                          listener: (context, addState) {
-                            if (addState is AddToCartSuccess) {
-                              AppMessages.showSuccess(context, "تمت الإضافة إلى السلة");
-                            } else if (addState is AddToCartError) {
-                              AppMessages.showError(context, addState.error);
-                            }
-                          },
-                          child: OrderWidget(getHomeFoodsModel: food),
-                        );
-                      },
-                    ),
+              child:
+                  filteredFoods.isEmpty
+                      ? const Center(child: Text('لا توجد نتائج مطابقة'))
+                      : ListView.builder(
+                        itemCount: filteredFoods.length,
+                        itemBuilder: (context, index) {
+                          final food = filteredFoods[index];
+                          return BlocListener<AddToCartCubit, AddToCartState>(
+                            listener: (context, addState) {
+                              if (addState is AddToCartSuccess) {
+                                AppMessages.showSuccess(
+                                  context,
+                                  "تمت الإضافة إلى السلة",
+                                );
+                              } else if (addState is AddToCartError) {
+                                AppMessages.showError(context, addState.error);
+                              }
+                            },
+                            child: OrderWidget(getHomeFoodsModel: food),
+                          );
+                        },
+                      ),
             );
           }
 

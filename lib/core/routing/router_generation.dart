@@ -72,57 +72,49 @@ class RouterGeneration {
             return ProductDetailsScreen(foodId: foodId);
           },
         ),
-      GoRoute(
-  name: AppRoutes.searchResultScreen,
-  path: AppRoutes.searchResultScreen,
-  builder: (context, state) {
-    final data = state.extra as Map<String, dynamic>;
-    final String query = data['query'] as String;
-    final List<FoodsModel> foods = data['foods'] as List<FoodsModel>;
+        GoRoute(
+          name: AppRoutes.searchResultScreen,
+          path: AppRoutes.searchResultScreen,
+          builder: (context, state) {
+            final data = state.extra as Map<String, dynamic>;
+            final String query = data['query'] as String;
+            final List<FoodsModel> foods = data['foods'] as List<FoodsModel>;
 
-    return SearchResultScreen(
-      searchQuery: query,
-      allFoods: foods,
-    );
-  },
-),
-
+            return SearchResultScreen(searchQuery: query, allFoods: foods);
+          },
+        ),
 
         GoRoute(
           name: AppRoutes.followDetails,
           path: AppRoutes.followDetails,
           builder: (context, state) {
             final chefeId = state.extra as int;
-            return ChefProfileScreen(
-              cefeId: chefeId,
-            );
+            return ChefProfileScreen(cefeId: chefeId);
           },
         ),
-          GoRoute(
+        GoRoute(
           name: AppRoutes.addressSelectionScreen,
           path: AppRoutes.addressSelectionScreen,
           builder: (context, state) {
-            return AddressSelectionScreen(
-            );
+            return AddressSelectionScreen();
           },
         ),
         GoRoute(
           name: AppRoutes.orderDetails,
           path: AppRoutes.orderDetails,
           builder: (context, state) {
-            final addressId  = state.extra as int;
-            return OrderDetails(
-              addressId: addressId,
-            );
+            final addressId = state.extra as int;
+            return OrderDetails(addressId: addressId);
           },
         ),
-         GoRoute(
+        GoRoute(
           name: AppRoutes.payment,
           path: AppRoutes.payment,
           builder: (context, state) {
-            final addressId  = state.extra as int;
+            final data = state.extra as Map<String, dynamic>;
             return PaymentScreen(
-              addressId: addressId,
+              total: data['total'] as int,
+              orderId: data['id'] as int,
             );
           },
         ),
@@ -174,24 +166,23 @@ class RouterGeneration {
             //     return ProductDetailsScreen(foodId: foodId);
             //   },
             // ),
-          GoRoute(
-  path: AppRoutes.editProfileScreen,
-  name: AppRoutes.editProfileScreen,
-  pageBuilder: (context, state) {
-    final data = state.extra as Map<String, dynamic>?;
+            GoRoute(
+              path: AppRoutes.editProfileScreen,
+              name: AppRoutes.editProfileScreen,
+              pageBuilder: (context, state) {
+                final data = state.extra as Map<String, dynamic>?;
 
-    return _buildTransitionPage(
-      EditProfileScreen(
-        name: data?['name'] ?? '',
-        email: data?['email'] ?? '',
-        phone: data?['phone'] ?? '',
-        image: data?['image'] ?? '',
-      ),
-      state,
-    );
-  },
-),
-
+                return _buildTransitionPage(
+                  EditProfileScreen(
+                    name: data?['name'] ?? '',
+                    email: data?['email'] ?? '',
+                    phone: data?['phone'] ?? '',
+                    image: data?['image'] ?? '',
+                  ),
+                  state,
+                );
+              },
+            ),
           ],
         ),
       ],
