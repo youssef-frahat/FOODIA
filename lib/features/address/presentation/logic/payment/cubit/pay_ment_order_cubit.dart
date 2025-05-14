@@ -19,16 +19,12 @@ class PayMentOrderCubit extends Cubit<PayMentOrderState> {
       orderId: orderId,
       payment: payment,
     );
-    result.fold(
-  (l) {
-    if (l.message.contains("رصيد غير كافى")) {
-      emit(PayMentInsufficientBalance(l.message));
-    } else {
-      emit(PayMentOrderFailure(l.message));
-    }
-  },
-  (r) => emit(PayMentOrderSuccess(r)),
-);
-
+    result.fold((l) {
+      if (l.message.contains("رصيد غير كافى")) {
+        emit(PayMentInsufficientBalance(l.message));
+      } else {
+        emit(PayMentOrderFailure(l.message));
+      }
+    }, (r) => emit(PayMentOrderSuccess(r)));
   }
 }

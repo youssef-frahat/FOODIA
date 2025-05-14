@@ -28,16 +28,16 @@ class PaymentRepoImpl implements PaymentRepo {
       );
 
       if (response['status'] == false) {
-        final message = response['error'] ??
-                        (response['message'] is String ? response['message'] : null) ??
-                        AppStrings.unexpectedError;
+        final message =
+            response['error'] ??
+            (response['message'] is String ? response['message'] : null) ??
+            AppStrings.unexpectedError;
 
         return Left(ServerFailure(message));
       }
 
       final model = PaymentResponseModel.fromJson(response);
       return Right(model);
-      
     } on NetworkException catch (e) {
       return Left(NetworkFailure(e.message));
     } on ServerException catch (e) {

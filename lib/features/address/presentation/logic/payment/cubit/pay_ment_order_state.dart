@@ -29,7 +29,6 @@ class PayMentOrderFailure extends PayMentOrderState {
   List<Object?> get props => [error];
 }
 
-
 class PayMentInsufficientBalance extends PayMentOrderState {
   final String message;
   const PayMentInsufficientBalance(this.message);

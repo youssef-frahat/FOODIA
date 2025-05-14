@@ -9,13 +9,18 @@ import '../../../../../core/errors/exceptions.dart';
 import '../../../../../core/networking/api/end_points.dart';
 
 class ForgotPassowrdRepoImpl implements ForgotPassowrdRepo {
-  final ApiService  apiService;
+  final ApiService apiService;
 
   ForgotPassowrdRepoImpl(this.apiService);
   @override
-  Future<Either<Failure, ForgetPassowrdModel>> forgetPassword({required String phone}) async{
+  Future<Either<Failure, ForgetPassowrdModel>> forgetPassword({
+    required String phone,
+  }) async {
     try {
-      final response = await apiService.post(EndPoints.forgetPassword, data: {'phone': phone});
+      final response = await apiService.post(
+        EndPoints.forgetPassword,
+        data: {'phone': phone},
+      );
       final forgetPassowrdModel = ForgetPassowrdModel.fromJson(response);
       return Right(forgetPassowrdModel);
     } on NetworkException catch (e) {

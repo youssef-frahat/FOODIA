@@ -4,6 +4,7 @@ import 'package:dartz/dartz.dart';
 import 'package:foodia_app/core/errors/failures.dart';
 import 'package:foodia_app/core/networking/api/api_services.dart';
 import 'package:foodia_app/features/followers/data/model/chefe_profile_model/chefe_profile_model.dart';
+import 'package:foodia_app/features/followers/data/model/delete_follow_chefe_model.dart';
 import 'package:foodia_app/features/followers/data/repo/get_followers/get_followr_repo.dart';
 
 import '../../../../../core/app_config/app_strings.dart';
@@ -71,4 +72,30 @@ class GetFollowerRepoImpl implements GetFollowersRepo {
       return Left(ServerFailure('Unexpected error occurred: $e'));
     }
   }
+
+  @override
+Future<Either<Failure, DeleteFollowChefeModel>> deleteFollowChefe({
+  required int chefeId,
+}) async {
+  try {
+    final response = await apiService.delete(
+      '${EndPoints.unfollowChef}/$chefeId',
+    );
+
+    log("Unfollow API Response: $response");
+
+    if (response == null || response['status'] != true) {
+      return Left(ServerFailure(response['message'] ?? 'Unfollow failed'));
+    }
+
+    final result = DeleteFollowChefeModel.fromJson(response);
+    return Right(result);
+  } on NetworkException catch (e) {
+    return Left(NetworkFailure(e.message));
+  } on ServerException catch (e) {
+    return Left(ServerFailure(e.message));
+  } catch (e) {
+    return Left(ServerFailure(AppStrings.unexpectedError));
+  }
+}
 }

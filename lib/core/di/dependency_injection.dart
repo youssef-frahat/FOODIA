@@ -19,6 +19,7 @@ import '../../features/cart/data/repo/add_to_cart_repo_impl.dart';
 import '../../features/cart/presentation/logic/cubit/add_to_cart_cubit.dart';
 import '../../features/followers/data/repo/get_followers/get_follower_repo_impl.dart';
 import '../../features/followers/presentation/logic/cubit/all_followers_cubit.dart';
+import '../../features/followers/presentation/logic/unfollow/cubit/un_follow_chef_cubit.dart';
 import '../../features/home/data/repo/get_all_home_repo_impl.dart';
 import '../../features/home/data/repo/special_offer_repo/special_offer_repo_impl.dart';
 import '../../features/home/presentation/logic/get_all_categorys_logic/cubit/get_all_categorys_cubit.dart';
@@ -107,5 +108,8 @@ void _initCubits() {
   getIt.registerFactory<OrderCubit>(() => OrderCubit(getIt()));
   getIt.registerFactory<ChekeOutCubit>(() => ChekeOutCubit(getIt()));
   getIt.registerFactory<PayMentOrderCubit>(() => PayMentOrderCubit(getIt()));
-  getIt.registerFactory<ForgetPasswordCubit>(() => ForgetPasswordCubit(getIt()));
+  getIt.registerFactory<UnFollowChefCubit>(() => UnFollowChefCubit(getIt()));
+  getIt.registerFactory<ForgetPasswordCubit>(
+    () => ForgetPasswordCubit(getIt()),
+  );
 }

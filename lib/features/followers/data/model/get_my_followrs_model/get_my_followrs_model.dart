@@ -5,7 +5,7 @@ import 'datum.dart';
 class GetMyFollowrsModel extends Equatable {
   final bool? status;
   final String? message;
-  final List<Datum>? data;
+  final List<Follower>? data;
 
   const GetMyFollowrsModel({this.status, this.message, this.data});
 
@@ -15,7 +15,7 @@ class GetMyFollowrsModel extends Equatable {
       message: json['message'] as String?,
       data:
           (json['data'] as List<dynamic>?)
-              ?.map((e) => Datum.fromJson(e as Map<String, dynamic>))
+              ?.map((e) => Follower.fromJson(e as Map<String, dynamic>))
               .toList(),
     );
   }
@@ -29,7 +29,7 @@ class GetMyFollowrsModel extends Equatable {
   GetMyFollowrsModel copyWith({
     bool? status,
     String? message,
-    List<Datum>? data,
+    List<Follower>? data,
   }) {
     return GetMyFollowrsModel(
       status: status ?? this.status,

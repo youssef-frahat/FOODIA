@@ -1,6 +1,6 @@
 import 'package:equatable/equatable.dart';
 
-class Datum extends Equatable {
+class Follower extends Equatable {
   final int? id;
   final String? name;
   final String? phone;
@@ -16,7 +16,7 @@ class Datum extends Equatable {
   final DateTime? createdAt;
   final DateTime? updatedAt;
 
-  const Datum({
+  const Follower({
     this.id,
     this.name,
     this.phone,
@@ -33,7 +33,7 @@ class Datum extends Equatable {
     this.updatedAt,
   });
 
-  factory Datum.fromJson(Map<String, dynamic> json) => Datum(
+  factory Follower.fromJson(Map<String, dynamic> json) => Follower(
     id: json['id'] as int?,
     name: json['name'] as String?,
     phone: json['phone'] as String?,
@@ -73,7 +73,7 @@ class Datum extends Equatable {
     'updated_at': updatedAt?.toIso8601String(),
   };
 
-  Datum copyWith({
+  Follower copyWith({
     int? id,
     String? name,
     String? phone,
@@ -89,7 +89,7 @@ class Datum extends Equatable {
     DateTime? createdAt,
     DateTime? updatedAt,
   }) {
-    return Datum(
+    return Follower(
       id: id ?? this.id,
       name: name ?? this.name,
       phone: phone ?? this.phone,

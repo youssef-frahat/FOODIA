@@ -7,6 +7,7 @@ import 'package:foodia_app/core/routing/router_generation.dart';
 import 'core/di/dependency_injection.dart';
 import 'core/locale/locales.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+
 import 'features/wallet/presentation/logic/cubit/get_balance_cubit.dart';
 
 late final bool isLoggedIn;

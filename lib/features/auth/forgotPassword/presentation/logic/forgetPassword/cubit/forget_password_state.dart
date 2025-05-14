@@ -9,7 +9,6 @@ sealed class ForgetPasswordState extends Equatable {
 
 final class ForgetPasswordInitial extends ForgetPasswordState {}
 
-
 final class ForgetPasswordLoading extends ForgetPasswordState {}
 
 final class ForgetPasswordSuccess extends ForgetPasswordState {

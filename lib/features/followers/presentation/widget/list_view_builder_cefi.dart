@@ -35,9 +35,14 @@ class ListViewBuilderCefi extends StatelessWidget {
                     horizontal: 16.w,
                   ),
                   child: GestureDetector(
-                    onTap: () {
-                      context.push(AppRoutes.followDetails, extra: chef.id);
-                    },
+                  onTap: () async {
+  final result = await context.push(AppRoutes.followDetails, extra: chef.id);
+
+  if (result == true) {
+    context.read<AllFollowersCubit>().fetchFollowers();
+  }
+},
+
                     child: Container(
                       padding: EdgeInsets.symmetric(
                         horizontal: 12.w,

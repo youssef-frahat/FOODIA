@@ -37,4 +37,5 @@ class EndPoints {
   static String specialOffer = "$_baseUrl/user/offer-prices";
   static String payOrder = "$_baseUrl/pay-order";
   static String forgetPassword = "$_baseUrl/forget-password";
+  static String unfollowChef = "$_baseUrl/unfollow-chef";
 }

@@ -5,8 +5,10 @@ import 'package:foodia_app/core/app_config/image_urls.dart';
 import 'package:foodia_app/core/extensions/spacing.dart';
 import 'package:foodia_app/core/witgets/wiget_back.dart';
 import 'package:go_router/go_router.dart';
+
 import '../../../../core/di/dependency_injection.dart';
 import '../logic/cubit/all_followers_cubit.dart';
+import '../logic/unfollow/cubit/un_follow_chef_cubit.dart';
 import '../widget/food_card.dart';
 
 class ChefProfileScreen extends StatelessWidget {
@@ -16,19 +18,51 @@ class ChefProfileScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: BlocProvider(
-        create:
-            (context) =>
-                getIt<AllFollowersCubit>()..getProfileChefe(chefId: cefeId),
-        child: BlocBuilder<AllFollowersCubit, AllFollowersState>(
-          buildWhen: (previous, current) => previous != current,
+      body: MultiBlocProvider(
+        providers: [
+          BlocProvider(
+            create:
+                (context) =>
+                    getIt<AllFollowersCubit>()..getProfileChefe(chefId: cefeId),
+          ),
+          BlocProvider(create: (context) => getIt<UnFollowChefCubit>()),
+        ],
+        child: ChefProfileView(chefId: cefeId),
+      ),
+    );
+  }
+}
+
+class ChefProfileView extends StatelessWidget {
+  final int chefId;
+  const ChefProfileView({super.key, required this.chefId});
+
+  @override
+  Widget build(BuildContext context) {
+    return BlocConsumer<UnFollowChefCubit, UnFollowChefState>(
+      listener: (context, state) {
+        if (state is UnFollowChefSuccess) {
+          ScaffoldMessenger.of(context).showSnackBar(
+            SnackBar(content: Text(state.model.message ?? 'تم إلغاء المتابعة')),
+          );
+
+          context.pop(true);
+        } else if (state is UnFollowChefError) {
+          ScaffoldMessenger.of(
+            context,
+          ).showSnackBar(SnackBar(content: Text(state.message)));
+        }
+      },
+
+      builder: (context, unfollowState) {
+        return BlocBuilder<AllFollowersCubit, AllFollowersState>(
           builder: (context, state) {
             if (state is GetProfileChefeLoading) {
               return const Center(child: CircularProgressIndicator());
             } else if (state is GetProfileChefeFailure) {
               return Center(child: Text('حدث خطأ: ${state.error}'));
             } else if (state is GetProfileChefeSuccess) {
-              final profileChefe = state.chefeProfileModel.data ?? null;
+              final profileChefe = state.chefeProfileModel.data;
 
               return Stack(
                 clipBehavior: Clip.none,
@@ -51,11 +85,7 @@ class ChefProfileScreen extends StatelessWidget {
                     ),
                     child: Column(
                       children: [
-                        CustomWigetArrowBack(
-                          onpress: () {
-                            context.pop(context);
-                          },
-                        ),
+                        CustomWigetArrowBack(onpress: () => context.pop()),
                         Row(
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
@@ -100,9 +130,9 @@ class ChefProfileScreen extends StatelessWidget {
                                   verticalSpace(20),
                                   Row(
                                     children: [
-                                      Spacer(),
+                                      const Spacer(),
                                       Text(
-                                        "${profileChefe?.chef?.countSubscribe.toString()} متابع",
+                                        "${profileChefe?.chef?.countSubscribe ?? 0} متابع",
                                         style: TextStyle(
                                           color: Colors.black,
                                           fontSize: 15.sp,
@@ -110,24 +140,44 @@ class ChefProfileScreen extends StatelessWidget {
                                         ),
                                       ),
                                       horizontalSpace(20),
-                                      Container(
-                                        padding: EdgeInsets.symmetric(
-                                          horizontal: 12.w,
-                                          vertical: 12.h,
-                                        ),
-                                        decoration: BoxDecoration(
-                                          color: Colors.orange,
-                                          borderRadius: BorderRadius.circular(
-                                            12.r,
+                                      GestureDetector(
+                                        onTap: () {
+                                          context
+                                              .read<UnFollowChefCubit>()
+                                              .unFollowChef(chefId);
+                                        },
+                                        child: Container(
+                                          padding: EdgeInsets.symmetric(
+                                            horizontal: 12.w,
+                                            vertical: 12.h,
                                           ),
-                                        ),
-                                        child: Text(
-                                          'إلغاء المتابعة',
-                                          style: TextStyle(
-                                            color: Colors.white,
-                                            fontSize: 15.sp,
-                                            fontWeight: FontWeight.bold,
+                                          decoration: BoxDecoration(
+                                            color: Colors.orange,
+                                            borderRadius: BorderRadius.circular(
+                                              12.r,
+                                            ),
                                           ),
+                                          child:
+                                              unfollowState
+                                                      is UnFollowChefLoading
+                                                  ? SizedBox(
+                                                    width: 20.w,
+                                                    height: 20.h,
+                                                    child:
+                                                        CircularProgressIndicator(
+                                                          strokeWidth: 2,
+                                                          color: Colors.white,
+                                                        ),
+                                                  )
+                                                  : Text(
+                                                    'إلغاء المتابعة',
+                                                    style: TextStyle(
+                                                      color: Colors.white,
+                                                      fontSize: 15.sp,
+                                                      fontWeight:
+                                                          FontWeight.bold,
+                                                    ),
+                                                  ),
                                         ),
                                       ),
                                     ],
@@ -138,7 +188,7 @@ class ChefProfileScreen extends StatelessWidget {
                           ],
                         ),
                         horizontalSpace(10),
-                        Divider(color: Colors.orangeAccent),
+                        const Divider(color: Colors.orangeAccent),
                         horizontalSpace(10),
                         Expanded(
                           child: ListView.builder(
@@ -151,7 +201,7 @@ class ChefProfileScreen extends StatelessWidget {
                                 name: foodItem?.name ?? 'لا يوجد اسم للوجبة',
                                 description:
                                     foodItem?.description ?? 'لا يوجد وصف',
-                                imageUrl: '${imageUrl}${foodItem?.image ?? ''}',
+                                imageUrl: '$imageUrl${foodItem?.image ?? ''}',
                                 price: foodItem?.price ?? '0',
                                 foodType: foodItem?.foodType ?? 'غير محدد',
                                 offerPrice: foodItem?.offerPrice ?? '0',
@@ -165,11 +215,11 @@ class ChefProfileScreen extends StatelessWidget {
                 ],
               );
             } else {
-              return Container();
+              return const Center(child: Text('حدث خطأ غير متوقع'));
             }
           },
-        ),
-      ),
+        );
+      },
     );
   }
 }

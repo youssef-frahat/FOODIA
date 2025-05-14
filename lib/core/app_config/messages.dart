@@ -8,10 +8,11 @@ class AppMessages {
       showDialog<dynamic>(
         context: context,
         barrierDismissible: false,
-        builder: (_) => const PopScope(
-          canPop: false,
-          child: Center(child: CircularProgressIndicator.adaptive()),
-        ),
+        builder:
+            (_) => const PopScope(
+              canPop: false,
+              child: Center(child: CircularProgressIndicator.adaptive()),
+            ),
       );
 
   static void showError(BuildContext context, String error) {
@@ -37,7 +38,6 @@ class AppMessages {
         width: 120.w,
         height: 120.h,
       ),
-     
     );
   }
 
@@ -64,7 +64,6 @@ class AppMessages {
         width: 120.w,
         height: 120.h,
       ),
-      
     );
   }
 }
