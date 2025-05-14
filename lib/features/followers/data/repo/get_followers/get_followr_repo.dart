@@ -13,7 +13,6 @@ abstract class GetFollowersRepo {
   });
 
   Future<Either<Failure, DeleteFollowChefeModel>> deleteFollowChefe({
-  required int chefeId,
-});
-
+    required int chefeId,
+  });
 }

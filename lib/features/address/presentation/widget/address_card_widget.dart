@@ -5,7 +5,7 @@ class AddressCardWidget extends StatelessWidget {
   final String city;
   final String address;
   final bool selected;
-  final int id; // تمرير الـ id الخاص بالعنوان
+  final int id;
   final Function()? onTap;
   final Function()? onDelete;
   final Function()? onEdit;
@@ -14,7 +14,7 @@ class AddressCardWidget extends StatelessWidget {
     super.key,
     required this.city,
     required this.address,
-    required this.id, // استلام الـ id
+    required this.id,
     this.selected = false,
     this.onTap,
     this.onDelete,
@@ -99,11 +99,11 @@ class AddressCardWidget extends StatelessWidget {
                       color: Colors.red,
                       size: 20,
                     ),
-                    onPressed: onDelete, // وظيفة الحذف
+                    onPressed: onDelete,
                   ),
                   IconButton(
                     icon: const Icon(Icons.edit, color: Colors.black, size: 20),
-                    onPressed: onEdit, // وظيفة التعديل
+                    onPressed: onEdit,
                   ),
                 ],
               ),

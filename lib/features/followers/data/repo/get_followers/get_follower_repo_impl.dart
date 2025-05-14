@@ -74,28 +74,28 @@ class GetFollowerRepoImpl implements GetFollowersRepo {
   }
 
   @override
-Future<Either<Failure, DeleteFollowChefeModel>> deleteFollowChefe({
-  required int chefeId,
-}) async {
-  try {
-    final response = await apiService.delete(
-      '${EndPoints.unfollowChef}/$chefeId',
-    );
+  Future<Either<Failure, DeleteFollowChefeModel>> deleteFollowChefe({
+    required int chefeId,
+  }) async {
+    try {
+      final response = await apiService.delete(
+        '${EndPoints.unfollowChef}/$chefeId',
+      );
 
-    log("Unfollow API Response: $response");
+      log("Unfollow API Response: $response");
 
-    if (response == null || response['status'] != true) {
-      return Left(ServerFailure(response['message'] ?? 'Unfollow failed'));
+      if (response == null || response['status'] != true) {
+        return Left(ServerFailure(response['message'] ?? 'Unfollow failed'));
+      }
+
+      final result = DeleteFollowChefeModel.fromJson(response);
+      return Right(result);
+    } on NetworkException catch (e) {
+      return Left(NetworkFailure(e.message));
+    } on ServerException catch (e) {
+      return Left(ServerFailure(e.message));
+    } catch (e) {
+      return Left(ServerFailure(AppStrings.unexpectedError));
     }
-
-    final result = DeleteFollowChefeModel.fromJson(response);
-    return Right(result);
-  } on NetworkException catch (e) {
-    return Left(NetworkFailure(e.message));
-  } on ServerException catch (e) {
-    return Left(ServerFailure(e.message));
-  } catch (e) {
-    return Left(ServerFailure(AppStrings.unexpectedError));
   }
-}
 }

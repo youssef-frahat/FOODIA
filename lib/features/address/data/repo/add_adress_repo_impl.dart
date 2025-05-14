@@ -4,6 +4,7 @@ import 'package:dartz/dartz.dart';
 import 'package:foodia_app/core/errors/failures.dart';
 import 'package:foodia_app/features/address/data/model/add_to_adress_response_model/add_to_adress_response_model.dart';
 import 'package:foodia_app/features/address/data/model/cheke_out_order_model/cheke_out_order_model.dart';
+import 'package:foodia_app/features/address/data/model/delete_adress_model.dart';
 import 'package:foodia_app/features/address/data/model/get_all_adress_user_model/get_all_adress_user_model.dart';
 import 'package:foodia_app/features/address/data/model/get_order_detilas_model/get_order_detilas_model.dart';
 import 'package:foodia_app/features/address/data/repo/add_adress_repo.dart';
@@ -97,6 +98,66 @@ class AddAdressRepoImpl implements AddAdressRepo {
       );
       final user = ChekeOutOrderModel.fromJson(response);
       log('Adress Id: $adressId');
+      return Right(user);
+    } on NetworkException catch (e) {
+      return Left(NetworkFailure(e.message));
+    } on ServerException catch (e) {
+      return Left(ServerFailure(e.message));
+    }
+  }
+
+  @override
+  Future<Either<Failure, DeleteAdressModel>> deleteAdress({
+    required int adressId,
+  }) async {
+    try {
+      if (!await ConnectivityHelper.connected) {
+        return const Left(NetworkFailure(AppStrings.checkInternetConnection));
+      }
+      final response = await apiService.delete(
+        '${EndPoints.deleteAdress}/$adressId',
+      );
+      log("Delete Adress API Response: $response");
+
+      if (response == null || response['status'] != true) {
+        return Left(
+          ServerFailure(response['message'] ?? 'Delete Adress failed'),
+        );
+      }
+      final user = DeleteAdressModel.fromJson(response);
+      return Right(user);
+    } on NetworkException catch (e) {
+      return Left(NetworkFailure(e.message));
+    } on ServerException catch (e) {
+      return Left(ServerFailure(e.message));
+    }
+  }
+
+  @override
+  Future<Either<Failure, AddToAdressResponseModel>> updateAdress({
+    required int id,
+    required String city,
+    required String center,
+    required String neighborhood,
+    required String street,
+    required String buildingNumber,
+  }) async {
+    try {
+      if (!await ConnectivityHelper.connected) {
+        return const Left(NetworkFailure(AppStrings.checkInternetConnection));
+      }
+      final response = await apiService.post(
+        '${EndPoints.updateAdress}/$id',
+        data: {
+          'city': city,
+          'center': center,
+          'neighborhood': neighborhood,
+          'street': street,
+          'building_number': buildingNumber,
+          '_method': 'PUT',
+        },
+      );
+      final user = AddToAdressResponseModel.fromJson(response);
       return Right(user);
     } on NetworkException catch (e) {
       return Left(NetworkFailure(e.message));

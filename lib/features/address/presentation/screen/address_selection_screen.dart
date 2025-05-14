@@ -24,6 +24,7 @@ class AddressSelectionScreen extends StatefulWidget {
 class _AddressSelectionScreenState extends State<AddressSelectionScreen> {
   int currentStep = 0;
   int? selectedAddressId;
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -34,10 +35,14 @@ class _AddressSelectionScreenState extends State<AddressSelectionScreen> {
             if (state is AllAdressUserLoading) {
               return const Center(child: CircularProgressIndicator());
             }
+
             if (state is AllAdressUserFailure) {
               return Center(child: Text(state.failure.message));
-            } else if (state is AllAdressUserSuccess) {
+            }
+
+            if (state is AllAdressUserSuccess) {
               final allAdressUser = state.getAllAdressUserModel.data;
+
               return SafeArea(
                 child: Padding(
                   padding: REdgeInsets.all(16),
@@ -46,27 +51,82 @@ class _AddressSelectionScreenState extends State<AddressSelectionScreen> {
                       ExactStepperWidget(currentStep: currentStep),
                       verticalSpace(16),
                       Expanded(
-                        child: ListView.builder(
-                          itemCount: allAdressUser!.length,
-                          shrinkWrap: true,
-                          physics: const BouncingScrollPhysics(),
-                          itemBuilder: (context, index) {
-                            return AddressCardWidget(
-                              city: allAdressUser[index].city!,
-                              address:
-                                  '${allAdressUser[index].street}, ${allAdressUser[index].neighborhood}, ${allAdressUser[index].buildingNumber}',
-                              id: allAdressUser[index].id!,
-                              selected:
-                                  selectedAddressId == allAdressUser[index].id,
-                              onTap: () {
-                                setState(() {
-                                  selectedAddressId = allAdressUser[index].id;
-                                });
-                              },
-                            );
-                          },
-                        ),
+                        child: allAdressUser == null || allAdressUser.isEmpty
+                            ? Center(
+                                child: Column(
+                                  mainAxisSize: MainAxisSize.min,
+                                  children: [
+                                    Icon(
+                                      Icons.location_off,
+                                      size: 80.sp,
+                                      color: Colors.orange.withOpacity(0.7),
+                                    ),
+                                    SizedBox(height: 16.h),
+                                    Text(
+                                      'لا توجد عناوين حتى الآن',
+                                      style: TextStyle(
+                                        fontSize: 18.sp,
+                                        fontWeight: FontWeight.w600,
+                                        color: Colors.grey.shade700,
+                                        fontFamily: 'Changa',
+                                      ),
+                                    ),
+                                  ],
+                                ),
+                              )
+                            : ListView.builder(
+                                itemCount: allAdressUser.length,
+                                shrinkWrap: true,
+                                physics: const BouncingScrollPhysics(),
+                                itemBuilder: (context, index) {
+                                  return AddressCardWidget(
+                                    city: allAdressUser[index].city!,
+                                    address:
+                                        '${allAdressUser[index].street}, ${allAdressUser[index].neighborhood}, ${allAdressUser[index].buildingNumber}',
+                                    id: allAdressUser[index].id!,
+                                    onDelete: () {
+                                      context
+                                          .read<AllAdressUserCubit>()
+                                          .deleteAdress(
+                                            adressId:
+                                                allAdressUser[index].id!,
+                                          );
+                                    },
+                                    onEdit: () {
+                                      showDialog(
+                                        context: context,
+                                        builder: (_) => BlocProvider.value(
+                                          value:
+                                              context.read<AllAdressUserCubit>(),
+                                          child: AddNewAddressButtonWidget(
+                                            addressId:
+                                                allAdressUser[index].id,
+                                            city: allAdressUser[index].city ?? '',
+                                            center:
+                                                allAdressUser[index].center ?? '',
+                                            neighborhood:
+                                                allAdressUser[index].neighborhood ?? '',
+                                            street:
+                                                allAdressUser[index].street ?? '',
+                                            building:
+                                                allAdressUser[index].buildingNumber ?? '',
+                                          ),
+                                        ),
+                                      );
+                                    },
+                                    selected: selectedAddressId ==
+                                        allAdressUser[index].id,
+                                    onTap: () {
+                                      setState(() {
+                                        selectedAddressId =
+                                            allAdressUser[index].id;
+                                      });
+                                    },
+                                  );
+                                },
+                              ),
                       ),
+                      verticalSpace(8),
                       AddNewAddressButtonWidget(),
                       verticalSpace(10),
                       Primarybutton(
@@ -98,9 +158,9 @@ class _AddressSelectionScreenState extends State<AddressSelectionScreen> {
                   ),
                 ),
               );
-            } else {
-              return Container();
             }
+
+            return const SizedBox.shrink();
           },
         ),
       ),

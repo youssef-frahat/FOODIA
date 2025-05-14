@@ -19,7 +19,30 @@ class ListViewBuilderCefi extends StatelessWidget {
           final chefs = state.followers.data;
 
           if (chefs == null || chefs.isEmpty) {
-            return const Center(child: Text('لا توجد شيفات لعرضها.'));
+            return Expanded(
+              child: Center(
+                child: Column(
+                  mainAxisSize: MainAxisSize.min,
+                  children: [
+                    Icon(
+                      Icons.group_outlined,
+                      size: 64.sp,
+                      color: Colors.orange,
+                    ),
+                    SizedBox(height: 12.h),
+                    Text(
+                      'لا توجد شيفات لعرضها.',
+                      style: TextStyle(
+                        fontSize: 16.sp,
+                        fontWeight: FontWeight.w600,
+                        color: Colors.orange,
+                        fontFamily: 'Changa',
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+            );
           }
 
           return Expanded(
@@ -35,13 +58,16 @@ class ListViewBuilderCefi extends StatelessWidget {
                     horizontal: 16.w,
                   ),
                   child: GestureDetector(
-                  onTap: () async {
-  final result = await context.push(AppRoutes.followDetails, extra: chef.id);
+                    onTap: () async {
+                      final result = await context.push(
+                        AppRoutes.followDetails,
+                        extra: chef.id,
+                      );
 
-  if (result == true) {
-    context.read<AllFollowersCubit>().fetchFollowers();
-  }
-},
+                      if (result == true) {
+                        context.read<AllFollowersCubit>().fetchFollowers();
+                      }
+                    },
 
                     child: Container(
                       padding: EdgeInsets.symmetric(
