@@ -298,7 +298,7 @@ class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
                                                     details
                                                             .data
                                                             ?.food
-                                                            ?.offerPrice
+                                                            ?.price
                                                             .toString() ??
                                                         '0',
                                                   ) ??
@@ -432,7 +432,7 @@ class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
                                               CrossAxisAlignment.start,
                                           children: [
                                             Text(
-                                              'ج.م${details.data?.food?.offerPrice}',
+                                              'ج.م${details.data?.food?.price}',
                                               style: TextStyle(
                                                 fontSize: 22.sp,
                                                 fontWeight: FontWeight.bold,
@@ -440,7 +440,7 @@ class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
                                               ),
                                             ),
                                             Text(
-                                              'ج.م${details.data?.food?.price}',
+                                              'ج.م${details.data?.food?.offerPrice}',
                                               style: TextStyle(
                                                 decoration:
                                                     TextDecoration.lineThrough,

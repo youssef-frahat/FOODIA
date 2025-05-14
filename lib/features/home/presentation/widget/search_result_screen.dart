@@ -1,45 +1,114 @@
 import 'package:flutter/material.dart';
-import '../../data/model/get_home_foods_model/datum.dart';
-import 'order_card_widget.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:foodia_app/core/app_config/messages.dart';
+import 'package:foodia_app/core/di/dependency_injection.dart';
+import 'package:foodia_app/features/cart/presentation/logic/cubit/add_to_cart_cubit.dart';
+import 'package:foodia_app/features/home/presentation/logic/home_foods/cubit/all_foods_cubit.dart';
+import 'package:foodia_app/features/home/presentation/widget/order_card_widget.dart';
 
-class SearchResultScreen extends StatelessWidget {
-  final String searchQuery;
-  final List<FoodsModel> allFoods;
+class SearchScreen extends StatefulWidget {
+  const SearchScreen({super.key});
 
-  const SearchResultScreen({
-    super.key,
-    required this.searchQuery,
-    required this.allFoods,
-  });
+  @override
+  State<SearchScreen> createState() => _SearchScreenState();
+}
+
+class _SearchScreenState extends State<SearchScreen> {
+  String query = '';
+
+  @override
+  void initState() {
+    super.initState();
+    context.read<AllFoodsCubit>().getAllFoods();
+  }
 
   @override
   Widget build(BuildContext context) {
-    final filteredFoods =
-        allFoods
-            .where(
-              (food) =>
-                  food.name!.toLowerCase().contains(searchQuery.toLowerCase()),
-            )
-            .toList();
-
     return Scaffold(
-      backgroundColor: Colors.white,
       appBar: AppBar(
-        title: Text('نتائج البحث عن "$searchQuery"'),
         backgroundColor: Colors.white,
-        foregroundColor: Colors.black,
-        elevation: 0,
+        elevation: 2,
+        title: TextField(
+          autofocus: true,
+          onChanged: (val) {
+            setState(() {
+              query = val;
+            });
+          },
+          decoration: InputDecoration(
+            hintText: 'ابحث عن وجبة...',
+            prefixIcon: const Icon(Icons.search),
+            border: OutlineInputBorder(
+              borderRadius: BorderRadius.circular(12),
+              borderSide: BorderSide.none,
+            ),
+            fillColor: const Color(0xFFF8F8F8),
+            filled: true,
+            contentPadding: const EdgeInsets.symmetric(vertical: 0),
+          ),
+        ),
       ),
-      body:
-          filteredFoods.isEmpty
-              ? const Center(child: Text('لا توجد نتائج مطابقة'))
-              : ListView.builder(
+      body: BlocProvider(
+        create: (_) => getIt<AddToCartCubit>(),
+        child: BlocBuilder<AllFoodsCubit, AllFoodsState>(
+          builder: (context, state) {
+            if (state is AllFoodsLoading) {
+              return const Center(child: CircularProgressIndicator());
+            }
+
+            if (state is AllFoodsError) {
+              return Center(child: Text(state.error));
+            }
+
+            if (state is AllFoodsLoaded) {
+              final allFoods = state.foods;
+
+              final filteredFoods = allFoods.where(
+                (food) => food.name!.toLowerCase().contains(query.toLowerCase()),
+              ).toList();
+
+              if (query.isEmpty) {
+                return const Center(child: Text('ابدأ بالبحث عن الوجبات 👆'));
+              }
+
+              if (filteredFoods.isEmpty) {
+                return Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    const Icon(Icons.search_off, size: 80, color: Colors.orange),
+                    const SizedBox(height: 16),
+                    const Text(
+                      'لم يتم العثور على نتائج',
+                      style: TextStyle(fontSize: 18, color: Colors.grey),
+                    ),
+                  ],
+                );
+              }
+
+              return ListView.builder(
+                padding: const EdgeInsets.all(12),
                 itemCount: filteredFoods.length,
                 itemBuilder: (context, index) {
                   final food = filteredFoods[index];
-                  return OrderWidget(getHomeFoodsModel: food);
+
+                  return BlocListener<AddToCartCubit, AddToCartState>(
+                    listener: (context, addState) {
+                      if (addState is AddToCartSuccess) {
+                        AppMessages.showSuccess(context, 'تمت الإضافة إلى السلة');
+                      } else if (addState is AddToCartError) {
+                        AppMessages.showError(context, addState.error);
+                      }
+                    },
+                    child: OrderWidget(getHomeFoodsModel: food),
+                  );
                 },
-              ),
+              );
+            }
+
+            return const SizedBox();
+          },
+        ),
+      ),
     );
   }
 }

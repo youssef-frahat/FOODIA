@@ -72,17 +72,17 @@ class RouterGeneration {
             return ProductDetailsScreen(foodId: foodId);
           },
         ),
-        GoRoute(
-          name: AppRoutes.searchResultScreen,
-          path: AppRoutes.searchResultScreen,
-          builder: (context, state) {
-            final data = state.extra as Map<String, dynamic>;
-            final String query = data['query'] as String;
-            final List<FoodsModel> foods = data['foods'] as List<FoodsModel>;
+        // GoRoute(
+        //   name: AppRoutes.searchResultScreen,
+        //   path: AppRoutes.searchResultScreen,
+        //   builder: (context, state) {
+        //     final data = state.extra as Map<String, dynamic>;
+        //     final String query = data['query'] as String;
+        //     final List<FoodsModel> foods = data['foods'] as List<FoodsModel>;
 
-            return SearchResultScreen(searchQuery: query, allFoods: foods);
-          },
-        ),
+        //     return SearchResultScreen(searchQuery: query, allFoods: foods);
+        //   },
+        // ),
 
         GoRoute(
           name: AppRoutes.followDetails,

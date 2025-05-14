@@ -129,7 +129,7 @@ class OrderWidget extends StatelessWidget {
                   ),
                   SizedBox(height: 12.h),
                   Text(
-                    "${getHomeFoodsModel.priceAfter} ج.م",
+                    "${getHomeFoodsModel.priceBefore} ج.م",
                     style: FontStyles.body14W500.copyWith(
                       fontSize: 14.sp,
                       color: const Color(0xFFFE8C00),
@@ -137,7 +137,7 @@ class OrderWidget extends StatelessWidget {
                     textAlign: TextAlign.end,
                   ),
                   Text(
-                    "${getHomeFoodsModel.priceBefore} ج.م",
+                    "${getHomeFoodsModel.priceAfter} ج.م",
                     style: TextStyle(
                       decoration: TextDecoration.lineThrough,
                       fontSize: 12.sp,
