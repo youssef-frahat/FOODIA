@@ -11,6 +11,7 @@ class OrderItemWidget extends StatelessWidget {
   final String price;
   final int quantity;
   final VoidCallback deletOrder;
+  final VoidCallback? onRate; // زرار التقييم
 
   const OrderItemWidget({
     super.key,
@@ -20,19 +21,19 @@ class OrderItemWidget extends StatelessWidget {
     required this.price,
     required this.quantity,
     required this.deletOrder,
+    this.onRate,  // اضفت الاختياري هنا
   });
 
   Map<String, Map<String, dynamic>> get statusMapping => {
-    'pending': {'text': 'قيد الانتظار ', 'color': Colors.orange},
-    'cancelled': {'text': 'ملغاة', 'color': Colors.red},
-    'prepared': {'text': 'مكتمل', 'color': Colors.green},
-    'preparing': {'text': 'قيد التحضير', 'color': const Color(0xFF0E83F9)},
+    'pending': {'text': 'قيد الانتظار', 'color': Colors.orange},
+    'accept': {'text': 'قيد التحضير', 'color': const Color(0xFF0E83F9)},
+    'complete': {'text': 'تم التجهيز', 'color': Colors.green},
+    'reject': {'text': 'ملغاة', 'color': Colors.red},
   };
 
   @override
   Widget build(BuildContext context) {
-    final mapped =
-        statusMapping[status] ?? {'text': status, 'color': Colors.black};
+    final mapped = statusMapping[status.toLowerCase()] ?? {'text': status, 'color': Colors.black};
 
     final statusText = mapped['text'] as String;
     final statusColor = mapped['color'] as Color;
@@ -125,8 +126,8 @@ class OrderItemWidget extends StatelessWidget {
                     'الكمية: $quantity',
                     style: TextStyle(fontSize: 14.sp, color: Colors.grey[600]),
                   ),
-                  if (status == 'pending') ...[
-                    verticalSpace(10),
+                  verticalSpace(10),
+                  if (status.toLowerCase() == 'pending') 
                     Align(
                       alignment: Alignment.centerRight,
                       child: Primarybutton(
@@ -137,8 +138,19 @@ class OrderItemWidget extends StatelessWidget {
                         width: 120.w,
                         onpress: deletOrder,
                       ),
+                    )
+                  else if (status.toLowerCase() == 'complete')
+                    Align(
+                      alignment: Alignment.centerRight,
+                      child: Primarybutton(
+                        borderrediuse: 30.r,
+                        buttoncolor: Colors.green,
+                        buttontext: 'تقييم',
+                        fontsize: 12.sp,
+                        width: 120.w,
+                        onpress: onRate ?? () {}, 
+                      ),
                     ),
-                  ],
                 ],
               ),
             ),

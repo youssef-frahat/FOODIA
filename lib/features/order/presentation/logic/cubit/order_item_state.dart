@@ -4,7 +4,7 @@ sealed class OrderItemState extends Equatable {
   const OrderItemState();
 
   @override
-  List<Object> get props => [];
+  List<Object?> get props => [];
 }
 
 final class OrderItemInitial extends OrderItemState {}
@@ -16,12 +16,15 @@ final class OrderItemLoaded extends OrderItemState {
   const OrderItemLoaded(this.order);
 
   @override
-  List<Object> get props => [order];
+  List<Object?> get props => [order];
 }
 
 final class OrderItemError extends OrderItemState {
   final String message;
   const OrderItemError(this.message);
+
+  @override
+  List<Object?> get props => [message];
 }
 
 //! cancel order
@@ -29,11 +32,46 @@ final class OrderItemError extends OrderItemState {
 final class OrderItemCancelSuccess extends OrderItemState {
   final CanseleOrderModel canseleOrderModel;
   const OrderItemCancelSuccess(this.canseleOrderModel);
+
+  @override
+  List<Object?> get props => [canseleOrderModel];
 }
 
 final class OrderItemCancelError extends OrderItemState {
   final String message;
   const OrderItemCancelError(this.message);
+
+  @override
+  List<Object?> get props => [message];
 }
 
 final class OrderItemCancelLoading extends OrderItemState {}
+
+
+// ** Review states **
+
+final class OrderItemReviewLoading extends OrderItemState {}
+
+final class OrderItemReviewSuccess extends OrderItemState {
+  final ReviewOrderModel reviewOrderModel;
+  const OrderItemReviewSuccess(this.reviewOrderModel);
+
+  @override
+  List<Object?> get props => [reviewOrderModel];
+}
+
+final class OrderItemReviewError extends OrderItemState {
+  final String message;
+  const OrderItemReviewError(this.message);
+
+  @override
+  List<Object?> get props => [message];
+}
+
+final class OrderItemReviewAlreadyDone extends OrderItemState {
+  final String message;
+  const OrderItemReviewAlreadyDone(this.message);
+
+  @override
+  List<Object?> get props => [message];
+}
