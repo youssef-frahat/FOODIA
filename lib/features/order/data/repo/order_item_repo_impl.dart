@@ -10,7 +10,7 @@ import '../../../../core/app_config/app_strings.dart';
 import '../../../../core/errors/exceptions.dart';
 import '../../../../core/networking/api/end_points.dart' show EndPoints;
 import '../model/get_all_order_response_model/get_all_order_response_model.dart';
-import '../model/review_order_model/review_order_model.dart';
+import '../../../home/data/model/review_order_model/review_order_model.dart';
 import 'order_item_repo.dart';
 
 class OrderItemRepoImpl implements OrderItemRepo {

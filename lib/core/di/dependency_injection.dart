@@ -24,10 +24,10 @@ import '../../features/home/data/repo/get_all_home_repo_impl.dart';
 import '../../features/home/data/repo/special_offer_repo/special_offer_repo_impl.dart';
 import '../../features/home/presentation/logic/get_all_categorys_logic/cubit/get_all_categorys_cubit.dart';
 import '../../features/home/presentation/logic/home_foods/cubit/all_foods_cubit.dart';
+import '../../features/home/presentation/logic/reviews/cubit/reviews_cubit.dart';
 import '../../features/home/presentation/logic/special_offer/cubit/special_offer_cubit.dart';
 import '../../features/order/data/repo/order_item_repo_impl.dart';
 import '../../features/order/presentation/logic/cubit/order_item_cubit.dart';
-import '../../features/order/presentation/reviews/cubit/review_button_cubit.dart';
 import '../../features/profile/data/repo/get_user_profile_repo_impl.dart';
 import '../../features/profile/presentation/logic/cubit/user_profile_cubit.dart';
 import '../../features/wallet/data/repo/walet_repo_impl.dart';
@@ -108,7 +108,7 @@ void _initCubits() {
   getIt.registerFactory<SpecialOfferCubit>(() => SpecialOfferCubit(getIt()));
   getIt.registerFactory<OrderCubit>(() => OrderCubit(getIt()));
   getIt.registerFactory<ChekeOutCubit>(() => ChekeOutCubit(getIt()));
-  getIt.registerFactory<ReviewButtonCubit>(() => ReviewButtonCubit(getIt()));
+  getIt.registerFactory<ReviewsCubit>(() => ReviewsCubit(getIt()));
   getIt.registerFactory<PayMentOrderCubit>(() => PayMentOrderCubit(getIt()));
   getIt.registerFactory<UnFollowChefCubit>(() => UnFollowChefCubit(getIt()));
   getIt.registerFactory<ForgetPasswordCubit>(
