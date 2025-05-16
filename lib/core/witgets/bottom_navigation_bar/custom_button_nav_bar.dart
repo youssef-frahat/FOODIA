@@ -1,37 +1,52 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:go_router/go_router.dart';
 
-import '../../../features/profile/presentation/screen/profile_screen.dart';
 import '../../app_config/app_icons.dart';
-import '../../../features/home/presentation/screens/home_screen.dart';
+import '../../routing/app_routes.dart';
 
-class BottomNavBar extends StatefulWidget {
-  const BottomNavBar({super.key});
-
-  @override
-  State<BottomNavBar> createState() => _BottomNavBarState();
-}
-
-class _BottomNavBarState extends State<BottomNavBar> {
-  int _selectedIndex = 0;
-
-  final List<Widget> _screens = [
-    const HomeScreen(),
-    const SizedBox(),
-    const SizedBox(),
-    const SizedBox(),
-    const ProfileScreen(),
-  ];
-
-  void _onItemTapped(int index) {
-    setState(() => _selectedIndex = index);
-  }
+class BottomNavBar extends StatelessWidget {
+  final Widget child;
+  const BottomNavBar({super.key, required this.child});
 
   @override
   Widget build(BuildContext context) {
+    final String location = GoRouterState.of(context).uri.toString();
+
+    int getCurrentIndex() {
+      if (location.startsWith(AppRoutes.home)) return 0;
+      if (location.startsWith(AppRoutes.follow)) return 1;
+      if (location.startsWith(AppRoutes.orderScreen)) return 2;
+      if (location.startsWith(AppRoutes.wallet)) return 3;
+      if (location.startsWith(AppRoutes.profileScreen)) return 4;
+      return 0;
+    }
+
+    void onItemTapped(int index) {
+      switch (index) {
+        case 0:
+          context.go(AppRoutes.home);
+          break;
+        case 1:
+          context.go(AppRoutes.follow);
+          break;
+        case 2:
+          context.go(AppRoutes.orderScreen);
+          break;
+        case 3:
+          context.go(AppRoutes.wallet);
+          break;
+        case 4:
+          context.go(AppRoutes.profileScreen);
+          break;
+      }
+    }
+
+    final currentIndex = getCurrentIndex();
+
     return Scaffold(
-      body: _screens[_selectedIndex],
+      body: child,
       bottomNavigationBar: Container(
         height: 70.h,
         decoration: const BoxDecoration(
@@ -46,17 +61,17 @@ class _BottomNavBarState extends State<BottomNavBar> {
           mainAxisAlignment: MainAxisAlignment.spaceAround,
           children: List.generate(_navItems.length, (index) {
             final item = _navItems[index];
-            final isSelected = index == _selectedIndex;
+            final isSelected = index == currentIndex;
 
             return GestureDetector(
-              onTap: () => _onItemTapped(index),
+              onTap: () => onItemTapped(index),
               child: Column(
                 mainAxisSize: MainAxisSize.min,
                 children: [
                   SvgPicture.asset(
                     item['icon']!,
-                    width: isSelected ? 24 : 24,
-                    height: isSelected ? 24 : 24,
+                    width: 24,
+                    height: 24,
                     colorFilter: ColorFilter.mode(
                       isSelected ? Colors.orange : Colors.grey,
                       BlendMode.srcIn,
@@ -67,12 +82,10 @@ class _BottomNavBarState extends State<BottomNavBar> {
                     item['label']!,
                     style: TextStyle(
                       color: isSelected ? Colors.orange : Colors.grey,
-
                       fontSize: isSelected ? 14.sp : 12.sp,
                     ),
                   ),
                   const SizedBox(height: 4),
-                  // Indicator bar
                   AnimatedContainer(
                     duration: const Duration(milliseconds: 200),
                     height: 3,
@@ -93,7 +106,7 @@ class _BottomNavBarState extends State<BottomNavBar> {
 
   List<Map<String, String>> get _navItems => [
     {'icon': AppIcons.home, 'label': 'الرئيسية'},
-    {'icon': AppIcons.approved, 'label': 'اتابعة'},
+    {'icon': AppIcons.approved, 'label': 'المتابعة'},
     {'icon': AppIcons.cart, 'label': 'طلباتي'},
     {'icon': AppIcons.wallet, 'label': 'المحفظة'},
     {'icon': AppIcons.profile, 'label': 'حسابي'},

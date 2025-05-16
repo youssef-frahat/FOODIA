@@ -4,7 +4,6 @@ import '../../../../../core/errors/failures.dart';
 import '../model/otp_response_model.dart';
 
 abstract class OtpUserRepo {
-
   Future<Either<Failure, OtpResponseModel>> sendOtp({
     required String phoneNumber,
   });

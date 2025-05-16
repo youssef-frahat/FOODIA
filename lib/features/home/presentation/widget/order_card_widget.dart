@@ -1,8 +1,13 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:go_router/go_router.dart';
+
 import '../../../../core/app_config/font_styles.dart';
 import '../../../../core/app_config/image_urls.dart';
+import '../../../../core/routing/app_routes.dart';
+import '../../../cart/presentation/logic/cubit/add_to_cart_cubit.dart';
 import '../../data/model/get_home_foods_model/datum.dart';
 
 class OrderWidget extends StatelessWidget {
@@ -21,6 +26,7 @@ class OrderWidget extends StatelessWidget {
       ),
       child: Row(
         children: [
+          // ✅ Column with chef & plus button
           Expanded(
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
@@ -42,92 +48,120 @@ class OrderWidget extends StatelessWidget {
                     fontSize: 12.sp,
                     color: const Color(0xFF20402A),
                   ),
-                  textAlign: TextAlign.start, 
                 ),
                 SizedBox(height: 16.h),
-                Container(
-                  decoration: const BoxDecoration(
-                    color: Colors.black,
-                    shape: BoxShape.circle,
-                  ),
-                  padding: EdgeInsets.symmetric(horizontal: 15.w),
-                  child: Icon(Icons.add, color: Colors.white, size: 20.sp),
-                ),
-              ],
-            ),
-          ),
 
-          SizedBox(width: 12.w),
-
-          CachedNetworkImage(
-            imageUrl: "$imageUrl${getHomeFoodsModel.image ?? ''}",
-            width: 100.w,
-            height: 100.h,
-            fit: BoxFit.cover,
-            placeholder: (context, url) => Container(
-              width: 100.w,
-              height: 100.h,
-              alignment: Alignment.center,
-              child: const CircularProgressIndicator(),
-            ),
-            errorWidget: (context, url, error) => Container(
-              width: 100.w,
-              height: 100.h,
-              color: Colors.grey[300],
-              child: const Icon(Icons.broken_image),
-            ),
-          ),
-
-          SizedBox(width: 12.w),
-
-          Expanded(
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.end, 
-              mainAxisSize: MainAxisSize.min,
-              children: [
-                Text(
-                  getHomeFoodsModel.name ?? "",
-                  style: FontStyles.body14W500.copyWith(
-                    fontSize: 16.sp,
-                    fontWeight: FontWeight.bold,
-                  ),
-                  textAlign: TextAlign.end,  
-                ),
-                SizedBox(height: 12.h),
-                Text(
-                  "${getHomeFoodsModel.priceAfter} ج.م",
-                  style: FontStyles.body14W500.copyWith(
-                    fontSize: 14.sp,
-                    color: const Color(0xFFFE8C00),
-                  ),
-                  textAlign: TextAlign.end, 
-                ),
-
-                Text(
-                  "${getHomeFoodsModel.priceBefore} ج.م",
-                  style: TextStyle(
-                    decoration: TextDecoration.lineThrough,
-                    fontSize: 12.sp,
-                    color: Colors.grey[400],
-                  ),
-                  textAlign: TextAlign.end,  
-                ),
-                SizedBox(height: 15.h),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.end,
-                  children: [
-                    Text(
-                      getHomeFoodsModel.rate ?? "",
-                      style: TextStyle(
-                        fontSize: 13.sp,
-                        fontWeight: FontWeight.w500,
-                      ),
+                // ✅ ADD BUTTON
+                GestureDetector(
+                  onTap: () {
+                    context.read<AddToCartCubit>().addToCart(
+                      foodId: getHomeFoodsModel.id ?? 0,
+                      quantity: 1,
+                    );
+                  },
+                  child: Container(
+                    decoration: const BoxDecoration(
+                      color: Colors.black,
+                      shape: BoxShape.circle,
                     ),
-                    SizedBox(width: 4.w),
-                    Icon(Icons.star, size: 18.sp, color: Colors.orange),
-                  ],
+                    padding: EdgeInsets.symmetric(horizontal: 15.w),
+                    child: Icon(Icons.add, color: Colors.white, size: 20.sp),
+                  ),
                 ),
               ],
+            ),
+          ),
+
+          SizedBox(width: 12.w),
+
+          // ✅ Product image with tap to details
+          GestureDetector(
+            onTap: () {
+              context.push(
+                AppRoutes.detailsScreen,
+                extra: getHomeFoodsModel.id,
+              );
+            },
+            child: CachedNetworkImage(
+              imageUrl: "$imageUrl${getHomeFoodsModel.image ?? ''}",
+              width: 100.w,
+              height: 100.h,
+              fit: BoxFit.cover,
+              placeholder:
+                  (context, url) => Container(
+                    width: 100.w,
+                    height: 100.h,
+                    alignment: Alignment.center,
+                    child: const CircularProgressIndicator(),
+                  ),
+              errorWidget:
+                  (context, url, error) => Container(
+                    width: 100.w,
+                    height: 100.h,
+                    color: Colors.grey[300],
+                    child: const Icon(Icons.broken_image),
+                  ),
+            ),
+          ),
+
+          SizedBox(width: 12.w),
+
+          // ✅ Product details with tap to details
+          Expanded(
+            child: GestureDetector(
+              onTap: () {
+                context.push(
+                  AppRoutes.detailsScreen,
+                  extra: getHomeFoodsModel.id,
+                );
+              },
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.end,
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  Text(
+                    getHomeFoodsModel.name ?? "",
+                    style: FontStyles.body14W500.copyWith(
+                      fontSize: 16.sp,
+                      fontWeight: FontWeight.bold,
+                    ),
+                    textAlign: TextAlign.end,
+                  ),
+                  SizedBox(height: 12.h),
+                  Text(
+                    "${getHomeFoodsModel.priceBefore} ج.م",
+                    style: FontStyles.body14W500.copyWith(
+                      fontSize: 14.sp,
+                      color: const Color(0xFFFE8C00),
+                    ),
+                    textAlign: TextAlign.end,
+                  ),
+                  Text(
+                    "${getHomeFoodsModel.priceAfter} ج.م",
+                    style: TextStyle(
+                      decoration: TextDecoration.lineThrough,
+                      fontSize: 12.sp,
+                      color: Colors.grey[400],
+                    ),
+                    textAlign: TextAlign.end,
+                  ),
+                  SizedBox(height: 15.h),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.end,
+                    children: [
+                      Text(
+                        getHomeFoodsModel.rate ?? "",
+                        style: TextStyle(
+                          fontSize: 13.sp,
+                          fontWeight: FontWeight.w500,
+                        ),
+                      ),
+                      SizedBox(width: 4.w),
+                      Icon(Icons.star, size: 18.sp, color: Colors.orange),
+                    ],
+                  ),
+                ],
+              ),
             ),
           ),
         ],

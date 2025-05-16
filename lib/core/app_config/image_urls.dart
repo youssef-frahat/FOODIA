@@ -1,1 +1,1 @@
-final String imageUrl = "https://mangamediaa.com/house-food/public/";
+const String imageUrl = "https://mangamediaa.com/house-food/public/";

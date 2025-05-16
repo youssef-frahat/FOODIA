@@ -17,7 +17,6 @@ class OtpUserRepoImpl implements OtpUserRepo {
 
   OtpUserRepoImpl(this.apiService);
   @override
-  @override
   Future<Either<Failure, OtpResponseModel>> verifyOtp({
     required String phoneNumber,
     required String otpCode,
@@ -32,12 +31,20 @@ class OtpUserRepoImpl implements OtpUserRepo {
         data: {'phone': phoneNumber, 'otp': otpCode},
       );
       log('OTP Verification Response: $response');
-      return Right(OtpResponseModel.fromJson(response));
+
+      if (response['status'] == true) {
+        return Right(OtpResponseModel.fromJson(response));
+      } else {
+        return Left(
+          ServerFailure(response['message'] ?? AppStrings.unexpectedError),
+        );
+      }
     } on NetworkException catch (e) {
       return Left(NetworkFailure(e.message));
     } on ServerException catch (e) {
       return Left(ServerFailure(e.message));
     } catch (e) {
+      log('Unexpected error in verifyOtp: $e');
       return Left(ServerFailure(AppStrings.unexpectedError));
     }
   }
@@ -56,7 +63,7 @@ class OtpUserRepoImpl implements OtpUserRepo {
         data: {'phone': phoneNumber},
       );
 
-      if (response['status'] == 'success' && response['message'] != null) {
+      if (response['status'] == true && response['message'] != null) {
         log('OTP Sent Successfully: ${response['message']}');
         return Right(OtpResponseModel.fromJson(response));
       } else {

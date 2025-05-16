@@ -1,22 +1,24 @@
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_native_splash/flutter_native_splash.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:foodia_app/core/routing/router_generation.dart';
-import 'package:shared_preferences/shared_preferences.dart';
 
 import 'core/di/dependency_injection.dart';
 import 'core/locale/locales.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 
-late final bool isLoggedIn; // متغير عام لتحديد حالة الدخول
+import 'features/wallet/presentation/logic/cubit/get_balance_cubit.dart';
+
+late final bool isLoggedIn;
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
+  WidgetsBinding widgetsBinding = WidgetsFlutterBinding.ensureInitialized();
   await setupGetIt();
   await EasyLocalization.ensureInitialized();
-
-  final prefs = await SharedPreferences.getInstance();
-  isLoggedIn = prefs.getBool('isLoggedIn') ?? false;
-
+  FlutterNativeSplash.preserve(widgetsBinding: widgetsBinding);
+  FlutterNativeSplash.remove();
   runApp(
     EasyLocalization(
       startLocale: AppLocales.supportedLocales.first,
@@ -33,25 +35,28 @@ class Foodia extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final router = RouterGeneration.generateRouter(
-      isLoggedIn,
-    ); // نمرر حالة الدخول
+    final router = RouterGeneration.generateRouter();
     return ScreenUtilInit(
       designSize: const Size(460, 926),
       minTextAdapt: true,
       builder: (context, child) {
-        return MaterialApp.router(
-          debugShowCheckedModeBanner: false,
-          localizationsDelegates: context.localizationDelegates,
-          supportedLocales: context.supportedLocales,
-          locale: context.locale,
-          title: 'Foodia',
-          theme: ThemeData(
-            fontFamily: 'Changa',
-            scaffoldBackgroundColor: const Color(0xFFF8F8F8),
-            appBarTheme: const AppBarTheme(backgroundColor: Color(0xFFF8F8F8)),
+        return BlocProvider<GetBalanceCubit>(
+          create: (context) => getIt<GetBalanceCubit>(),
+          child: MaterialApp.router(
+            debugShowCheckedModeBanner: false,
+            localizationsDelegates: context.localizationDelegates,
+            supportedLocales: context.supportedLocales,
+            locale: context.locale,
+            title: 'Foodia',
+            theme: ThemeData(
+              fontFamily: 'Changa',
+              scaffoldBackgroundColor: const Color(0xFFF8F8F8),
+              appBarTheme: const AppBarTheme(
+                backgroundColor: Color(0xFFF8F8F8),
+              ),
+            ),
+            routerConfig: router,
           ),
-          routerConfig: router,
         );
       },
     );

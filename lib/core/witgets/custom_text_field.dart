@@ -38,7 +38,7 @@ class _MyTextFormFieldState extends State<MyTextFormField> {
   @override
   void initState() {
     super.initState();
-    _obscureText = widget.isPassword; 
+    _obscureText = widget.isPassword;
   }
 
   void _toggleObscure() {
@@ -66,16 +66,20 @@ class _MyTextFormFieldState extends State<MyTextFormField> {
         hintStyle: FontStyles.body14W500.copyWith(
           color: AppColors.secoundrycolor,
         ),
-        contentPadding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
-        suffixIcon: widget.isPassword
-            ? IconButton(
-                icon: Icon(
-                  _obscureText ? Icons.visibility_off : Icons.visibility,
-                  color: Colors.grey,
-                ),
-                onPressed: _toggleObscure,
-              )
-            : null,
+        contentPadding: const EdgeInsets.symmetric(
+          horizontal: 16,
+          vertical: 12,
+        ),
+        suffixIcon:
+            widget.isPassword
+                ? IconButton(
+                  icon: Icon(
+                    _obscureText ? Icons.visibility_off : Icons.visibility,
+                    color: Colors.grey,
+                  ),
+                  onPressed: _toggleObscure,
+                )
+                : null,
         enabledBorder: OutlineInputBorder(
           borderRadius: BorderRadius.circular(16.0),
           borderSide: const BorderSide(color: Colors.orange, width: 2.0),
@@ -92,10 +96,7 @@ class _MyTextFormFieldState extends State<MyTextFormField> {
           borderRadius: BorderRadius.circular(16.0),
           borderSide: const BorderSide(color: Colors.orange, width: 2.0),
         ),
-        errorStyle: const TextStyle(
-          color: Colors.red,
-          fontSize: 12,
-        ),
+        errorStyle: const TextStyle(color: Colors.red, fontSize: 12),
       ),
     );
   }

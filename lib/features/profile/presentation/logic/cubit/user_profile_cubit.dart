@@ -38,20 +38,14 @@ class UserProfileCubit extends Cubit<UserProfileState> {
     }
   }
 
-
   Future<void> logout() async {
     emit(LogoutLoading());
     final result = await getUserProfileRepo.logout();
-    result.fold(
-      (failure) => emit(
-        LogoutError(failure.message),
-      ),
-      (success) {
-        emit(LogoutSuccess());
-        SecureLocalStorage.delete(PrefsKeys.user);
-        SecureLocalStorage.delete(PrefsKeys.token);
-      },
-    );
+    result.fold((failure) => emit(LogoutError(failure.message)), (success) {
+      emit(LogoutSuccess());
+      SecureLocalStorage.delete(PrefsKeys.user);
+      SecureLocalStorage.delete(PrefsKeys.token);
+    });
   }
 
   Future<void> updateUserProfile({
@@ -77,22 +71,22 @@ class UserProfileCubit extends Cubit<UserProfileState> {
       );
 
       if (isClosed) return;
-    result.fold(
-      (failure) {
-        if (isClosed) return;
-        emit(EditeUserProfileError(failure.message));
-        log('Error updating user profile: ${failure.message}');
-      },
-      (userProfile) {
-        if (isClosed) return;
-        emit(EditeUserProfileSuccess(userProfile));
-        log('User profile updated successfully');
-      },
-    );
-  } catch (e) {
-    if (isClosed) return;
-    emit(EditeUserProfileError('Unexpected error: ${e.toString()}'));
-    log('Unexpected error: $e');
-  }
+      result.fold(
+        (failure) {
+          if (isClosed) return;
+          emit(EditeUserProfileError(failure.message));
+          log('Error updating user profile: ${failure.message}');
+        },
+        (userProfile) {
+          if (isClosed) return;
+          emit(EditeUserProfileSuccess(userProfile));
+          log('User profile updated successfully');
+        },
+      );
+    } catch (e) {
+      if (isClosed) return;
+      emit(EditeUserProfileError('Unexpected error: ${e.toString()}'));
+      log('Unexpected error: $e');
+    }
   }
 }

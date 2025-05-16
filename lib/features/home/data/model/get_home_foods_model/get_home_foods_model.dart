@@ -1,32 +1,31 @@
 import 'package:equatable/equatable.dart';
 
-import 'datum.dart';
+import 'data.dart';
 
 class GetHomeFoodsModel extends Equatable {
-	final bool? status;
-	final String? message;
-	final List<FoodsModel>? data;
+  final bool? status;
+  final String? message;
+  final Data? data;
 
-	const GetHomeFoodsModel({this.status, this.message, this.data});
+  const GetHomeFoodsModel({this.status, this.message, this.data});
 
-	factory GetHomeFoodsModel.fromJson(Map<String, dynamic> json) {
-		return GetHomeFoodsModel(
-			status: json['status'] as bool?,
-			message: json['message'] as String?,
-			data: (json['data'] as List<dynamic>?)
-						?.map((e) => FoodsModel.fromJson(e as Map<String, dynamic>))
-						.toList(),
-		);
-	}
+  factory GetHomeFoodsModel.fromJson(Map<String, dynamic> json) {
+    return GetHomeFoodsModel(
+      status: json['status'] as bool?,
+      message: json['message'] as String?,
+      data:
+          json['data'] == null
+              ? null
+              : Data.fromJson(json['data'] as Map<String, dynamic>),
+    );
+  }
 
+  Map<String, dynamic> toJson() => {
+    'status': status,
+    'message': message,
+    'data': data?.toJson(),
+  };
 
-
-	Map<String, dynamic> toJson() => {
-				'status': status,
-				'message': message,
-				'data': data?.map((e) => e.toJson()).toList(),
-			};
-
-	@override
-	List<Object?> get props => [status, message, data];
+  @override
+  List<Object?> get props => [status, message, data];
 }

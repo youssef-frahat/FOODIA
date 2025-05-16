@@ -9,12 +9,14 @@ import '../../../../../../core/app_config/app_colors.dart';
 import '../../../../../../core/app_config/font_styles.dart';
 
 class CustomPinput extends StatelessWidget {
+  final TextEditingController _otpController;
+  final void Function(String)? onChanged; // ⬅️ أضف هذا السطر
+
   const CustomPinput({
     super.key,
     required TextEditingController otpController,
+    this.onChanged,
   }) : _otpController = otpController;
-
-  final TextEditingController _otpController;
 
   @override
   Widget build(BuildContext context) {
@@ -23,13 +25,12 @@ class CustomPinput extends StatelessWidget {
       child: Pinput(
         length: 4,
         controller: _otpController,
+        onChanged: onChanged,
         defaultPinTheme: PinTheme(
           height: 74.h,
           width: 74.w,
           decoration: BoxDecoration(
-            border: Border.all(
-              color: AppColors.primarycolor,
-            ),
+            border: Border.all(color: AppColors.primarycolor),
             color: AppColors.secoundrycolor,
             borderRadius: BorderRadius.circular(8).r,
           ),
@@ -42,9 +43,7 @@ class CustomPinput extends StatelessWidget {
           height: 74.h,
           width: 74.w,
           decoration: BoxDecoration(
-            border: Border.all(
-              color: AppColors.primarycolor,
-            ),
+            border: Border.all(color: AppColors.primarycolor),
             color: AppColors.primarycolor,
             borderRadius: BorderRadius.circular(8).r,
           ),
@@ -56,10 +55,7 @@ class CustomPinput extends StatelessWidget {
         ),
         preFilledWidget: Text(
           '0',
-          style: TextStyle(
-            color: AppColors.primarycolor,
-            fontSize: 32.sp,
-          ),
+          style: TextStyle(color: AppColors.primarycolor, fontSize: 32.sp),
         ),
         keyboardType: const TextInputType.numberWithOptions(decimal: true),
       ),
