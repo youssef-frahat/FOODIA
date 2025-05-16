@@ -11,7 +11,6 @@ class OrderItemWidget extends StatelessWidget {
   final String price;
   final int quantity;
   final VoidCallback deletOrder;
-  final VoidCallback? onRate; // زرار التقييم
 
   const OrderItemWidget({
     super.key,
@@ -21,7 +20,7 @@ class OrderItemWidget extends StatelessWidget {
     required this.price,
     required this.quantity,
     required this.deletOrder,
-    this.onRate,  // اضفت الاختياري هنا
+  
   });
 
   Map<String, Map<String, dynamic>> get statusMapping => {
@@ -139,18 +138,6 @@ class OrderItemWidget extends StatelessWidget {
                         onpress: deletOrder,
                       ),
                     )
-                  else if (status.toLowerCase() == 'complete')
-                    Align(
-                      alignment: Alignment.centerRight,
-                      child: Primarybutton(
-                        borderrediuse: 30.r,
-                        buttoncolor: Colors.green,
-                        buttontext: 'تقييم',
-                        fontsize: 12.sp,
-                        width: 120.w,
-                        onpress: onRate ?? () {}, 
-                      ),
-                    ),
                 ],
               ),
             ),
