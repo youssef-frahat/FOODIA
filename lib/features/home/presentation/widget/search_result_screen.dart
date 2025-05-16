@@ -68,7 +68,7 @@ class _SearchScreenState extends State<SearchScreen> {
               ).toList();
 
               if (query.isEmpty) {
-                return const Center(child: Text('ابدأ بالبحث عن الوجبات 👆'));
+                return  Center(child: Image.asset('assets/images/search.png', fit: BoxFit.fill, height: 300, width: 300,));
               }
 
               if (filteredFoods.isEmpty) {
@@ -77,9 +77,11 @@ class _SearchScreenState extends State<SearchScreen> {
                   children: [
                     const Icon(Icons.search_off, size: 80, color: Colors.orange),
                     const SizedBox(height: 16),
-                    const Text(
-                      'لم يتم العثور على نتائج',
-                      style: TextStyle(fontSize: 18, color: Colors.grey),
+                    Center(
+                      child: const Text(
+                        'لم يتم العثور على نتائج',
+                        style: TextStyle(fontSize: 18, color: Colors.grey),
+                      ),
                     ),
                   ],
                 );

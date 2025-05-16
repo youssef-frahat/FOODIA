@@ -48,30 +48,3 @@ final class OrderItemCancelError extends OrderItemState {
 final class OrderItemCancelLoading extends OrderItemState {}
 
 
-// ** Review states **
-
-final class OrderItemReviewLoading extends OrderItemState {}
-
-final class OrderItemReviewSuccess extends OrderItemState {
-  final ReviewOrderModel reviewOrderModel;
-  const OrderItemReviewSuccess(this.reviewOrderModel);
-
-  @override
-  List<Object?> get props => [reviewOrderModel];
-}
-
-final class OrderItemReviewError extends OrderItemState {
-  final String message;
-  const OrderItemReviewError(this.message);
-
-  @override
-  List<Object?> get props => [message];
-}
-
-final class OrderItemReviewAlreadyDone extends OrderItemState {
-  final String message;
-  const OrderItemReviewAlreadyDone(this.message);
-
-  @override
-  List<Object?> get props => [message];
-}

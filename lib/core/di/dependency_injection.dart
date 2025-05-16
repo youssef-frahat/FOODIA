@@ -27,6 +27,7 @@ import '../../features/home/presentation/logic/home_foods/cubit/all_foods_cubit.
 import '../../features/home/presentation/logic/special_offer/cubit/special_offer_cubit.dart';
 import '../../features/order/data/repo/order_item_repo_impl.dart';
 import '../../features/order/presentation/logic/cubit/order_item_cubit.dart';
+import '../../features/order/presentation/reviews/cubit/review_button_cubit.dart';
 import '../../features/profile/data/repo/get_user_profile_repo_impl.dart';
 import '../../features/profile/presentation/logic/cubit/user_profile_cubit.dart';
 import '../../features/wallet/data/repo/walet_repo_impl.dart';
@@ -36,7 +37,7 @@ import '../networking/api/api_services.dart';
 final getIt = GetIt.instance;
 
 Future<void> setupGetIt() async {
-  await _initExternals(); // تعديل مهم هنا: أصبحت async
+  await _initExternals(); 
   _initRepositories();
   _initCubits();
 }
@@ -107,6 +108,7 @@ void _initCubits() {
   getIt.registerFactory<SpecialOfferCubit>(() => SpecialOfferCubit(getIt()));
   getIt.registerFactory<OrderCubit>(() => OrderCubit(getIt()));
   getIt.registerFactory<ChekeOutCubit>(() => ChekeOutCubit(getIt()));
+  getIt.registerFactory<ReviewButtonCubit>(() => ReviewButtonCubit(getIt()));
   getIt.registerFactory<PayMentOrderCubit>(() => PayMentOrderCubit(getIt()));
   getIt.registerFactory<UnFollowChefCubit>(() => UnFollowChefCubit(getIt()));
   getIt.registerFactory<ForgetPasswordCubit>(

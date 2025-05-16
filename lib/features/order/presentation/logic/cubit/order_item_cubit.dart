@@ -3,7 +3,6 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 
 import '../../../data/model/cansele_order_model.dart';
 import '../../../data/model/get_all_order_response_model/get_all_order_response_model.dart';
-import '../../../data/model/review_order_model/review_order_model.dart';
 import '../../../data/repo/order_item_repo_impl.dart';
 
 part 'order_item_state.dart';
@@ -31,26 +30,5 @@ class OrderItemCubit extends Cubit<OrderItemState> {
   }
 
 
- Future<void> reviewsOrder({
-    required int foodId,
-    required String star,
-    required String? comment,
-  }) async {
-    emit(OrderItemReviewLoading());
-    final response = await orderItemRepoImpl.reviewsOrder(
-      foodId: foodId,
-      star: star,
-      comment: comment,
-    );
-    response.fold(
-      (failure) => emit(OrderItemReviewError(failure.message)),
-      (reviewResult) {
-        if (reviewResult.message!.toLowerCase().contains('already')) {
-          emit(OrderItemReviewAlreadyDone(reviewResult.message.toString()));
-        } else {
-          emit(OrderItemReviewSuccess(reviewResult));
-        }
-      },
-    );
-  }
+ 
 }
