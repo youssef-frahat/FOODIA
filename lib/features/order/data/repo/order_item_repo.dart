@@ -11,9 +11,9 @@ abstract class OrderItemRepo {
     required int orderId,
   });
 
-    Future<Either<Failure, ReviewOrderModel>> reviewsOrder({
-    required int foodId,
-    required String star,
-    required String? comment,
-  });
+  //   Future<Either<Failure, ReviewOrderModel>> reviewsOrder({
+  //   required int foodId,
+  //   required String star,
+  //   required String? comment,
+  // });
 }

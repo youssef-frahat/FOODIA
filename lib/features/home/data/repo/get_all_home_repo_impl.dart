@@ -7,6 +7,7 @@ import 'package:foodia_app/features/home/data/model/review_order_model/review_or
 import '../../../../core/app_config/app_strings.dart';
 import '../../../../core/app_config/prefs_keys.dart';
 import '../../../../core/errors/exceptions.dart';
+import '../../../../core/helpers/connectivity_helper.dart';
 import '../../../../core/helpers/secure_local_storage.dart';
 import '../../../../core/networking/api/end_points.dart';
 import '../model/get_all_category_model/get_all_categorys_model.dart';
@@ -105,11 +106,15 @@ class GetAllHomeRepoImpl implements GetAllHomeRepo {
   }
 
   @override
+
   Future<Either<Failure, ReviewOrderModel>> submitReview({
     required int foodId,
     required String star,
     required String comment,
   }) async{ 
+     if (!await ConnectivityHelper.connected) {
+        return const Left(NetworkFailure(AppStrings.checkInternetConnection));
+      }
       try {
         final response = await apiService.post(
           EndPoints.reviews,
@@ -119,16 +124,17 @@ class GetAllHomeRepoImpl implements GetAllHomeRepo {
             'comment': comment
           }
         );
-        ReviewOrderModel reviewOrderModel = ReviewOrderModel.fromJson(
-          response,
-        );
-        return Right(reviewOrderModel);
-      } on NetworkException catch (e) {
-        return Left(NetworkFailure(e.message));
-      } on ServerException catch (e) {
-        return Left(ServerFailure(e.message));
-      } catch (e) {
-        return Left(ServerFailure(AppStrings.unexpectedError));
-      }    
-     }
+        final user = ReviewOrderModel.fromJson(response);
+        print('Response from submitReview API: $response');
+      return Right(user);
+    } on NetworkException catch (e) {
+      return Left(NetworkFailure(e.message));
+    } on ServerException catch (e) {
+      return Left(ServerFailure(e.message));
+    } catch (e) {
+      return Left(ServerFailure(AppStrings.unexpectedError));
+    }
+  }
 }
+
+

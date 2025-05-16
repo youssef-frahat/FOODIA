@@ -57,31 +57,31 @@ class OrderItemRepoImpl implements OrderItemRepo {
     }
   }
 
-  @override
-  Future<Either<Failure, ReviewOrderModel>> reviewsOrder({
-    required int foodId,
-    required String star,
-    required String? comment,
-  }) async{
-    try {
-      final response = await apiService.post(
-        EndPoints.reviews,
-        data: {
-          'food_id': foodId,
-          'star': star,
-          'comment': comment
-        }
-      );
-      ReviewOrderModel reviewOrderModel = ReviewOrderModel.fromJson(
-        response,
-      );
-      return Right(reviewOrderModel);
-    } on NetworkException catch (e) {
-      return Left(NetworkFailure(e.message));
-    } on ServerException catch (e) {
-      return Left(ServerFailure(e.message));
-    } catch (e) {
-      return Left(ServerFailure(AppStrings.unexpectedError));
-    }
-  }
+  // @override
+  // Future<Either<Failure, ReviewOrderModel>> reviewsOrder({
+  //   required int foodId,
+  //   required String star,
+  //   required String? comment,
+  // }) async{
+  //   try {
+  //     final response = await apiService.post(
+  //       EndPoints.reviews,
+  //       data: {
+  //         'food_id': foodId,
+  //         'star': star,
+  //         'comment': comment
+  //       }
+  //     );
+  //     ReviewOrderModel reviewOrderModel = ReviewOrderModel.fromJson(
+  //       response,
+  //     );
+  //     return Right(reviewOrderModel);
+  //   } on NetworkException catch (e) {
+  //     return Left(NetworkFailure(e.message));
+  //   } on ServerException catch (e) {
+  //     return Left(ServerFailure(e.message));
+  //   } catch (e) {
+  //     return Left(ServerFailure(AppStrings.unexpectedError));
+  //   }
+  // }
 }

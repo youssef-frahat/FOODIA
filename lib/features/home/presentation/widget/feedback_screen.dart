@@ -4,13 +4,18 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 
 import '../../../../core/di/dependency_injection.dart';
 import '../logic/reviews/cubit/reviews_cubit.dart';
+import '../logic/home_foods/cubit/all_foods_cubit.dart';
 
-void showRatingSheet(BuildContext context, {required int foodId}) {
+void showRatingSheet(
+  BuildContext bottomSheetContext,
+  BuildContext outerContext, {
+  required int foodId,
+}) {
   int _currentRating = 0;
   final TextEditingController _commentController = TextEditingController();
 
   showModalBottomSheet(
-    context: context,
+    context: bottomSheetContext,
     isScrollControlled: true,
     shape: RoundedRectangleBorder(
       borderRadius: BorderRadius.vertical(top: Radius.circular(20.r)),
@@ -70,13 +75,17 @@ void showRatingSheet(BuildContext context, {required int foodId}) {
                   BlocConsumer<ReviewsCubit, ReviewsState>(
                     listener: (context, state) {
                       if (state is ReviewsSuccess) {
-                        Navigator.pop(context);
-                        ScaffoldMessenger.of(context).showSnackBar(
+                        Navigator.pop(bottomSheetContext); 
+                        ScaffoldMessenger.of(bottomSheetContext).showSnackBar(
                           const SnackBar(content: Text('تم إرسال التقييم بنجاح')),
                         );
+                        outerContext.read<AllFoodsCubit>().getAllDetalisById(foodId: foodId);
                       } else if (state is ReviewsFailure) {
-                        ScaffoldMessenger.of(context).showSnackBar(
-                          SnackBar(content: Text('خطأ: ${state.error}')),
+                        ScaffoldMessenger.of(bottomSheetContext).showSnackBar(
+                          SnackBar(
+                            content: Text('خطأ: ${state.error}'),
+                            backgroundColor: Colors.red,
+                          ),
                         );
                       }
                     },
@@ -84,7 +93,6 @@ void showRatingSheet(BuildContext context, {required int foodId}) {
                       if (state is ReviewsLoading) {
                         return const Center(child: CircularProgressIndicator());
                       }
-
                       return SizedBox(
                         width: double.infinity,
                         child: ElevatedButton(
