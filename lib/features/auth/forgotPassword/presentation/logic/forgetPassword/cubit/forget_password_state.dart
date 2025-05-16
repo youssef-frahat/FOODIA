@@ -20,3 +20,18 @@ final class ForgetPasswordError extends ForgetPasswordState {
   final String message;
   const ForgetPasswordError(this.message);
 }
+
+
+// ** Reset Password ** //
+
+final class ResetPasswordLoading extends ForgetPasswordState {}
+
+final class ResetPasswordSuccess extends ForgetPasswordState {
+  final PasswordResetModel passwordResetModel;
+  const ResetPasswordSuccess(this.passwordResetModel);
+}
+
+final class ResetPasswordError extends ForgetPasswordState {
+  final String message;
+  const ResetPasswordError(this.message);
+}

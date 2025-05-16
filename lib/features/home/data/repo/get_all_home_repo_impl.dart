@@ -106,26 +106,21 @@ class GetAllHomeRepoImpl implements GetAllHomeRepo {
   }
 
   @override
-
   Future<Either<Failure, ReviewOrderModel>> submitReview({
     required int foodId,
     required String star,
     required String comment,
-  }) async{ 
-     if (!await ConnectivityHelper.connected) {
-        return const Left(NetworkFailure(AppStrings.checkInternetConnection));
-      }
-      try {
-        final response = await apiService.post(
-          EndPoints.reviews,
-          data: {
-            'food_id': foodId,
-            'star': star,
-            'comment': comment
-          }
-        );
-        final user = ReviewOrderModel.fromJson(response);
-        print('Response from submitReview API: $response');
+  }) async {
+    if (!await ConnectivityHelper.connected) {
+      return const Left(NetworkFailure(AppStrings.checkInternetConnection));
+    }
+    try {
+      final response = await apiService.post(
+        EndPoints.reviews,
+        data: {'food_id': foodId, 'star': star, 'comment': comment},
+      );
+      final user = ReviewOrderModel.fromJson(response);
+      print('Response from submitReview API: $response');
       return Right(user);
     } on NetworkException catch (e) {
       return Left(NetworkFailure(e.message));
@@ -136,5 +131,3 @@ class GetAllHomeRepoImpl implements GetAllHomeRepo {
     }
   }
 }
-
-

@@ -16,11 +16,11 @@ import 'package:foodia_app/features/profile/presentation/screen/profile_screen.d
 import '../../features/address/presentation/screen/address_selection_screen.dart';
 import '../../features/address/presentation/screen/payment.dart';
 import '../../features/address/presentation/widget/order_details.dart';
+import '../../features/auth/forgotPassword/presentation/screen/otp_reset_password_screen.dart';
+import '../../features/auth/forgotPassword/presentation/widget/forgot_passowrd_chenge.dart';
 import '../../features/followers/presentation/screen/followers_details_chfa.dart';
 import '../../features/followers/presentation/screen/followers_screen.dart';
-import '../../features/home/data/model/get_home_foods_model/datum.dart';
 import '../../features/home/presentation/screens/details_screen.dart';
-import '../../features/home/presentation/widget/search_result_screen.dart';
 import '../../features/order/presentation/screen/order_screen.dart';
 import '../../features/wallet/presentation/screens/wallet_screen.dart';
 import 'app_routes.dart';
@@ -64,6 +64,34 @@ class RouterGeneration {
             );
           },
         ),
+         GoRoute(
+          path: AppRoutes.forgotPasswordOtp,
+          name: AppRoutes.forgotPasswordOtp,
+          pageBuilder: (context, state) {
+            final phoneNumber = state.extra;
+            if (phoneNumber is! String || phoneNumber.isEmpty) {
+              return _errorPage("Phone number is missing");
+            }
+            return _buildTransitionPage(
+              OtpResetPasswordScreen(phoneNumber: phoneNumber),
+              state,
+            );
+          },
+        ),
+        GoRoute(
+          path: AppRoutes.forgotPasswordChange,
+          name: AppRoutes.forgotPasswordChange,
+          pageBuilder: (context, state) {
+            final phoneNumber = state.extra;
+            if (phoneNumber is! String || phoneNumber.isEmpty) {
+              return _errorPage("Phone number is missing");
+            }
+            return _buildTransitionPage(
+              ForgotPassowrdChenge(phoneNumber: phoneNumber),
+              state,
+            );
+          },
+        ),
         GoRoute(
           name: AppRoutes.detailsScreen,
           path: AppRoutes.detailsScreen,
@@ -72,6 +100,7 @@ class RouterGeneration {
             return ProductDetailsScreen(foodId: foodId);
           },
         ),
+
         // GoRoute(
         //   name: AppRoutes.searchResultScreen,
         //   path: AppRoutes.searchResultScreen,
@@ -83,7 +112,6 @@ class RouterGeneration {
         //     return SearchResultScreen(searchQuery: query, allFoods: foods);
         //   },
         // ),
-
         GoRoute(
           name: AppRoutes.followDetails,
           path: AppRoutes.followDetails,

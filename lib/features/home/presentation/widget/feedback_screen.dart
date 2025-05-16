@@ -48,7 +48,9 @@ void showRatingSheet(
                     children: List.generate(5, (index) {
                       return IconButton(
                         icon: Icon(
-                          index < _currentRating ? Icons.star : Icons.star_border,
+                          index < _currentRating
+                              ? Icons.star
+                              : Icons.star_border,
                           color: Colors.amber,
                           size: 30.sp,
                         ),
@@ -75,11 +77,15 @@ void showRatingSheet(
                   BlocConsumer<ReviewsCubit, ReviewsState>(
                     listener: (context, state) {
                       if (state is ReviewsSuccess) {
-                        Navigator.pop(bottomSheetContext); 
+                        Navigator.pop(bottomSheetContext);
                         ScaffoldMessenger.of(bottomSheetContext).showSnackBar(
-                          const SnackBar(content: Text('تم إرسال التقييم بنجاح')),
+                          const SnackBar(
+                            content: Text('تم إرسال التقييم بنجاح'),
+                          ),
                         );
-                        outerContext.read<AllFoodsCubit>().getAllDetalisById(foodId: foodId);
+                        outerContext.read<AllFoodsCubit>().getAllDetalisById(
+                          foodId: foodId,
+                        );
                       } else if (state is ReviewsFailure) {
                         ScaffoldMessenger.of(bottomSheetContext).showSnackBar(
                           SnackBar(
@@ -103,18 +109,22 @@ void showRatingSheet(
                               borderRadius: BorderRadius.circular(10.r),
                             ),
                           ),
-                          onPressed: _currentRating == 0
-                              ? null
-                              : () {
-                                  context.read<ReviewsCubit>().submitReview(
-                                        foodId: foodId,
-                                        star: _currentRating.toString(),
-                                        comment: _commentController.text.trim(),
-                                      );
-                                },
+                          onPressed:
+                              _currentRating == 0
+                                  ? null
+                                  : () {
+                                    context.read<ReviewsCubit>().submitReview(
+                                      foodId: foodId,
+                                      star: _currentRating.toString(),
+                                      comment: _commentController.text.trim(),
+                                    );
+                                  },
                           child: Text(
                             'ارسال',
-                            style: TextStyle(color: Colors.white, fontSize: 16.sp),
+                            style: TextStyle(
+                              color: Colors.white,
+                              fontSize: 16.sp,
+                            ),
                           ),
                         ),
                       );

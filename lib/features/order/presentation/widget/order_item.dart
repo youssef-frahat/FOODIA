@@ -20,7 +20,6 @@ class OrderItemWidget extends StatelessWidget {
     required this.price,
     required this.quantity,
     required this.deletOrder,
-  
   });
 
   Map<String, Map<String, dynamic>> get statusMapping => {
@@ -32,7 +31,9 @@ class OrderItemWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final mapped = statusMapping[status.toLowerCase()] ?? {'text': status, 'color': Colors.black};
+    final mapped =
+        statusMapping[status.toLowerCase()] ??
+        {'text': status, 'color': Colors.black};
 
     final statusText = mapped['text'] as String;
     final statusColor = mapped['color'] as Color;
@@ -126,7 +127,7 @@ class OrderItemWidget extends StatelessWidget {
                     style: TextStyle(fontSize: 14.sp, color: Colors.grey[600]),
                   ),
                   verticalSpace(10),
-                  if (status.toLowerCase() == 'pending') 
+                  if (status.toLowerCase() == 'pending')
                     Align(
                       alignment: Alignment.centerRight,
                       child: Primarybutton(
@@ -137,7 +138,7 @@ class OrderItemWidget extends StatelessWidget {
                         width: 120.w,
                         onpress: deletOrder,
                       ),
-                    )
+                    ),
                 ],
               ),
             ),

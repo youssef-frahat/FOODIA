@@ -37,14 +37,20 @@ class _ForgotpasswordScreenState extends State<ForgotpasswordScreen> {
             padding: REdgeInsets.symmetric(horizontal: 16),
             child: BlocConsumer<ForgetPasswordCubit, ForgetPasswordState>(
               listener: (context, state) {
+                if (!context.mounted) return;
+
                 if (state is ForgetPasswordSuccess) {
-                  isProcessing = false;
+                  setState(() {
+                    isProcessing = false;
+                  });
                   context.goNamed(
-                    AppRoutes.otpScreen,
+                    AppRoutes.forgotPasswordOtp,
                     extra: _phoneController.text.trim(),
                   );
                 } else if (state is ForgetPasswordError) {
-                  isProcessing = false;
+                  setState(() {
+                    isProcessing = false;
+                  });
                   AppMessages.showError(context, state.message);
                 }
               },
@@ -53,7 +59,6 @@ class _ForgotpasswordScreenState extends State<ForgotpasswordScreen> {
                   key: _formKey,
                   child: Column(
                     children: [
-                      // CustomWigetArrowBack(),
                       verticalSpace(15),
                       Text(
                         AppStrings.forgotPasswordtex,
@@ -85,22 +90,24 @@ class _ForgotpasswordScreenState extends State<ForgotpasswordScreen> {
                       (state is ForgetPasswordLoading || isProcessing)
                           ? const CircularProgressIndicator()
                           : Primarybutton(
-                            buttontext: AppStrings.sendCode,
-                            buttoncolor: AppColors.primarycolor,
-                            hight: 48.h,
-                            borderrediuse: 50.r,
-                            textcolor: Colors.white,
-                            onpress: () {
-                              if (_formKey.currentState?.validate() ?? false) {
-                                isProcessing = true;
-                                context
-                                    .read<ForgetPasswordCubit>()
-                                    .forgetPassword(
-                                      phone: _phoneController.text.trim(),
-                                    );
-                              }
-                            },
-                          ),
+                              buttontext: AppStrings.sendCode,
+                              buttoncolor: AppColors.primarycolor,
+                              hight: 48.h,
+                              borderrediuse: 50.r,
+                              textcolor: Colors.white,
+                              onpress: () {
+                                if (_formKey.currentState?.validate() ?? false) {
+                                  setState(() {
+                                    isProcessing = true;
+                                  });
+                                  context
+                                      .read<ForgetPasswordCubit>()
+                                      .forgetPassword(
+                                        phone: _phoneController.text.trim(),
+                                      );
+                                }
+                              },
+                            ),
                     ],
                   ),
                 );

@@ -43,58 +43,48 @@ class AllAdressUserCubit extends Cubit<AllAdressUserState> {
     );
   }
 
-
-
   Future<void> deleteAdress({required int adressId}) async {
-  emit(AllAdressUserLoading());
+    emit(AllAdressUserLoading());
 
-  final result = await addAdressRepoImpl.deleteAdress(adressId: adressId);
+    final result = await addAdressRepoImpl.deleteAdress(adressId: adressId);
 
-  result.fold(
-    (l) => emit(AllAdressUserFailure(l)),
-    (model) async {
+    result.fold((l) => emit(AllAdressUserFailure(l)), (model) async {
       emit(DeleteAdressUserSuccess(model));
       final refresh = await addAdressRepoImpl.getAllAdressUser();
       refresh.fold(
         (l) => emit(AllAdressUserFailure(l)),
         (r) => emit(AllAdressUserSuccess(r)),
       );
-    },
-  );
-}
+    });
+  }
 
-Future<void> updateAdress({
-  required int id,
-  required String city,
-  required String center,
-  required String neighborhood,
-  required String street,
-  required String buildingNumber,
-}) async {
-  emit(AllAdressUserLoading());
+  Future<void> updateAdress({
+    required int id,
+    required String city,
+    required String center,
+    required String neighborhood,
+    required String street,
+    required String buildingNumber,
+  }) async {
+    emit(AllAdressUserLoading());
 
-  final result = await addAdressRepoImpl.updateAdress(
-    id: id,
-    city: city,
-    center: center,
-    neighborhood: neighborhood,
-    street: street,
-    buildingNumber: buildingNumber,
-  );
+    final result = await addAdressRepoImpl.updateAdress(
+      id: id,
+      city: city,
+      center: center,
+      neighborhood: neighborhood,
+      street: street,
+      buildingNumber: buildingNumber,
+    );
 
-  result.fold(
-    (l) => emit(AllAdressUserFailure(l)),
-    (r) async {
-      emit(UpdateAdressUserSuccess(r)); 
+    result.fold((l) => emit(AllAdressUserFailure(l)), (r) async {
+      emit(UpdateAdressUserSuccess(r));
 
       final refresh = await addAdressRepoImpl.getAllAdressUser();
       refresh.fold(
         (l) => emit(AllAdressUserFailure(l)),
         (r) => emit(AllAdressUserSuccess(r)),
       );
-    },
-  );
-}
-
-
+    });
+  }
 }

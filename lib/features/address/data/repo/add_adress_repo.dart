@@ -18,7 +18,9 @@ abstract class AddAdressRepo {
   Future<Either<Failure, GetAllAdressUserModel>> getAllAdressUser();
   Future<Either<Failure, GetOrderDetilasModel>> getAllOrderDetails();
   Future<Either<Failure, ChekeOutOrderModel>> chekeOut({required int adressId});
-  Future<Either<Failure, DeleteAdressModel>> deleteAdress({required int adressId});
+  Future<Either<Failure, DeleteAdressModel>> deleteAdress({
+    required int adressId,
+  });
   Future<Either<Failure, AddToAdressResponseModel>> updateAdress({
     required int id,
     required String city,

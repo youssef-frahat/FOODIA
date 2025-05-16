@@ -63,19 +63,35 @@ class _SearchScreenState extends State<SearchScreen> {
             if (state is AllFoodsLoaded) {
               final allFoods = state.foods;
 
-              final filteredFoods = allFoods.where(
-                (food) => food.name!.toLowerCase().contains(query.toLowerCase()),
-              ).toList();
+              final filteredFoods =
+                  allFoods
+                      .where(
+                        (food) => food.name!.toLowerCase().contains(
+                          query.toLowerCase(),
+                        ),
+                      )
+                      .toList();
 
               if (query.isEmpty) {
-                return  Center(child: Image.asset('assets/images/search.png', fit: BoxFit.fill, height: 300, width: 300,));
+                return Center(
+                  child: Image.asset(
+                    'assets/images/search.png',
+                    fit: BoxFit.fill,
+                    height: 300,
+                    width: 300,
+                  ),
+                );
               }
 
               if (filteredFoods.isEmpty) {
                 return Column(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
-                    const Icon(Icons.search_off, size: 80, color: Colors.orange),
+                    const Icon(
+                      Icons.search_off,
+                      size: 80,
+                      color: Colors.orange,
+                    ),
                     const SizedBox(height: 16),
                     Center(
                       child: const Text(
@@ -96,7 +112,10 @@ class _SearchScreenState extends State<SearchScreen> {
                   return BlocListener<AddToCartCubit, AddToCartState>(
                     listener: (context, addState) {
                       if (addState is AddToCartSuccess) {
-                        AppMessages.showSuccess(context, 'تمت الإضافة إلى السلة');
+                        AppMessages.showSuccess(
+                          context,
+                          'تمت الإضافة إلى السلة',
+                        );
                       } else if (addState is AddToCartError) {
                         AppMessages.showError(context, addState.error);
                       }

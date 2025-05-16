@@ -19,7 +19,6 @@ class ReviewsCubit extends Cubit<ReviewsState> {
     emit(ReviewsLoading());
 
     final result = await repository.submitReview(
-  
       foodId: foodId,
       star: star,
       comment: comment,

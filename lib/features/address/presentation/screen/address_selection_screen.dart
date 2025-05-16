@@ -51,80 +51,99 @@ class _AddressSelectionScreenState extends State<AddressSelectionScreen> {
                       ExactStepperWidget(currentStep: currentStep),
                       verticalSpace(16),
                       Expanded(
-                        child: allAdressUser == null || allAdressUser.isEmpty
-                            ? Center(
-                                child: Column(
-                                  mainAxisSize: MainAxisSize.min,
-                                  children: [
-                                    Icon(
-                                      Icons.location_off,
-                                      size: 80.sp,
-                                      color: Colors.orange.withOpacity(0.7),
-                                    ),
-                                    SizedBox(height: 16.h),
-                                    Text(
-                                      'لا توجد عناوين حتى الآن',
-                                      style: TextStyle(
-                                        fontSize: 18.sp,
-                                        fontWeight: FontWeight.w600,
-                                        color: Colors.grey.shade700,
-                                        fontFamily: 'Changa',
+                        child:
+                            allAdressUser == null || allAdressUser.isEmpty
+                                ? Center(
+                                  child: Column(
+                                    mainAxisSize: MainAxisSize.min,
+                                    children: [
+                                      Icon(
+                                        Icons.location_off,
+                                        size: 80.sp,
+                                        color: Colors.orange.withOpacity(0.7),
                                       ),
-                                    ),
-                                  ],
-                                ),
-                              )
-                            : ListView.builder(
-                                itemCount: allAdressUser.length,
-                                shrinkWrap: true,
-                                physics: const BouncingScrollPhysics(),
-                                itemBuilder: (context, index) {
-                                  return AddressCardWidget(
-                                    city: allAdressUser[index].city!,
-                                    address:
-                                        '${allAdressUser[index].street}, ${allAdressUser[index].neighborhood}, ${allAdressUser[index].buildingNumber}',
-                                    id: allAdressUser[index].id!,
-                                    onDelete: () {
-                                      context
-                                          .read<AllAdressUserCubit>()
-                                          .deleteAdress(
-                                            adressId:
-                                                allAdressUser[index].id!,
-                                          );
-                                    },
-                                    onEdit: () {
-                                      showDialog(
-                                        context: context,
-                                        builder: (_) => BlocProvider.value(
-                                          value:
-                                              context.read<AllAdressUserCubit>(),
-                                          child: AddNewAddressButtonWidget(
-                                            addressId:
-                                                allAdressUser[index].id,
-                                            city: allAdressUser[index].city ?? '',
-                                            center:
-                                                allAdressUser[index].center ?? '',
-                                            neighborhood:
-                                                allAdressUser[index].neighborhood ?? '',
-                                            street:
-                                                allAdressUser[index].street ?? '',
-                                            building:
-                                                allAdressUser[index].buildingNumber ?? '',
-                                          ),
+                                      SizedBox(height: 16.h),
+                                      Text(
+                                        'لا توجد عناوين حتى الآن',
+                                        style: TextStyle(
+                                          fontSize: 18.sp,
+                                          fontWeight: FontWeight.w600,
+                                          color: Colors.grey.shade700,
+                                          fontFamily: 'Changa',
                                         ),
-                                      );
-                                    },
-                                    selected: selectedAddressId ==
-                                        allAdressUser[index].id,
-                                    onTap: () {
-                                      setState(() {
-                                        selectedAddressId =
-                                            allAdressUser[index].id;
-                                      });
-                                    },
-                                  );
-                                },
-                              ),
+                                      ),
+                                    ],
+                                  ),
+                                )
+                                : ListView.builder(
+                                  itemCount: allAdressUser.length,
+                                  shrinkWrap: true,
+                                  physics: const BouncingScrollPhysics(),
+                                  itemBuilder: (context, index) {
+                                    return AddressCardWidget(
+                                      city: allAdressUser[index].city!,
+                                      address:
+                                          '${allAdressUser[index].street}, ${allAdressUser[index].neighborhood}, ${allAdressUser[index].buildingNumber}',
+                                      id: allAdressUser[index].id!,
+                                      onDelete: () {
+                                        context
+                                            .read<AllAdressUserCubit>()
+                                            .deleteAdress(
+                                              adressId:
+                                                  allAdressUser[index].id!,
+                                            );
+                                      },
+                                      onEdit: () {
+                                        showDialog(
+                                          context: context,
+                                          builder:
+                                              (_) => BlocProvider.value(
+                                                value:
+                                                    context
+                                                        .read<
+                                                          AllAdressUserCubit
+                                                        >(),
+                                                child:
+                                                    AddNewAddressButtonWidget(
+                                                      addressId:
+                                                          allAdressUser[index]
+                                                              .id,
+                                                      city:
+                                                          allAdressUser[index]
+                                                              .city ??
+                                                          '',
+                                                      center:
+                                                          allAdressUser[index]
+                                                              .center ??
+                                                          '',
+                                                      neighborhood:
+                                                          allAdressUser[index]
+                                                              .neighborhood ??
+                                                          '',
+                                                      street:
+                                                          allAdressUser[index]
+                                                              .street ??
+                                                          '',
+                                                      building:
+                                                          allAdressUser[index]
+                                                              .buildingNumber ??
+                                                          '',
+                                                    ),
+                                              ),
+                                        );
+                                      },
+                                      selected:
+                                          selectedAddressId ==
+                                          allAdressUser[index].id,
+                                      onTap: () {
+                                        setState(() {
+                                          selectedAddressId =
+                                              allAdressUser[index].id;
+                                        });
+                                      },
+                                    );
+                                  },
+                                ),
                       ),
                       verticalSpace(8),
                       AddNewAddressButtonWidget(),

@@ -69,7 +69,7 @@ class _WalletScreenState extends State<WalletScreen>
                   builder: (_) => WebViewPaymentPage(url: sanitizedUrl),
                 ),
               ).then((result) {
-                _cubit.getBalance(); 
+                _cubit.getBalance();
                 if (result == true) {
                   AppMessages.showSuccess(context, "تمت عملية الدفع بنجاح");
                 } else if (result == false) {

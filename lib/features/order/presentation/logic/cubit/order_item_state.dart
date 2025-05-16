@@ -46,5 +46,3 @@ final class OrderItemCancelError extends OrderItemState {
 }
 
 final class OrderItemCancelLoading extends OrderItemState {}
-
-

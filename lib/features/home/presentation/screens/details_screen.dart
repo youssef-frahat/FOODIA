@@ -718,7 +718,11 @@ class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
                                         buttoncolor: Colors.orange,
                                         fontWeight: FontWeight.w600,
                                         onpress: () {
-                                          showRatingSheet(context, context, foodId: widget.foodId);
+                                          showRatingSheet(
+                                            context,
+                                            context,
+                                            foodId: widget.foodId,
+                                          );
                                         },
                                       ),
                                     ),

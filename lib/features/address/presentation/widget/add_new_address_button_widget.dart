@@ -64,7 +64,9 @@ class AddNewAddressButtonWidget extends StatelessWidget {
   void _showAddNewAddressDialog(BuildContext context) {
     final cityController = TextEditingController(text: city ?? '');
     final centerController = TextEditingController(text: center ?? '');
-    final neighborhoodController = TextEditingController(text: neighborhood ?? '');
+    final neighborhoodController = TextEditingController(
+      text: neighborhood ?? '',
+    );
     final streetController = TextEditingController(text: street ?? '');
     final buildingController = TextEditingController(text: building ?? '');
     final formKey = GlobalKey<FormState>();
@@ -76,14 +78,15 @@ class AddNewAddressButtonWidget extends StatelessWidget {
           value: context.read<AllAdressUserCubit>(),
           child: BlocConsumer<AllAdressUserCubit, AllAdressUserState>(
             listener: (context, state) {
-              if (state is AddAdressUserSuccess || state is UpdateAdressUserSuccess) {
+              if (state is AddAdressUserSuccess ||
+                  state is UpdateAdressUserSuccess) {
                 Navigator.of(dialogContext).pop();
                 AppMessages.showSuccess(context, 'تم الحفظ بنجاح');
                 context.read<AllAdressUserCubit>().getAllAdressUser();
               } else if (state is AllAdressUserFailure) {
-                ScaffoldMessenger.of(context).showSnackBar(
-                  SnackBar(content: Text(state.failure.message)),
-                );
+                ScaffoldMessenger.of(
+                  context,
+                ).showSnackBar(SnackBar(content: Text(state.failure.message)));
               }
             },
             builder: (context, state) {
@@ -103,11 +106,14 @@ class AddNewAddressButtonWidget extends StatelessWidget {
                             alignment: Alignment.topLeft,
                             child: IconButton(
                               icon: const Icon(Icons.close),
-                              onPressed: () => Navigator.of(dialogContext).pop(),
+                              onPressed:
+                                  () => Navigator.of(dialogContext).pop(),
                             ),
                           ),
                           Text(
-                            addressId == null ? "اضافة عنوان جديد" : "تعديل العنوان",
+                            addressId == null
+                                ? "اضافة عنوان جديد"
+                                : "تعديل العنوان",
                             style: const TextStyle(
                               fontSize: 18,
                               fontWeight: FontWeight.bold,
@@ -117,65 +123,79 @@ class AddNewAddressButtonWidget extends StatelessWidget {
                           MyTextFormField(
                             controller: cityController,
                             hintText: 'المدينة',
-                            validator: (v) => v!.isEmpty ? 'يرجى ادخال المدينة' : null,
+                            validator:
+                                (v) => v!.isEmpty ? 'يرجى ادخال المدينة' : null,
                           ),
                           verticalSpace(16),
                           MyTextFormField(
                             controller: centerController,
                             hintText: 'المركز',
-                            validator: (v) => v!.isEmpty ? 'يرجى ادخال المركز' : null,
+                            validator:
+                                (v) => v!.isEmpty ? 'يرجى ادخال المركز' : null,
                           ),
                           verticalSpace(16),
                           MyTextFormField(
                             controller: neighborhoodController,
                             hintText: 'الحي',
-                            validator: (v) => v!.isEmpty ? 'يرجى ادخال الحي' : null,
+                            validator:
+                                (v) => v!.isEmpty ? 'يرجى ادخال الحي' : null,
                           ),
                           verticalSpace(16),
                           MyTextFormField(
                             controller: streetController,
                             hintText: 'الشارع',
-                            validator: (v) => v!.isEmpty ? 'يرجى ادخال الشارع' : null,
+                            validator:
+                                (v) => v!.isEmpty ? 'يرجى ادخال الشارع' : null,
                           ),
                           verticalSpace(16),
                           MyTextFormField(
                             controller: buildingController,
                             hintText: 'المبني',
                             keyboardType: TextInputType.number,
-                            validator: (v) => v!.isEmpty ? 'يرجى ادخال المبني' : null,
+                            validator:
+                                (v) => v!.isEmpty ? 'يرجى ادخال المبني' : null,
                           ),
                           verticalSpace(16),
                           state is AllAdressUserLoading
                               ? const CircularProgressIndicator()
                               : Primarybutton(
-                                  buttontext: addressId == null ? 'اضافة' : 'تحديث',
-                                  buttoncolor: AppColors.primarycolor,
-                                  hight: 48.h,
-                                  borderrediuse: 50.r,
-                                  textcolor: Colors.white,
-                                  onpress: () {
-                                    if (formKey.currentState!.validate()) {
-                                      if (addressId == null) {
-                                        context.read<AllAdressUserCubit>().addToAdress(
-                                              city: cityController.text,
-                                              center: centerController.text,
-                                              neighborhood: neighborhoodController.text,
-                                              street: streetController.text,
-                                              buildingNumber: buildingController.text,
-                                            );
-                                      } else {
-                                        context.read<AllAdressUserCubit>().updateAdress(
-                                              id: addressId!,
-                                              city: cityController.text,
-                                              center: centerController.text,
-                                              neighborhood: neighborhoodController.text,
-                                              street: streetController.text,
-                                              buildingNumber: buildingController.text,
-                                            );
-                                      }
+                                buttontext:
+                                    addressId == null ? 'اضافة' : 'تحديث',
+                                buttoncolor: AppColors.primarycolor,
+                                hight: 48.h,
+                                borderrediuse: 50.r,
+                                textcolor: Colors.white,
+                                onpress: () {
+                                  if (formKey.currentState!.validate()) {
+                                    if (addressId == null) {
+                                      context
+                                          .read<AllAdressUserCubit>()
+                                          .addToAdress(
+                                            city: cityController.text,
+                                            center: centerController.text,
+                                            neighborhood:
+                                                neighborhoodController.text,
+                                            street: streetController.text,
+                                            buildingNumber:
+                                                buildingController.text,
+                                          );
+                                    } else {
+                                      context
+                                          .read<AllAdressUserCubit>()
+                                          .updateAdress(
+                                            id: addressId!,
+                                            city: cityController.text,
+                                            center: centerController.text,
+                                            neighborhood:
+                                                neighborhoodController.text,
+                                            street: streetController.text,
+                                            buildingNumber:
+                                                buildingController.text,
+                                          );
                                     }
-                                  },
-                                ),
+                                  }
+                                },
+                              ),
                         ],
                       ),
                     ),

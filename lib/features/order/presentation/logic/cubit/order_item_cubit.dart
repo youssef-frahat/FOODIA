@@ -28,7 +28,4 @@ class OrderItemCubit extends Cubit<OrderItemState> {
       (r) => emit(OrderItemCancelSuccess(r)),
     );
   }
-
-
- 
 }

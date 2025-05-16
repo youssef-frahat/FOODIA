@@ -27,17 +27,18 @@ class _HomeViewBodyState extends State<HomeViewBody> {
       child: Column(
         children: [
           GestureDetector(
-           onTap: () {
-  Navigator.push(
-    context,
-    MaterialPageRoute(
-      builder: (_) => BlocProvider(
-        create: (_) => getIt<AllFoodsCubit>()..getAllFoods(),
-        child: const SearchScreen(),
-      ),
-    ),
-  );
-},
+            onTap: () {
+              Navigator.push(
+                context,
+                MaterialPageRoute(
+                  builder:
+                      (_) => BlocProvider(
+                        create: (_) => getIt<AllFoodsCubit>()..getAllFoods(),
+                        child: const SearchScreen(),
+                      ),
+                ),
+              );
+            },
 
             child: AbsorbPointer(
               child: TextField(

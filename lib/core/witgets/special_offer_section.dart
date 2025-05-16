@@ -79,20 +79,24 @@ class _SpecialOfferSliderState extends State<SpecialOfferSlider> {
                     itemCount: offers.length,
                     itemBuilder: (context, index) {
                       final offer = offers[index];
-                     return AnimatedBuilder(
-  animation: _pageController,
-  builder: (context, child) {
-    double scale = 1.0;
-    if (_pageController.hasClients && _pageController.position.haveDimensions) {
-      double diff = (_pageController.page ?? _currentPage).toDouble() - index.toDouble();
-      scale = (1 - (diff.abs() * 0.1)).clamp(0.9, 1.0).toDouble();
-    }
+                      return AnimatedBuilder(
+                        animation: _pageController,
+                        builder: (context, child) {
+                          double scale = 1.0;
+                          if (_pageController.hasClients &&
+                              _pageController.position.haveDimensions) {
+                            double diff =
+                                (_pageController.page ?? _currentPage)
+                                    .toDouble() -
+                                index.toDouble();
+                            scale =
+                                (1 - (diff.abs() * 0.1))
+                                    .clamp(0.9, 1.0)
+                                    .toDouble();
+                          }
 
-    return Transform.scale(
-      scale: scale,
-      child: child,
-    );
-  },
+                          return Transform.scale(scale: scale, child: child);
+                        },
                         child: Container(
                           margin: EdgeInsets.symmetric(horizontal: 5.w),
                           child: Stack(

@@ -18,7 +18,7 @@ abstract class GetAllHomeRepo {
 
   Future<Either<Failure, FollowCefeModel>> followCefe({required num cefeId});
 
-   Future<Either<Failure, ReviewOrderModel>> submitReview({
+  Future<Either<Failure, ReviewOrderModel>> submitReview({
     required int foodId,
     required String star,
     required String comment,

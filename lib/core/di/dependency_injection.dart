@@ -37,7 +37,7 @@ import '../networking/api/api_services.dart';
 final getIt = GetIt.instance;
 
 Future<void> setupGetIt() async {
-  await _initExternals(); 
+  await _initExternals();
   _initRepositories();
   _initCubits();
 }

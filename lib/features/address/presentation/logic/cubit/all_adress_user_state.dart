@@ -32,7 +32,7 @@ final class AllAdressUserFailure extends AllAdressUserState {
   List<Object> get props => [failure];
 }
 
-// ! Delete Adress 
+// ! Delete Adress
 
 final class DeleteAdressUserSuccess extends AllAdressUserState {
   final DeleteAdressModel deleteAdressModel;
@@ -40,7 +40,6 @@ final class DeleteAdressUserSuccess extends AllAdressUserState {
   @override
   List<Object> get props => [deleteAdressModel];
 }
-
 
 // ! Update Adress
 
