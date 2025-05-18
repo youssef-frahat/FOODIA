@@ -40,11 +40,12 @@ class GetAllHomeRepoImpl implements GetAllHomeRepo {
   @override
   Future<Either<Failure, GetHomeFoodsModel>> getAllHomeFoods({
     required String foodName,
+    int pageNumber = 1,
   }) async {
     try {
       final response = await apiService.get(
-        EndPoints.getAllfoods,
-        queryParameters: {'food_name': foodName},
+       '${EndPoints.getAllfoods}?page=$pageNumber',
+       
       );
       GetHomeFoodsModel getHomeFoodsModel = GetHomeFoodsModel.fromJson(
         response,

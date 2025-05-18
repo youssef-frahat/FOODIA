@@ -42,20 +42,20 @@ class CategoriesList extends StatelessWidget {
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
-                      GestureDetector(
-                        onTap: () {
-                          context.read<AllFoodsCubit>().resetFilter();
-                        },
-                        child: Text(
-                          "عرض الكل",
-                          style: TextStyle(
-                            color: const Color(0xFFB54427),
-                            fontWeight: FontWeight.bold,
-                            fontFamily: 'Changa',
-                            fontSize: 14.sp,
-                          ),
-                        ),
-                      ),
+                      // GestureDetector(
+                      //   onTap: () {
+                      //     context.read<AllFoodsCubit>().resetFilter();
+                      //   },
+                      //   child: Text(
+                      //     "عرض الكل",
+                      //     style: TextStyle(
+                      //       color: const Color(0xFFB54427),
+                      //       fontWeight: FontWeight.bold,
+                      //       fontFamily: 'Changa',
+                      //       fontSize: 14.sp,
+                      //     ),
+                      //   ),
+                      // ),
                       Text(
                         "الأصناف",
                         style: TextStyle(
