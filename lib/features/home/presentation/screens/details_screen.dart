@@ -167,55 +167,117 @@ class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
                                                   ),
                                                 ),
                                                 verticalSpace(8.h),
-                                               BlocBuilder<AllFoodsCubit, AllFoodsState>(
-  buildWhen: (previous, current) => current is AllDetailsSucss,
-  builder: (context, state) {
-    bool isUserFollowing = false;
-    int chefId = 0;
+                                                BlocBuilder<
+                                                  AllFoodsCubit,
+                                                  AllFoodsState
+                                                >(
+                                                  buildWhen:
+                                                      (previous, current) =>
+                                                          current
+                                                              is AllDetailsSucss,
+                                                  builder: (context, state) {
+                                                    bool isUserFollowing =
+                                                        false;
+                                                    int chefId = 0;
 
-    if (state is AllDetailsSucss) {
-      isUserFollowing = state.getAllDetalisResponseModel.data?.followChef ?? false;
-      chefId = state.getAllDetalisResponseModel.data?.food?.chef?.id ?? 0;
-    }
+                                                    if (state
+                                                        is AllDetailsSucss) {
+                                                      isUserFollowing =
+                                                          state
+                                                              .getAllDetalisResponseModel
+                                                              .data
+                                                              ?.followChef ??
+                                                          false;
+                                                      chefId =
+                                                          state
+                                                              .getAllDetalisResponseModel
+                                                              .data
+                                                              ?.food
+                                                              ?.chef
+                                                              ?.id ??
+                                                          0;
+                                                    }
 
-    return GestureDetector(
-      onTap: isUserFollowing
-          ? null
-          : () {
-              setState(() => isLoading = true);
-              context.read<AllFoodsCubit>().followCefe(cefeId: chefId);
-            },
-      child: Container(
-        padding: REdgeInsets.symmetric(horizontal: 12.w, vertical: 6.h),
-        decoration: BoxDecoration(
-          color: isUserFollowing ? Colors.green : Colors.orange,
-          borderRadius: BorderRadius.circular(10.r),
-          boxShadow: [BoxShadow(color: Colors.black26, blurRadius: 5.r)],
-        ),
-        child: Row(
-          mainAxisSize: MainAxisSize.min,
-          children: [
-            Icon(
-              isUserFollowing ? Icons.check : Icons.person_add,
-              size: 16.sp,
-              color: Colors.white,
-            ),
-            SizedBox(width: 8.w),
-            Text(
-              isUserFollowing ? 'تم المتابعة' : 'متابعة',
-              style: TextStyle(
-                color: Colors.white,
-                fontSize: 14.sp,
-                fontWeight: FontWeight.bold,
-              ),
-            ),
-          ],
-        ),
-      ),
-    );
-  },
-)
-
+                                                    return GestureDetector(
+                                                      onTap:
+                                                          isUserFollowing
+                                                              ? null
+                                                              : () {
+                                                                setState(
+                                                                  () =>
+                                                                      isLoading =
+                                                                          true,
+                                                                );
+                                                                context
+                                                                    .read<
+                                                                      AllFoodsCubit
+                                                                    >()
+                                                                    .followCefe(
+                                                                      cefeId:
+                                                                          chefId,
+                                                                    );
+                                                              },
+                                                      child: Container(
+                                                        padding:
+                                                            REdgeInsets.symmetric(
+                                                              horizontal: 12.w,
+                                                              vertical: 6.h,
+                                                            ),
+                                                        decoration: BoxDecoration(
+                                                          color:
+                                                              isUserFollowing
+                                                                  ? Colors.green
+                                                                  : Colors
+                                                                      .orange,
+                                                          borderRadius:
+                                                              BorderRadius.circular(
+                                                                10.r,
+                                                              ),
+                                                          boxShadow: [
+                                                            BoxShadow(
+                                                              color:
+                                                                  Colors
+                                                                      .black26,
+                                                              blurRadius: 5.r,
+                                                            ),
+                                                          ],
+                                                        ),
+                                                        child: Row(
+                                                          mainAxisSize:
+                                                              MainAxisSize.min,
+                                                          children: [
+                                                            Icon(
+                                                              isUserFollowing
+                                                                  ? Icons.check
+                                                                  : Icons
+                                                                      .person_add,
+                                                              size: 16.sp,
+                                                              color:
+                                                                  Colors.white,
+                                                            ),
+                                                            SizedBox(
+                                                              width: 8.w,
+                                                            ),
+                                                            Text(
+                                                              isUserFollowing
+                                                                  ? 'تم المتابعة'
+                                                                  : 'متابعة',
+                                                              style: TextStyle(
+                                                                color:
+                                                                    Colors
+                                                                        .white,
+                                                                fontSize: 14.sp,
+                                                                fontWeight:
+                                                                    FontWeight
+                                                                        .bold,
+                                                              ),
+                                                            ),
+                                                          ],
+                                                        ),
+                                                      ),
+                                                    );
+                                                  },
+                                                ),
                                               ],
                                             ),
                                           ),
