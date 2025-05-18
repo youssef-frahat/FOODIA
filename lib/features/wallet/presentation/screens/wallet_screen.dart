@@ -107,7 +107,7 @@ class _WalletScreenState extends State<WalletScreen>
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      verticalSpace(40),
+                      // verticalSpace(40),
                       BalanceCardWidget(
                         amount: balance.data?.balance?.amount ?? '',
                       ),
