@@ -29,7 +29,7 @@ class CartBottomBar extends StatelessWidget {
             color: Color(0xFFF47726),
             blurRadius: 40,
             spreadRadius: 1,
-            offset: Offset(0, -16),
+            offset: Offset(0, 0),
           ),
         ],
       ),

@@ -28,25 +28,38 @@ class _SearchScreenState extends State<SearchScreen> {
       appBar: AppBar(
         backgroundColor: Colors.white,
         elevation: 2,
-        title: TextField(
-          autofocus: true,
-          onChanged: (val) {
-            setState(() {
-              query = val;
-            });
-          },
-          decoration: InputDecoration(
-            hintText: 'ابحث عن وجبة...',
-            prefixIcon: const Icon(Icons.search),
-            border: OutlineInputBorder(
-              borderRadius: BorderRadius.circular(12),
-              borderSide: BorderSide.none,
-            ),
-            fillColor: const Color(0xFFF8F8F8),
-            filled: true,
-            contentPadding: const EdgeInsets.symmetric(vertical: 0),
-          ),
-        ),
+        title: Container(
+  height: 45,
+  decoration: BoxDecoration(
+    color: const Color(0xFFF8F8F8),
+    borderRadius: BorderRadius.circular(15),
+    boxShadow: [
+      BoxShadow(
+        color: Colors.grey.withOpacity(0.2),
+        spreadRadius: 1,
+        blurRadius: 5,
+        offset: const Offset(0, 3),
+      ),
+    ],
+  ),
+  child: TextField(
+    autofocus: true,
+    onChanged: (val) {
+      setState(() {
+        query = val;
+      });
+    },
+    style: const TextStyle(fontSize: 16),
+    decoration: InputDecoration(
+      hintText: 'ابحث عن وجبة...',
+      hintStyle: const TextStyle(color: Colors.grey),
+      prefixIcon: const Icon(Icons.search, color: Colors.orange, size: 26),
+      border: InputBorder.none,
+      contentPadding: const EdgeInsets.symmetric(horizontal: 16, vertical: 10),
+    ),
+  ),
+),
+
       ),
       body: BlocProvider(
         create: (_) => getIt<AddToCartCubit>(),
