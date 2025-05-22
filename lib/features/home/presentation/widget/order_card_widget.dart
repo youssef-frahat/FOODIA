@@ -26,7 +26,6 @@ class OrderWidget extends StatelessWidget {
       ),
       child: Row(
         children: [
-          // ✅ Column with chef & plus button
           Expanded(
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
@@ -51,7 +50,6 @@ class OrderWidget extends StatelessWidget {
                 ),
                 SizedBox(height: 16.h),
 
-                // ✅ ADD BUTTON
                 GestureDetector(
                   onTap: () {
                     context.read<AddToCartCubit>().addToCart(
@@ -74,7 +72,6 @@ class OrderWidget extends StatelessWidget {
 
           SizedBox(width: 12.w),
 
-          // ✅ Product image with tap to details
           GestureDetector(
             onTap: () {
               context.push(
@@ -82,31 +79,33 @@ class OrderWidget extends StatelessWidget {
                 extra: getHomeFoodsModel.id,
               );
             },
-            child: CachedNetworkImage(
-              imageUrl: "$imageUrl${getHomeFoodsModel.image ?? ''}",
-              width: 100.w,
-              height: 100.h,
-              fit: BoxFit.cover,
-              placeholder:
-                  (context, url) => Container(
-                    width: 100.w,
-                    height: 100.h,
-                    alignment: Alignment.center,
-                    child: const CircularProgressIndicator(),
-                  ),
-              errorWidget:
-                  (context, url, error) => Container(
-                    width: 100.w,
-                    height: 100.h,
-                    color: Colors.grey[300],
-                    child: const Icon(Icons.broken_image),
-                  ),
+            child: ClipRRect(
+              borderRadius: BorderRadius.circular(60.r),
+              child: CachedNetworkImage(
+                imageUrl: "$imageUrl${getHomeFoodsModel.image ?? ''}",
+                width: 100.w,
+                height: 100.h,
+                fit: BoxFit.cover,
+                placeholder:
+                    (context, url) => Container(
+                      width: 100.w,
+                      height: 100.h,
+                      alignment: Alignment.center,
+                      child: const CircularProgressIndicator(),
+                    ),
+                errorWidget:
+                    (context, url, error) => Container(
+                      width: 100.w,
+                      height: 100.h,
+                      color: Colors.grey[300],
+                      child: const Icon(Icons.broken_image),
+                    ),
+              ),
             ),
           ),
 
           SizedBox(width: 12.w),
 
-          // ✅ Product details with tap to details
           Expanded(
             child: GestureDetector(
               onTap: () {
