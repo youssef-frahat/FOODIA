@@ -15,7 +15,7 @@ class BalanceCardWidget extends StatelessWidget {
       decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(20),
         image: DecorationImage(
-          image: AssetImage('assets/images/card.png'),
+          image: AssetImage('assets/images/wallet.png'),
           fit: BoxFit.cover,
         ),
       ),
@@ -25,18 +25,18 @@ class BalanceCardWidget extends StatelessWidget {
           mainAxisAlignment: MainAxisAlignment.start,
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            Text(
-              'رصيدك الحالي',
-              style: TextStyle(
-                color: Colors.white,
-                fontSize: 16.sp,
-                fontFamily: 'Lemonada',
-                fontWeight: FontWeight.w600,
-              ),
-            ),
+            // Text(
+            //   'رصيدك الحالي',
+            //   style: TextStyle(
+            //     color: Colors.white,
+            //     fontSize: 16.sp,
+            //     fontFamily: 'Lemonada',
+            //     fontWeight: FontWeight.w600,
+            //   ),
+            // ),
             verticalSpace(20),
             Text(
-              '$amount جنية', //! handel Amount
+              '$amount جنية',
               style: TextStyle(
                 color: Colors.white,
                 fontSize: 32.sp,

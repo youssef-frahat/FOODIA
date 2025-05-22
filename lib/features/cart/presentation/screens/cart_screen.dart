@@ -22,6 +22,18 @@ class _CartScreenState extends State<CartScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      appBar: AppBar(
+        title: Text(
+          'السلة',
+          style: TextStyle(
+            fontSize: 20.sp,
+            fontWeight: FontWeight.bold,
+            color: Colors.black,
+            fontFamily: 'Changa',
+          ),
+        ),
+        centerTitle: true,
+      ),
       body: BlocProvider(
         create: (context) => getIt<AddToCartCubit>()..getCart(),
         child: BlocBuilder<AddToCartCubit, AddToCartState>(
@@ -75,17 +87,6 @@ class _CartScreenState extends State<CartScreen> {
                       physics: BouncingScrollPhysics(),
                       children: [
                         verticalSpace(30),
-                        Center(
-                          child: Text(
-                            'السلة',
-                            style: TextStyle(
-                              fontSize: 20.sp,
-                              fontWeight: FontWeight.bold,
-                              color: Colors.black,
-                              fontFamily: 'Changa',
-                            ),
-                          ),
-                        ),
                         if (state is GetAllCartLoading)
                           const Center(child: CircularProgressIndicator())
                         else if (state is GetAllCartError)

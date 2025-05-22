@@ -84,7 +84,12 @@ class ProfileBody extends StatelessWidget {
                             'name': userProfile.name ?? '',
                             'email': userProfile.email ?? '',
                             'phone': userProfile.phone ?? '',
-                            'image': AppStrings.baseUrl + userProfile.image!,
+                            'image':
+                                userProfile.image == null
+                                    ? ''
+                                    : userProfile.image!.startsWith('http')
+                                    ? userProfile.image!
+                                    : AppStrings.baseUrl + userProfile.image!,
                           },
                         );
 
@@ -92,6 +97,7 @@ class ProfileBody extends StatelessWidget {
                           context.read<UserProfileCubit>().getUserProfile();
                         }
                       },
+
                       child: Container(
                         padding: EdgeInsets.all(6.w),
                         decoration: BoxDecoration(

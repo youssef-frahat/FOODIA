@@ -1,13 +1,13 @@
-class Datum {
+class OfferModel {
   int? id;
   String? name;
   String? image;
   String? price;
   String? offerPrice;
 
-  Datum({this.id, this.name, this.image, this.price, this.offerPrice});
+  OfferModel({this.id, this.name, this.image, this.price, this.offerPrice});
 
-  factory Datum.fromJson(Map<String, dynamic> json) => Datum(
+  factory OfferModel.fromJson(Map<String, dynamic> json) => OfferModel(
     id: json['id'] as int?,
     name: json['name'] as String?,
     image: json['image'] as String?,

@@ -3,7 +3,7 @@ import 'link.dart';
 
 class Data {
   int? currentPage;
-  List<Datum>? data;
+  List<OfferModel>? data;
   String? firstPageUrl;
   int? from;
   int? lastPage;
@@ -36,7 +36,7 @@ class Data {
     currentPage: json['current_page'] as int?,
     data:
         (json['data'] as List<dynamic>?)
-            ?.map((e) => Datum.fromJson(e as Map<String, dynamic>))
+            ?.map((e) => OfferModel.fromJson(e as Map<String, dynamic>))
             .toList(),
     firstPageUrl: json['first_page_url'] as String?,
     from: json['from'] as int?,

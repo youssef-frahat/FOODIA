@@ -13,7 +13,6 @@ import '../../../../core/app_config/messages.dart';
 import '../../../../core/di/dependency_injection.dart';
 import '../../../../core/extensions/spacing.dart';
 import '../logic/home_foods/cubit/all_foods_cubit.dart';
-import '../logic/reviews/cubit/reviews_cubit.dart';
 import '../widget/feedback_screen.dart';
 
 class ProductDetailsScreen extends StatefulWidget {
@@ -26,8 +25,15 @@ class ProductDetailsScreen extends StatefulWidget {
 
 class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
   int quantity = 1;
-  bool isFollowing = false;
+  // bool isFollowing = false;
   bool isLoading = false; // To track the loading state
+  bool get isUserFollowing {
+    final state = context.read<AllFoodsCubit>().state;
+    if (state is AllDetailsSucss) {
+      return state.getAllDetalisResponseModel.data?.followChef ?? false;
+    }
+    return false;
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -52,10 +58,12 @@ class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
                       current is FollowChef || current is FollowChefError,
               listener: (context, state) {
                 if (state is FollowChef) {
-                  setState(() {
-                    isFollowing = true;
-                    isLoading = false;
-                  });
+                  setState(() => isLoading = false);
+
+                  context.read<AllFoodsCubit>().getAllDetalisById(
+                    foodId: widget.foodId,
+                  );
+
                   AppMessages.showSuccess(
                     context,
                     AppStrings.followChefSuccess,
@@ -86,16 +94,6 @@ class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
                     final food = details.data?.food;
                     final chef = food?.chef;
                     final reviews = details.data?.reviews ?? [];
-
-                    final hasReviews = reviews.isNotEmpty;
-                    final parsedDate =
-                        hasReviews
-                            ? DateTime.tryParse(reviews[0].createdAt ?? '')
-                            : null;
-                    final formattedDate =
-                        parsedDate != null
-                            ? DateFormat('dd/MM/yyyy', 'ar').format(parsedDate)
-                            : 'تاريخ غير متاح';
 
                     return Builder(
                       builder: (context) {
@@ -169,77 +167,116 @@ class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
                                                   ),
                                                 ),
                                                 verticalSpace(8.h),
-                                                GestureDetector(
-                                                  onTap:
-                                                      isFollowing
-                                                          ? null
-                                                          : () {
-                                                            setState(() {
-                                                              isLoading = true;
-                                                            });
-                                                            context
-                                                                .read<
-                                                                  AllFoodsCubit
-                                                                >()
-                                                                .followCefe(
-                                                                  cefeId:
-                                                                      details
-                                                                          .data
-                                                                          ?.food
-                                                                          ?.chef
-                                                                          ?.id ??
-                                                                      0,
+                                                BlocBuilder<
+                                                  AllFoodsCubit,
+                                                  AllFoodsState
+                                                >(
+                                                  buildWhen:
+                                                      (previous, current) =>
+                                                          current
+                                                              is AllDetailsSucss,
+                                                  builder: (context, state) {
+                                                    bool isUserFollowing =
+                                                        false;
+                                                    int chefId = 0;
+
+                                                    if (state
+                                                        is AllDetailsSucss) {
+                                                      isUserFollowing =
+                                                          state
+                                                              .getAllDetalisResponseModel
+                                                              .data
+                                                              ?.followChef ??
+                                                          false;
+                                                      chefId =
+                                                          state
+                                                              .getAllDetalisResponseModel
+                                                              .data
+                                                              ?.food
+                                                              ?.chef
+                                                              ?.id ??
+                                                          0;
+                                                    }
+
+                                                    return GestureDetector(
+                                                      onTap:
+                                                          isUserFollowing
+                                                              ? null
+                                                              : () {
+                                                                setState(
+                                                                  () =>
+                                                                      isLoading =
+                                                                          true,
                                                                 );
-                                                          },
-                                                  child: Container(
-                                                    padding:
-                                                        REdgeInsets.symmetric(
-                                                          horizontal: 12.w,
-                                                          vertical: 6.h,
+                                                                context
+                                                                    .read<
+                                                                      AllFoodsCubit
+                                                                    >()
+                                                                    .followCefe(
+                                                                      cefeId:
+                                                                          chefId,
+                                                                    );
+                                                              },
+                                                      child: Container(
+                                                        padding:
+                                                            REdgeInsets.symmetric(
+                                                              horizontal: 12.w,
+                                                              vertical: 6.h,
+                                                            ),
+                                                        decoration: BoxDecoration(
+                                                          color:
+                                                              isUserFollowing
+                                                                  ? Colors.green
+                                                                  : Colors
+                                                                      .orange,
+                                                          borderRadius:
+                                                              BorderRadius.circular(
+                                                                10.r,
+                                                              ),
+                                                          boxShadow: [
+                                                            BoxShadow(
+                                                              color:
+                                                                  Colors
+                                                                      .black26,
+                                                              blurRadius: 5.r,
+                                                            ),
+                                                          ],
                                                         ),
-                                                    decoration: BoxDecoration(
-                                                      color:
-                                                          isFollowing
-                                                              ? Colors.green
-                                                              : Colors.orange,
-                                                      borderRadius:
-                                                          BorderRadius.circular(
-                                                            10.r,
-                                                          ),
-                                                      boxShadow: [
-                                                        BoxShadow(
-                                                          color: Colors.black26,
-                                                          blurRadius: 5.r,
+                                                        child: Row(
+                                                          mainAxisSize:
+                                                              MainAxisSize.min,
+                                                          children: [
+                                                            Icon(
+                                                              isUserFollowing
+                                                                  ? Icons.check
+                                                                  : Icons
+                                                                      .person_add,
+                                                              size: 16.sp,
+                                                              color:
+                                                                  Colors.white,
+                                                            ),
+                                                            SizedBox(
+                                                              width: 8.w,
+                                                            ),
+                                                            Text(
+                                                              isUserFollowing
+                                                                  ? 'تم المتابعة'
+                                                                  : 'متابعة',
+                                                              style: TextStyle(
+                                                                color:
+                                                                    Colors
+                                                                        .white,
+                                                                fontSize: 14.sp,
+                                                                fontWeight:
+                                                                    FontWeight
+                                                                        .bold,
+                                                              ),
+                                                            ),
+                                                          ],
                                                         ),
-                                                      ],
-                                                    ),
-                                                    child: Row(
-                                                      mainAxisSize:
-                                                          MainAxisSize.min,
-                                                      children: [
-                                                        Icon(
-                                                          isFollowing
-                                                              ? Icons.check
-                                                              : Icons
-                                                                  .person_add,
-                                                          size: 16.sp,
-                                                          color: Colors.white,
-                                                        ),
-                                                        SizedBox(width: 8.w),
-                                                        Text(
-                                                          isFollowing
-                                                              ? 'تم المتابعة'
-                                                              : 'متابعة',
-                                                          style: TextStyle(
-                                                            color: Colors.white,
-                                                            fontSize: 14.sp,
-                                                            fontWeight:
-                                                                FontWeight.bold,
-                                                          ),
-                                                        ),
-                                                      ],
-                                                    ),
-                                                  ),
+                                                      ),
+                                                    );
+                                                  },
                                                 ),
                                               ],
                                             ),
@@ -608,94 +645,138 @@ class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
                                                   ),
                                                 ),
                                                 verticalSpace(50.h),
-                                                Row(
-                                                  mainAxisAlignment:
-                                                      MainAxisAlignment
-                                                          .spaceBetween,
-                                                  children: [
-                                                    if (hasReviews) ...[
-                                                      Row(
-                                                        children: [
-                                                          CircleAvatar(
-                                                            radius: 16.r,
-                                                            backgroundImage:
-                                                                NetworkImage(
-                                                                  "${imageUrl}${reviews[0].userImage ?? ''}",
-                                                                ),
-                                                          ),
-                                                          horizontalSpace(8.w),
-                                                          Text(
-                                                            reviews[0]
-                                                                    .userName ??
-                                                                'اسم المستخدم',
-                                                            style: TextStyle(
-                                                              fontWeight:
-                                                                  FontWeight
-                                                                      .bold,
-                                                              fontSize: 14.sp,
-                                                            ),
-                                                          ),
-                                                        ],
-                                                      ),
-                                                    ] else ...[
-                                                      Text(
-                                                        'لا توجد تقييمات بعد',
-                                                        style: TextStyle(
-                                                          fontSize: 14.sp,
-                                                          color: Colors.grey,
-                                                        ),
-                                                      ),
-                                                    ],
-                                                    if (hasReviews) ...[
-                                                      Row(
-                                                        children: [
-                                                          RatingBarIndicator(
-                                                            rating:
-                                                                double.tryParse(
-                                                                  reviews[0]
-                                                                          .star
-                                                                          ?.toString() ??
-                                                                      '0',
-                                                                ) ??
-                                                                0.0,
-                                                            itemCount: 5,
-                                                            itemSize: 20.sp,
-                                                            direction:
-                                                                Axis.horizontal,
-                                                            itemBuilder:
-                                                                (
-                                                                  context,
-                                                                  _,
-                                                                ) => const Icon(
-                                                                  Icons.star,
-                                                                  color:
-                                                                      Colors
-                                                                          .amber,
-                                                                ),
-                                                          ),
-                                                          horizontalSpace(8.w),
-                                                          Text(
-                                                            formattedDate,
-                                                            style: TextStyle(
-                                                              fontSize: 12.sp,
-                                                            ),
-                                                          ),
-                                                        ],
-                                                      ),
-                                                    ],
-                                                  ],
-                                                ),
-                                                verticalSpace(6.h),
+                                                verticalSpace(10.h),
                                                 Text(
-                                                  hasReviews
-                                                      ? reviews[0].comment ??
-                                                          'لا يوجد تعليق متاح.'
-                                                      : 'لا توجد تعليقات حتى الآن.',
+                                                  'التقييمات',
                                                   style: TextStyle(
-                                                    color: Colors.grey.shade700,
-                                                    fontSize: 14.sp,
+                                                    fontWeight: FontWeight.bold,
+                                                    fontSize: 18.sp,
                                                   ),
                                                 ),
+                                                verticalSpace(10.h),
+
+                                                reviews.isEmpty
+                                                    ? Text(
+                                                      'لا توجد تقييمات بعد',
+                                                      style: TextStyle(
+                                                        fontSize: 14.sp,
+                                                        color: Colors.grey,
+                                                      ),
+                                                    )
+                                                    : ListView.separated(
+                                                      shrinkWrap: true,
+                                                      physics:
+                                                          const NeverScrollableScrollPhysics(),
+                                                      itemCount: reviews.length,
+                                                      separatorBuilder:
+                                                          (_, __) => Divider(
+                                                            color:
+                                                                Colors
+                                                                    .grey
+                                                                    .shade300,
+                                                            height: 24,
+                                                          ),
+                                                      itemBuilder: (
+                                                        context,
+                                                        index,
+                                                      ) {
+                                                        final review =
+                                                            reviews[index];
+                                                        final reviewDate =
+                                                            DateTime.tryParse(
+                                                              review.createdAt ??
+                                                                  '',
+                                                            );
+                                                        final formatted =
+                                                            reviewDate != null
+                                                                ? DateFormat(
+                                                                  'dd/MM/yyyy',
+                                                                  'ar',
+                                                                ).format(
+                                                                  reviewDate,
+                                                                )
+                                                                : 'تاريخ غير متاح';
+
+                                                        return ListTile(
+                                                          contentPadding:
+                                                              EdgeInsets.zero,
+                                                          leading: CircleAvatar(
+                                                            backgroundImage:
+                                                                NetworkImage(
+                                                                  '$imageUrl${review.userImage ?? ''}',
+                                                                ),
+                                                          ),
+                                                          title: Row(
+                                                            mainAxisAlignment:
+                                                                MainAxisAlignment
+                                                                    .spaceBetween,
+                                                            children: [
+                                                              Text(
+                                                                review.userName ??
+                                                                    'مستخدم',
+                                                                style: TextStyle(
+                                                                  fontWeight:
+                                                                      FontWeight
+                                                                          .bold,
+                                                                  fontSize:
+                                                                      14.sp,
+                                                                ),
+                                                              ),
+                                                              Text(
+                                                                formatted,
+                                                                style: TextStyle(
+                                                                  fontSize:
+                                                                      12.sp,
+                                                                  color:
+                                                                      Colors
+                                                                          .grey,
+                                                                ),
+                                                              ),
+                                                            ],
+                                                          ),
+                                                          subtitle: Column(
+                                                            crossAxisAlignment:
+                                                                CrossAxisAlignment
+                                                                    .start,
+                                                            children: [
+                                                              RatingBarIndicator(
+                                                                rating:
+                                                                    (review.star ??
+                                                                            0)
+                                                                        .toDouble(),
+                                                                itemCount: 5,
+                                                                itemSize: 18.sp,
+                                                                itemBuilder:
+                                                                    (
+                                                                      context,
+                                                                      _,
+                                                                    ) => const Icon(
+                                                                      Icons
+                                                                          .star,
+                                                                      color:
+                                                                          Colors
+                                                                              .amber,
+                                                                    ),
+                                                              ),
+                                                              verticalSpace(
+                                                                4.h,
+                                                              ),
+                                                              Text(
+                                                                review.comment ??
+                                                                    '',
+                                                                style: TextStyle(
+                                                                  fontSize:
+                                                                      14.sp,
+                                                                  color:
+                                                                      Colors
+                                                                          .black87,
+                                                                ),
+                                                              ),
+                                                            ],
+                                                          ),
+                                                        );
+                                                      },
+                                                    ),
                                               ],
                                             ),
                                           ),

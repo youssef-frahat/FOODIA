@@ -11,6 +11,7 @@ abstract class GetAllHomeRepo {
   Future<Either<Failure, GetAllCategorysModel>> listAllcategories();
   Future<Either<Failure, GetHomeFoodsModel>> getAllHomeFoods({
     required String foodName,
+    int pageNumber = 1,
   });
   Future<Either<Failure, GetAllDetailsReposneModel>> getAllDetalisById({
     required num foodId,

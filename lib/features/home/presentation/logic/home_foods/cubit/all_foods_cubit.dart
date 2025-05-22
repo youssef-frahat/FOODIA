@@ -13,29 +13,73 @@ part 'all_foods_state.dart';
 class AllFoodsCubit extends Cubit<AllFoodsState> {
   final GetAllHomeRepoImpl getAllHomeRepo;
   AllFoodsCubit(this.getAllHomeRepo) : super(AllFoodsInitial());
+
   List<FoodsModel> _allFoods = [];
   List<FoodsModel> filteredFoods = [];
+
+  int currentPage = 1;
+  bool isLastPage = false;
+  bool isLoadingMore = false;
+
+  String _lastQuery = '';
+
   Future<void> getAllFoods({String foodName = ''}) async {
-    emit(AllFoodsLoading());
-    final result = await getAllHomeRepo.getAllHomeFoods(foodName: foodName);
-    result.fold((failure) => emit(AllFoodsError(failure.message)), (model) {
-      _allFoods = model.data?.data ?? [];
-      filteredFoods = _allFoods;
-      emit(AllFoodsLoaded(filteredFoods));
-    });
+    if (isLastPage || isLoadingMore) return;
+
+    if (currentPage == 1) emit(AllFoodsLoading());
+
+    isLoadingMore = true;
+    _lastQuery = foodName;
+
+    final result = await getAllHomeRepo.getAllHomeFoods(
+      foodName: foodName,
+      pageNumber: currentPage,
+    );
+
+    result.fold(
+      (failure) {
+        isLoadingMore = false;
+        emit(AllFoodsError(failure.message));
+      },
+      (model) {
+        final newFoods = model.data?.data ?? [];
+
+        if (newFoods.isEmpty || newFoods.length < 10) {
+          isLastPage = true;
+        }
+
+        _allFoods.addAll(newFoods);
+        filteredFoods = List.from(_allFoods);
+
+        emit(AllFoodsLoaded(filteredFoods));
+
+        currentPage++;
+        isLoadingMore = false;
+      },
+    );
+  }
+
+  void resetPagination() {
+    currentPage = 1;
+    isLastPage = false;
+    _allFoods.clear();
+    filteredFoods.clear();
+    emit(AllFoodsInitial());
+  }
+
+  void loadNextPage() {
+    if (!isLastPage && !isLoadingMore) {
+      getAllFoods(foodName: _lastQuery);
+    }
   }
 
   Future<void> getAllDetalisById({required num foodId}) async {
     emit(AllDetailsLoading());
     final result = await getAllHomeRepo.getAllDetalisById(foodId: foodId);
     result.fold(
-      (failure) {
-        emit(AllDetailsError(failure.message));
-      },
+      (failure) => emit(AllDetailsError(failure.message)),
       (getAllDetalisResponseModel) {
-        log(
-          'GetAllDetalisResponseModel: ${getAllDetalisResponseModel.toString()}',
-        );
+        log('GetAllDetalisResponseModel: $getAllDetalisResponseModel');
         emit(AllDetailsSucss(getAllDetalisResponseModel));
       },
     );
@@ -44,19 +88,14 @@ class AllFoodsCubit extends Cubit<AllFoodsState> {
   Future<void> followCefe({required num cefeId}) async {
     final result = await getAllHomeRepo.followCefe(cefeId: cefeId);
     result.fold(
-      (failure) {
-        emit(FollowChefError(failure.message));
-      },
-      (followCefeModel) {
-        emit(FollowChef(followCefeModel));
-      },
+      (failure) => emit(FollowChefError(failure.message)),
+      (followCefeModel) => emit(FollowChef(followCefeModel)),
     );
   }
 
   void filterByCategory(int categoryId) {
     filteredFoods =
         _allFoods.where((food) => food.categoryId == categoryId).toList();
-
     emit(AllFoodsLoaded(filteredFoods));
   }
 

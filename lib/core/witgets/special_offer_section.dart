@@ -8,6 +8,7 @@ import 'package:smooth_page_indicator/smooth_page_indicator.dart';
 import '../../features/home/presentation/logic/special_offer/cubit/special_offer_cubit.dart';
 import '../app_config/image_urls.dart';
 import '../di/dependency_injection.dart';
+import 'all_offer_screen.dart';
 
 class SpecialOfferSlider extends StatefulWidget {
   const SpecialOfferSlider({super.key});
@@ -21,24 +22,24 @@ class _SpecialOfferSliderState extends State<SpecialOfferSlider> {
   Timer? _timer;
   int _currentPage = 0;
   int _offerLength = 0;
+  late List offers;
 
   @override
   void initState() {
     super.initState();
+    _startAutoSlide();
+  }
 
+  void _startAutoSlide() {
     _timer = Timer.periodic(const Duration(seconds: 3), (timer) {
       if (_pageController.hasClients && mounted && _offerLength > 0) {
-        if (_currentPage >= _offerLength) {
-          _currentPage = 0;
-        }
+        int nextPage = _currentPage + 1;
 
         _pageController.animateToPage(
-          _currentPage,
+          nextPage,
           duration: const Duration(milliseconds: 500),
-          curve: Curves.easeInOut,
+          curve: Curves.easeInOutCubic,
         );
-
-        _currentPage++;
       }
     });
   }
@@ -65,10 +66,11 @@ class _SpecialOfferSliderState extends State<SpecialOfferSlider> {
           }
 
           if (state is SpecialOfferLoaded) {
-            final offers = state.offers.data?.data ?? [];
-
+            final allOffers = state.offers.data?.data ?? [];
+            offers = allOffers.take(5).toList();
             _offerLength = offers.length;
-            if (_currentPage >= offers.length) _currentPage = 0;
+
+            final extendedOffers = [...offers, offers.first];
 
             return Column(
               children: [
@@ -76,25 +78,32 @@ class _SpecialOfferSliderState extends State<SpecialOfferSlider> {
                   height: 160.h,
                   child: PageView.builder(
                     controller: _pageController,
-                    itemCount: offers.length,
+                    itemCount: extendedOffers.length,
+                    onPageChanged: (index) {
+                      _currentPage = index;
+                      if (index == extendedOffers.length - 1) {
+                        Future.delayed(const Duration(milliseconds: 300), () {
+                          if (_pageController.hasClients) {
+                            _pageController.jumpToPage(0);
+                          }
+                        });
+                      }
+                    },
                     itemBuilder: (context, index) {
-                      final offer = offers[index];
+                      final offer = extendedOffers[index];
                       return AnimatedBuilder(
                         animation: _pageController,
                         builder: (context, child) {
                           double scale = 1.0;
                           if (_pageController.hasClients &&
                               _pageController.position.haveDimensions) {
-                            double diff =
-                                (_pageController.page ?? _currentPage)
+                            double diff = (_pageController.page ?? _currentPage)
                                     .toDouble() -
                                 index.toDouble();
-                            scale =
-                                (1 - (diff.abs() * 0.1))
-                                    .clamp(0.9, 1.0)
-                                    .toDouble();
+                            scale = (1 - (diff.abs() * 0.1))
+                                .clamp(0.9, 1.0)
+                                .toDouble();
                           }
-
                           return Transform.scale(scale: scale, child: child);
                         },
                         child: Container(
@@ -121,8 +130,8 @@ class _SpecialOfferSliderState extends State<SpecialOfferSlider> {
                                       radius: 75.r,
                                       backgroundImage:
                                           CachedNetworkImageProvider(
-                                            "$imageUrl${offer.image}",
-                                          ),
+                                        "$imageUrl${offer.image}",
+                                      ),
                                     ),
                                     SizedBox(width: 16.w),
                                     Expanded(
@@ -155,9 +164,8 @@ class _SpecialOfferSliderState extends State<SpecialOfferSlider> {
                                                 style: TextStyle(
                                                   fontSize: 16.sp,
                                                   color: Colors.white,
-                                                  decoration:
-                                                      TextDecoration
-                                                          .lineThrough,
+                                                  decoration: TextDecoration
+                                                      .lineThrough,
                                                 ),
                                               ),
                                               SizedBox(width: 8.w),
@@ -197,11 +205,33 @@ class _SpecialOfferSliderState extends State<SpecialOfferSlider> {
                     expansionFactor: 2,
                   ),
                 ),
+                if (allOffers.length > 5)
+                  Padding(
+                    padding: EdgeInsets.only(top: 10.h),
+                    child: TextButton(
+                      onPressed: () {
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                            builder: (_) => AllOffersScreen(offers: allOffers),
+                          ),
+                        );
+                      },
+                      child: Text(
+                        "عرض المزيد",
+                        style: TextStyle(
+                          fontSize: 16.sp,
+                          color: Colors.orange,
+                          fontWeight: FontWeight.bold,
+                        ),
+                      ),
+                    ),
+                  ),
               ],
             );
           }
 
-          return const SizedBox(); // fallback
+          return Container();
         },
       ),
     );

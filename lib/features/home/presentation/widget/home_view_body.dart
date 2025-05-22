@@ -40,19 +40,33 @@ class _HomeViewBodyState extends State<HomeViewBody> {
               );
             },
 
-            child: AbsorbPointer(
-              child: TextField(
-                decoration: InputDecoration(
-                  hintText: 'ابحث عن الأكل...',
-                  prefixIcon: const Icon(Icons.search),
-                  border: OutlineInputBorder(
-                    borderRadius: BorderRadius.circular(12),
-                  ),
-                  filled: true,
-                  fillColor: const Color(0xFFF8F8F8),
-                ),
-              ),
-            ),
+           child: AbsorbPointer(
+  child: Container(
+    height: 45.h,
+    decoration: BoxDecoration(
+      color: const Color(0xFFF8F8F8),
+      borderRadius: BorderRadius.circular(15),
+      boxShadow: [
+        BoxShadow(
+          color: Colors.grey.withOpacity(0.2),
+          spreadRadius: 1,
+          blurRadius: 5,
+          offset: const Offset(0, 3),
+        ),
+      ],
+    ),
+    child: TextField(
+      decoration: InputDecoration(
+        hintText: 'ابحث عن الأكل...',
+        hintStyle: TextStyle(fontSize: 14.sp, color: Colors.grey),
+        prefixIcon: const Icon(Icons.search, color: Colors.orange),
+        border: InputBorder.none,
+        contentPadding: EdgeInsets.symmetric(horizontal: 16.w, vertical: 10.h),
+      ),
+    ),
+  ),
+),
+
           ),
 
           verticalSpace(20.h),
